@@ -15,8 +15,8 @@ public class Product
 
             Images = new List<ProductImage>();
             Reviews = new List<Review>();
+            Favorites = new List<Favorite>();
         }
-        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -43,7 +43,7 @@ public class Product
         [ForeignKey("CategoryId")]
         public virtual Category? Category { get; set; }
         public virtual ICollection<ProductImage>? Images { get; set; }
-        public virtual Favorite? Favorite { get; set; }
+        public virtual List<Favorite>? Favorites { get; set; }
         public virtual ICollection<Review>? Reviews { get; set; }
         public virtual  CartItem? CartItem { get; set; }
 

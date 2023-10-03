@@ -13,7 +13,8 @@ namespace MVC_Project.Models
         public User() {
 
             Reviews = new List<Review>();
-            Orders = new List<Order>();            
+            Orders = new List<Order>();   
+            Favorites = new List<Favorite>();
         }
         [Key]
         public int Id { get; set; }
@@ -56,7 +57,7 @@ namespace MVC_Project.Models
         [Phone]
         public string Phone { get; set; }
 
-        public virtual Favorite? Favorite { get; set; }
+        public virtual List<Favorite>? Favorites { get; set; }
         public virtual ICollection<Review>? Reviews { get; set; }
         public virtual ICollection<Order>? Orders { get; set; }
         public virtual Cart? Cart { get; set; }

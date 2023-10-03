@@ -9,18 +9,17 @@ namespace MVC_Project.Models
         public Favorite()
         {
 
-            Products = new List<Product>();
         }
-        [Key]
+
         [Required]
         [ForeignKey("User")]
         public int UserId { get; set; }
         public virtual User? User { get; set; }
 
-        [Key]
         [Required]
         [ForeignKey("Product")]
         public int ProductId { get; set; }
-        public virtual ICollection<Product>? Products { get; set; }
+
+        public virtual Product? Product { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace MVC_Project.Models
         {
             Products=new List<Product>();
         }
+
         [Key]
         public int CategoryId { get; set; }
 

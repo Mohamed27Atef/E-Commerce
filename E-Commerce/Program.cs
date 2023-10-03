@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using MVC_Project.Models;
+
 namespace E_Commerce
 {
     public class Program
@@ -8,6 +11,7 @@ namespace E_Commerce
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ECommerceContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DB")));
 
             var app = builder.Build();
 

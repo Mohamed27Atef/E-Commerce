@@ -5,15 +5,25 @@ namespace MVC_Project.Models
 {
     public class ECommerceContext:DbContext
     {
-        public DbSet<Cart>Carts { get; set; }
-        public DbSet<CartItem> CartItem { get; set; }
-        public DbSet<Category> Category { get; set; }
-        public DbSet<Favorite> Favorite { get; set; }
-        public DbSet<Order>Order { get; set; }
-        public DbSet<Product> Product { get; set; }
-        public DbSet<ProductImage> ProductImage { get; set; }
-        public DbSet<Review> Review { get; set; }
-        public DbSet<User> User { get; set; }
+        public ECommerceContext()
+        {
+            
+        }
+
+        public ECommerceContext(DbContextOptions<ECommerceContext> options) : base(options) 
+        {
+            
+        }
+
+        public virtual DbSet<Cart>Carts { get; set; }
+        public virtual DbSet<CartItem> CartItem { get; set; }
+        public virtual DbSet<Category> Category { get; set; }
+        public virtual DbSet<Favorite> Favorite { get; set; }
+        public virtual DbSet<Order>Order { get; set; }
+        public virtual DbSet<Product> Product { get; set; }
+        public virtual DbSet<ProductImage> ProductImage { get; set; }
+        public virtual DbSet<Review> Review { get; set; }
+        public virtual DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,7 +31,6 @@ namespace MVC_Project.Models
             ConfigureCompositeKey<Favorite>(modelBuilder, f => new { f.UserId, f.ProductId });
             ConfigureCompositeKey<ProductImage>(modelBuilder, k => new { k.ProductId, k.Image });
 
-            // Other configurations...
 
             base.OnModelCreating(modelBuilder);
         }
@@ -33,7 +42,7 @@ namespace MVC_Project.Models
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-5AC7LE2\\SQLEXPRESS;Initial Catalog=ECommerceDB;Integrated Security=True;TrustServerCertificate=true;");
+            //optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ECommerceDB;Integrated Security=True;TrustServerCertificate=true;");
         }
     }
 }

@@ -8,6 +8,10 @@ namespace MVC_Project.Models
 {
     public class Cart
     {
+        public Cart()
+        {
+            CartItems = new List<CartItem>();
+        }
         [Key]
         public int Id { get; set; }
 
@@ -26,5 +30,7 @@ namespace MVC_Project.Models
         [Required]
         [Column(TypeName = "money")] 
         public decimal TotalPrice { get; set; }
+
+        public virtual List<CartItem>? CartItems { get; set; }
     }
 }

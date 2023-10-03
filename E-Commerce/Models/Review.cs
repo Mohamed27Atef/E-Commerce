@@ -12,7 +12,7 @@ namespace MVC_Project.Models
         [ForeignKey("Product")]
         public int ProductId { get; set; }
 
-        public Product Product { get; set; }
+        public virtual Product? Product { get; set; }
 
         [Required]
         [ForeignKey("User")]
