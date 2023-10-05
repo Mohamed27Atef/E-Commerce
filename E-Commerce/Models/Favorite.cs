@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using E_Commerce.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -6,11 +7,7 @@ namespace MVC_Project.Models
 {
     public class Favorite
     {
-        public Favorite()
-        {
-
-        }
-
+        public int id { get; set; }
         [Required]
         [ForeignKey("User")]
         public int UserId { get; set; }

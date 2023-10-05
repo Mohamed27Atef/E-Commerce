@@ -1,0 +1,32 @@
+﻿@model E_Commerce.ViewModel.SignupViewModel
+
+
+<form asp-action="SignUp" class="signup">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="field">
+        <input asp-for="username" value="@ViewBag.UserName" placeholder="username" class="form-control" />
+        <span asp-validation-for="username" class="text-danger"></span>
+    </div>
+    <div class="field ">
+        <select class="options"  name="gender">
+            <option class="option" value="0">Male</option>
+            <option class="option" value="1">Female</option>
+        </select>
+    </div>
+    <div class="field">
+        <input asp-for="Email" placeholder="E-Mail" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="field">
+        <input asp-for="Password" placeholder="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>   
+    <div class="field">
+        <input asp-for="ConfirmePassword" placeholder="Confirm Password" class="form-control" />
+        <span asp-validation-for="ConfirmePassword" class="text-danger"></span>
+    </div>
+    <div class="field btn">
+        <div class="btn-layer"></div>
+        <input type="submit" value="Signup">
+    </div>
+</form>

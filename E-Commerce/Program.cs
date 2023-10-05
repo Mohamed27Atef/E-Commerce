@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVC_Project.Models;
 
@@ -11,8 +12,15 @@ namespace E_Commerce
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<ECommerceContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DB")));
-
+            builder.Services.AddDbContext<ECommerceContext>(options => 
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DB")));
+           
+            builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+            })
+                .AddEntityFrameworkStores<ECommerceContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

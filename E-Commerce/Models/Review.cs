@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using E_Commerce.Models;
 
 namespace MVC_Project.Models
 {

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using E_Commerce.Models;
+
 namespace MVC_Project.Models
 {
     public enum OrderStatus
