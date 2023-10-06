@@ -1,7 +1,9 @@
 ﻿using E_Commerce.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq.Expressions;
+using System.Reflection.Emit;
 
 namespace MVC_Project.Models
 {
@@ -47,6 +49,7 @@ namespace MVC_Project.Models
         //}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            
             //optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ECommerceDB;Integrated Security=True;TrustServerCertificate=true;");
         }
     }
