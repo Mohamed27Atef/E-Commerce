@@ -182,7 +182,6 @@ namespace E_Commerce.Controllers
             return View(products);
         }
 
-
         public IActionResult deleteButton(int id)
         {
             var product = context.Product.FirstOrDefault(a => a.Id == id);
