@@ -11,11 +11,15 @@
 <div class="container">
    
       <div class="row justify-content-center">
+        @if(Model.Count == 0)
+        {
+            <h2>there is no Pruduct to show</h2>
+        }
         @foreach (var item in Model)
         {
         <div class="col-12 col-md-6 col-lg-4">
           <div class="card product-card">
-            <img src="@(item.Images.FirstOrDefault().Image)"
+            <img src="/images/@(item.image)"
               alt="Product Image"
               class="card-img-top"
             />

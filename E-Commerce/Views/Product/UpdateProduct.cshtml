@@ -1,0 +1,31 @@
+﻿@model UpdateProductViewModel
+
+@{
+    ViewData["Title"] = "updateProduct";
+}
+
+<h1>addProduct</h1>
+
+<h4>update Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateProduct" method="post" enctype="multipart/form-data">
+            <input asp-for="id" hidden />
+            <partial name="addAndUpdateProductPartialvie" model="Model" />
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

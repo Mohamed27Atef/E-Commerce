@@ -1,0 +1,30 @@
+﻿@model List<MVC_Project.Models.Product>
+@{
+    ViewData["Title"] = "delete";
+}
+
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>StockQuantity</th>
+        <th>BuyCounter</th>
+        <th>Category</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Brand</td>
+            <td>@item.Description</td>
+            <td>@item.Price</td>
+            <td>@item.StockQuantity</td>
+            <td>@item.BuyCounter</td>
+            <td>@item.Category.CategoryName</td>
+            <td><a class="btn btn-primary" asp-controller="Product" asp-action="deleteButton" asp-route-id="@item.Id">Delete</a></td>
+        </tr>
+    }
+</table>
