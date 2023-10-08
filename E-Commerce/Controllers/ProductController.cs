@@ -24,17 +24,13 @@ namespace E_Commerce.Controllers
         public IActionResult index()
         {
             var allProducts = context.Product.ToList();
-            if (allProducts == null)
-                return RedirectToAction("Error", "Home");
-
+            
             return View(allProducts);
         }
         // Get By Id
         public IActionResult getById(int id)
         {
             Product prd = context.Product.FirstOrDefault(p=>p.Id==id);
-            if (prd == null)
-                return RedirectToAction("Error", "Home");
 
             return View(prd);
         }
@@ -42,8 +38,6 @@ namespace E_Commerce.Controllers
         public IActionResult getByName(string name)
         {
             Product prd = context.Product.FirstOrDefault(p=> p.Name == name);
-            if (prd == null)
-                return RedirectToAction("Error", "Home");
 
             return View("getById", prd);
         }
@@ -51,8 +45,7 @@ namespace E_Commerce.Controllers
         public IActionResult getByBrand(string brand)
         {
             var prds = context.Product.Where(p => p.Brand == brand).ToList();
-            if (prds == null)
-                return RedirectToAction("Error","Home");
+
 
             return View("getAll", prds);
         }
@@ -178,7 +171,6 @@ namespace E_Commerce.Controllers
         public IActionResult delete()
         {
             var products = context.Product.Include(a => a.Category).ToList();
-
             return View(products);
         }
 
