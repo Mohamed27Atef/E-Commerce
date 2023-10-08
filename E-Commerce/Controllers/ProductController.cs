@@ -76,35 +76,62 @@ namespace E_Commerce.Controllers
 
             if (ModelState.IsValid)
             {
-                if (image != null && image.Length > 0)
+                string imageName = await updateImageAndReturnItsName(image);
+
+                if(imageName != null)
                 {
-
-                    var extention = Path.GetExtension(image.FileName);
-                    var fileName = Path.GetFileNameWithoutExtension(image.FileName);
-                    var imageName = fileName.Replace(" ", "") + extention;
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", imageName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(fileStream);
-                    }
-                    Product newProduct = new Product()
-                    {
-                        Brand = product.Brand,
-                        Name = product.Name,
-                        image = imageName,
-                        Description = product.Description,
-                        Price = product.Price,
-                        StockQuantity = product.StockQuantity,
-                        CategoryId = product.category_id,
-                    };
-
-                    context.Product.Add(newProduct);
-                    context.SaveChanges();
+                    // map addProductViewModel to productModel and add this product to the database
+                    mapAddProductViewModelToProductModelAndAddToDB(product, imageName);
                     return RedirectToAction("index");
                 }
+                else
+                    ModelState.AddModelError("", "invalid image");
             }
 
             return RedirectToAction();
+        }
+
+
+        public void addProductToDataBase(Product newProduct)
+        {
+            context.Product.Add(newProduct);
+            context.SaveChanges();
+        }
+
+        public void mapAddProductViewModelToProductModelAndAddToDB(AddProdcutviewModel product, string imageName)
+        {
+            Product newProduct = new Product()
+            {
+                Brand = product.Brand,
+                Name = product.Name,
+                image = imageName,
+                Description = product.Description,
+                Price = product.Price,
+                StockQuantity = product.StockQuantity,
+                CategoryId = product.category_id,
+            };
+
+            addProductToDataBase(newProduct);
+        }
+
+
+        public async Task<string> updateImageAndReturnItsName(IFormFile image)
+        {
+            if (image != null && image.Length > 0)
+            {
+
+                var extention = Path.GetExtension(image.FileName);
+                var fileName = Path.GetFileNameWithoutExtension(image.FileName);
+                var imageName = fileName.Replace(" ", "") + extention;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", imageName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+                return imageName;
+            }
+
+            return null;
         }
 
         // Update Product
