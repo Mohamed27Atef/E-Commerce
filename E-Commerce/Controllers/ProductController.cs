@@ -209,8 +209,9 @@ namespace E_Commerce.Controllers
             return View(products);
         }
 
-
-        public IActionResult deleteButton(int id)
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public IActionResult delete(int id)
         {
             var product = context.Product.FirstOrDefault(a => a.Id == id);
             context.Product.Remove(product);
