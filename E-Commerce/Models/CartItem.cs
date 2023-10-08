@@ -8,6 +8,7 @@ namespace MVC_Project.Models
 {
     public class CartItem
     {
+
         [Key]
         [Required]
         [ForeignKey("Product")]
