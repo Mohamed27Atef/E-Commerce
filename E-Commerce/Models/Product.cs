@@ -27,7 +27,7 @@ public class Product
         public string Brand { get; set; }
 
         [MaxLength(1000)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         [Column(TypeName = "money")]
@@ -36,9 +36,13 @@ public class Product
         [Required]
         public int StockQuantity { get; set; }
 
-        public int BuyCounter { get; set; }
+        public int BuyCounter { get; set; } = 0;
 
         public int CategoryId { get; set; }
+
+        public string image { get; set; }
+
+
 
         [ForeignKey("CategoryId")]
         public virtual Category? Category { get; set; }
