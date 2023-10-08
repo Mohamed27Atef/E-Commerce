@@ -175,6 +175,19 @@ namespace E_Commerce.Controllers
         #region Sayed Task
 
         // Delete Product 
+        public IActionResult delete()
+        {
+            var products = context.Product.Include(a => a.Category).ToList();
+
+            return View(products);
+        }
+
+        public IActionResult deleteButton(int id)
+        {
+            var product = context.Product.FirstOrDefault(a => a.Id == id);
+            context.Product.Remove(product);
+            return RedirectToAction("delete");
+        }
         #endregion
 
 
