@@ -122,7 +122,7 @@ namespace E_Commerce.Controllers
 
                 var extention = Path.GetExtension(image.FileName);
                 var fileName = Path.GetFileNameWithoutExtension(image.FileName);
-                var imageName = fileName.Replace(" ", "") + extention;
+                var imageName = fileName + new Guid() + extention;
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", imageName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
@@ -215,14 +215,11 @@ namespace E_Commerce.Controllers
         [IgnoreAntiforgeryToken]
         public IActionResult delete(int id)
         {
-            var product = iproductRepo.getById(id);
-           
+            iproductRepo.delete(id);
+
             return RedirectToAction("delete");
         }
         #endregion
-
-
-
 
     }
 }

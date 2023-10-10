@@ -16,15 +16,17 @@
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.Brand</td>
-            <td>@item.Description</td>
-            <td>@item.Price</td>
-            <td>@item.StockQuantity</td>
-            <td>@item.BuyCounter</td>
-            <td>@item.Category.CategoryName</td>
-            <td><a class="btn btn-primary" asp-controller="Product" asp-action="deleteButton" asp-route-id="@item.Id">Delete</a></td>
-        </tr>
+        <form asp-action="delete" asp-route-id="@item.Id">
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Brand</td>
+                <td>@item.Description</td>
+                <td>@item.Price</td>
+                <td>@item.StockQuantity</td>
+                <td>@item.BuyCounter</td>
+                <td>@item.Category.CategoryName</td>
+                <td><button class="btn btn-primary" >Delete</button></td>
+            </tr>
+        </form>
     }
 </table>
