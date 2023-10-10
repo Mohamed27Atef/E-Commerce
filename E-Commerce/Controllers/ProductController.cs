@@ -1,4 +1,6 @@
 ﻿using E_Commerce.Models;
+using E_Commerce.Repository.CategoryRepo;
+using E_Commerce.Repository.ProductRepo;
 using E_Commerce.ViewModel;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +12,15 @@ namespace E_Commerce.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ECommerceContext context;
+        private readonly IProductRepository iproductRepo;
+        private readonly ICategoryRepository icategoryRepo;
 
-        public ProductController(ECommerceContext context)
+
+        public ProductController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo)
         {
             // inject DBContext
-            this.context = context;
+            this.iproductRepo = iproductRepo;
+            this.icategoryRepo = icategoryRepo;
         }
 
 
@@ -23,7 +28,7 @@ namespace E_Commerce.Controllers
         // Get All
         public IActionResult index()
         {
-            var allProducts = context.Product.ToList();
+            var allProducts = iproductRepo.getAll();
             if (allProducts == null)
                 return RedirectToAction("Error", "Home");
 
@@ -32,7 +37,7 @@ namespace E_Commerce.Controllers
         // Get By Id
         public IActionResult getById(int id)
         {
-            Product prd = context.Product.FirstOrDefault(p=>p.Id==id);
+            Product prd = iproductRepo.getById(id);
             if (prd == null)
                 return RedirectToAction("Error", "Home");
 
@@ -41,7 +46,7 @@ namespace E_Commerce.Controllers
         // Get By Name
         public IActionResult getByName(string name)
         {
-            Product prd = context.Product.FirstOrDefault(p=> p.Name == name);
+            Product prd = iproductRepo.getByName(name);
             if (prd == null)
                 return RedirectToAction("Error", "Home");
 
@@ -50,7 +55,7 @@ namespace E_Commerce.Controllers
         // Get By Brand 
         public IActionResult getByBrand(string brand)
         {
-            var prds = context.Product.Where(p => p.Brand == brand).ToList();
+            var prds = iproductRepo.getByBrand( brand);
             if (prds == null)
                 return RedirectToAction("Error","Home");
 
@@ -65,7 +70,7 @@ namespace E_Commerce.Controllers
         public IActionResult addProduct()
         {
 
-            ViewData["Category"] = context.Category.ToList();
+            ViewData["Category"] = icategoryRepo.getAll();
             return View();
         }
 
@@ -92,11 +97,6 @@ namespace E_Commerce.Controllers
         }
 
 
-        public void addProductToDataBase(Product newProduct)
-        {
-            context.Product.Add(newProduct);
-            context.SaveChanges();
-        }
 
         public void mapAddProductViewModelToProductModelAndAddToDB(AddProdcutviewModel product, string imageName)
         {
@@ -111,7 +111,7 @@ namespace E_Commerce.Controllers
                 CategoryId = product.category_id,
             };
 
-            addProductToDataBase(newProduct);
+            iproductRepo.add(newProduct);
         }
 
 
@@ -137,22 +137,23 @@ namespace E_Commerce.Controllers
         // Update Product
         public IActionResult UpdateProduct(int productId)
         {
-            UpdateProductViewModel? product = context.Product
-                 .Where(p => p.Id == productId)
-                 .Select(s => new UpdateProductViewModel()
-                 {
-                     Brand = s.Brand,
-                     id=s.Id,
-                     category_id = s.CategoryId,
-                     Price = s.Price,
-                     Description = s.Description,
-                     Name = s.Name, StockQuantity = s.StockQuantity,
-                 })
-               .FirstOrDefault() ;
+            Product? product = iproductRepo.getById(productId);
+            var prdVM = new UpdateProductViewModel()
+            {
+
+                Brand = product.Brand,
+                id = product.Id,
+                category_id = product.CategoryId,
+                Price = product.Price,
+                Description = product.Description,
+                Name = product.Name,
+                StockQuantity = product.StockQuantity,
+            };
+
             if(product == null)
                 return RedirectToAction("index");
 
-            ViewData["Category"] = context.Category.ToList();
+            ViewData["Category"] = icategoryRepo.getAll();
             return View(product);
         }
 
@@ -164,11 +165,11 @@ namespace E_Commerce.Controllers
 
             if (ModelState.IsValid)
             {
-                Product oldProduct = context.Product.Find(product.id);
+                Product oldProduct = iproductRepo.getById(product.id);
                 if (oldProduct == null)
                 {
                     ModelState.AddModelError("", "invalid");
-                    ViewData["Category"] = context.Category.ToList();
+                    ViewData["Category"] = icategoryRepo.getAll();
                     return View( product);
                 }else
                 {
@@ -178,8 +179,8 @@ namespace E_Commerce.Controllers
                     oldProduct.CategoryId = product.category_id;
                     oldProduct.Price = product.Price;
                 }
-                context.Product.Update(oldProduct);
-                context.SaveChanges();
+                iproductRepo.update(oldProduct);
+                
             }
 
             return RedirectToAction("index");
@@ -204,16 +205,18 @@ namespace E_Commerce.Controllers
         // Delete Product 
         public IActionResult delete()
         {
-            var products = context.Product.Include(a => a.Category).ToList();
+            //var products = context.Product.Include(a => a.Category).ToList();
+            var products = iproductRepo.getAll("Category");
 
             return View(products);
         }
 
-
-        public IActionResult deleteButton(int id)
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public IActionResult delete(int id)
         {
-            var product = context.Product.FirstOrDefault(a => a.Id == id);
-            context.Product.Remove(product);
+            var product = iproductRepo.getById(id);
+           
             return RedirectToAction("delete");
         }
         #endregion
