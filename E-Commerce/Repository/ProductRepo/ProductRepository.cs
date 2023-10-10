@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using E_Commerce.Models;
+using Microsoft.EntityFrameworkCore;
 using MVC_Project.Models;
 
 namespace E_Commerce.Repository.ProductRepo
@@ -72,11 +73,22 @@ namespace E_Commerce.Repository.ProductRepo
             var product = getById(id);
             if(product != null)
             {
+                deleteImage(product.image);
                 context.Product.Remove(product);
                 Raws = context.SaveChanges();
             }
 
             return Raws;
+        }
+
+        private void deleteImage(string userImage)
+        {
+            var imageName = @"wwwroot\images\" + userImage;
+            FileInfo file = new FileInfo(imageName);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
         }
 
      
