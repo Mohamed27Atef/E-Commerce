@@ -56,29 +56,27 @@ namespace E_Commerce.Repository.ProductRepo
 
         }
 
-        public int add(Product entity)
+        public void add(Product entity)
         {
-            int Raws = -1;
+            
             if(entity != null)
             {
                 context.Product.Add(entity);
-                Raws = context.SaveChanges();
+           
             }
-            return Raws;
+           
         }
 
-        public int delete(int id)
+        public void delete(int id)
         {
-            int Raws = -1;
             var product = getById(id);
             if(product != null)
             {
                 deleteImage(product.image);
                 context.Product.Remove(product);
-                Raws = context.SaveChanges();
             }
 
-            return Raws;
+        
         }
 
         private void deleteImage(string userImage)
@@ -93,17 +91,17 @@ namespace E_Commerce.Repository.ProductRepo
 
      
 
-        public int update(Product entity)
+        public void update(Product entity)
         {
-            int Raws = -1;
-           
+          
             if (entity != null)
-            {
                 context.Product.Update(entity);
-                Raws = context.SaveChanges();
-            }
+                
+        }
 
-            return Raws;
+       public int SaveChanges()
+        {
+            return context.SaveChanges();
         }
 
 

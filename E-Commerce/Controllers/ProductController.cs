@@ -1,6 +1,10 @@
-using E_Commerce.Models;
+
+﻿using E_Commerce.Models;
+using E_Commerce.Repository.CartItemrepo;
+using E_Commerce.Repository.cartRepo;
 using E_Commerce.Repository.CategoryRepo;
 using E_Commerce.Repository.ProductRepo;
+using E_Commerce.Repository.UserRepo;
 using E_Commerce.ViewModel;
 using Humanizer;
 using Microsoft.AspNetCore.Identity;
@@ -16,14 +20,23 @@ namespace E_Commerce.Controllers
     {
         private readonly IProductRepository iproductRepo;
         private readonly ICategoryRepository icategoryRepo;
-        private readonly UserManager<ApplicationIdentityUser> userManager;
+        private readonly ICartItemRepository iCartitemrepo;
+        private readonly ICartRepository icartRepo;
+        private readonly UserManager<ApplicationIdentityUser> _userManager;
+        private readonly IUserRepository iuserRepo;
+        private readonly ECommerceContext context;
 
-        public ProductController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo, UserManager<ApplicationIdentityUser> userManager)
+        public ProductController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo, 
+            ICartItemRepository iCartitemrepo,ICartRepository icartRepo, UserManager<ApplicationIdentityUser> _userManager,
+            IUserRepository IuserRepo)
         {
             // inject DBContext
             this.iproductRepo = iproductRepo;
             this.icategoryRepo = icategoryRepo;
-            this.userManager = userManager;
+            this.iCartitemrepo = iCartitemrepo;
+            this.icartRepo = icartRepo;
+            this._userManager = _userManager;
+           this.iuserRepo = IuserRepo;
         }
 
 
@@ -59,6 +72,44 @@ namespace E_Commerce.Controllers
 
 
             return View("getAll", prds);
+        }
+
+        public Cart addCard(int id)
+        {
+            //ApplicationIdentityUser userManger =await _userManager.FindByNameAsync(User.Identity.Name);
+
+            string IDClaim =
+                User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+
+            User user = iuserRepo.getUserByID(IDClaim);
+            Product prd = iproductRepo.getById(id);
+            Cart cart = icartRepo.getCartByUserId(user.user_id);
+            CartItem CartItem = iCartitemrepo.getByPrdIdUserId(prd.Id, cart.Id);
+
+            if(CartItem == null)
+            {
+                CartItem = new CartItem()
+                {
+                    ProductId = prd.Id,
+                   CartId  = cart.Id,
+                    Price = prd.Price,
+                    Quantity = 1
+                };
+                cart.CartItems.Add(CartItem);
+                iCartitemrepo.add(CartItem);
+              
+
+            }
+            else
+            {
+                CartItem.Price += prd.Price;
+                CartItem.Quantity++;
+                iCartitemrepo.update(CartItem);
+                
+            }
+            iCartitemrepo.SaveChanges();
+            return cart;
         }
         #endregion
 
@@ -111,6 +162,7 @@ namespace E_Commerce.Controllers
             };
 
             iproductRepo.add(newProduct);
+            iproductRepo.SaveChanges();
         }
 
 
@@ -180,7 +232,9 @@ namespace E_Commerce.Controllers
                     oldProduct.Price = product.Price;
                 }
                 iproductRepo.update(oldProduct);
-                
+                iproductRepo.SaveChanges();
+
+
             }
 
             return RedirectToAction("index");
@@ -215,6 +269,7 @@ namespace E_Commerce.Controllers
         public IActionResult delete(int id)
         {
             iproductRepo.delete(id);
+            iproductRepo.SaveChanges();
 
             return RedirectToAction("delete");
         }
