@@ -62,5 +62,10 @@ namespace E_Commerce.Repository.CartItemrepo
         {
             return context.SaveChanges();
         }
+
+        public List<CartItem> getCartItemByUserId(int cartId)
+        {
+            return context.CartItem.Where(c => c.CartId == cartId).ToList();
+        }
     }
 }
