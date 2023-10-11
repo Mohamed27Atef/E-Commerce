@@ -3,9 +3,11 @@ using E_Commerce.Repository.CategoryRepo;
 using E_Commerce.Repository.ProductRepo;
 using E_Commerce.ViewModel;
 using Humanizer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC_Project.Models;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace E_Commerce.Controllers
@@ -14,13 +16,14 @@ namespace E_Commerce.Controllers
     {
         private readonly IProductRepository iproductRepo;
         private readonly ICategoryRepository icategoryRepo;
+        private readonly UserManager<ApplicationIdentityUser> userManager;
 
-
-        public ProductController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo)
+        public ProductController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo, UserManager<ApplicationIdentityUser> userManager)
         {
             // inject DBContext
             this.iproductRepo = iproductRepo;
             this.icategoryRepo = icategoryRepo;
+            this.userManager = userManager;
         }
 
 
@@ -28,6 +31,8 @@ namespace E_Commerce.Controllers
         // Get All
         public IActionResult index()
         {
+           
+
             var allProducts = iproductRepo.getAll();
             if (allProducts == null)
                 return RedirectToAction("Error", "Home");
@@ -222,4 +227,7 @@ namespace E_Commerce.Controllers
         #endregion
 
     }
+
+
+
 }
