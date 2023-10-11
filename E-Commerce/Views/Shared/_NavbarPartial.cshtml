@@ -24,8 +24,10 @@
                     <h3>Shopping Cart</h3>
                     <button id="close-cart" class="close-cart">&times;</button>
                 </div>
-                <div class="cart-items">
+                <div id="cartItems" class="cart-items">
                    
+                    <partial name="_sidebarItems" />
+
                 </div>
                 <div class="cart-footer">
                     <p>Total: <span id="cart-total">$0.00</span></p>
@@ -48,7 +50,7 @@
             </div>
             
             <form class="d-flex">
-                <button id="open-cart" class="btn btn-outline-dark" type="button">
+                <button id="open-cart" onclick="showProducts()" class="btn btn-outline-dark" type="button">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
                     <span id="Cart-counter" class="badge bg-dark text-white ms-1 rounded-pill">0</span>

@@ -5,5 +5,6 @@ namespace E_Commerce.Repository.CartItemrepo
     public interface ICartItemRepository:IGenericRepository<CartItem>
     {
         public CartItem getByPrdIdUserId(int prdId, int cardId);
+        public List<CartItem> getCartItemByUserId(int cartId);
     }
 }
