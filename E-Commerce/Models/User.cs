@@ -20,9 +20,9 @@ namespace E_Commerce.Models
 
         public virtual ApplicationIdentityUser? ApplicationIdentityUser { get; set; }
 
-        [Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? BirthDate { get; set; } = default;
+        //[Required]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //public DateTime? BirthDate { get; set; } = default;
 
 
         [MaxLength(255)]

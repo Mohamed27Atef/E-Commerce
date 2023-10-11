@@ -11,8 +11,8 @@ namespace E_Commerce.Controllers
 {
     public class AccountController : Controller
     {
-        UserManager<ApplicationIdentityUser> userManager;
-        SignInManager<ApplicationIdentityUser> signInManager;
+        private readonly UserManager<ApplicationIdentityUser> userManager;
+        private readonly SignInManager<ApplicationIdentityUser> signInManager;
         private readonly ECommerceContext context;
 
         public AccountController(
@@ -50,7 +50,7 @@ namespace E_Commerce.Controllers
 
                 if (res.Succeeded)
                 {
-                    signInManager.SignInAsync(userModel, false);
+                    await signInManager.SignInAsync(userModel, false);
 
                     return RedirectToAction("index", "Home");
                 }
