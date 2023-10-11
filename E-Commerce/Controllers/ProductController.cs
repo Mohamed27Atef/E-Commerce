@@ -269,6 +269,7 @@ namespace E_Commerce.Controllers
         public IActionResult delete(int id)
         {
             iproductRepo.delete(id);
+            iproductRepo.SaveChanges();
 
             return RedirectToAction("delete");
         }
