@@ -1,4 +1,4 @@
-﻿using E_Commerce.Models;
+using E_Commerce.Models;
 using E_Commerce.Repository.CategoryRepo;
 using E_Commerce.Repository.ProductRepo;
 using E_Commerce.ViewModel;
@@ -31,20 +31,16 @@ namespace E_Commerce.Controllers
         // Get All
         public IActionResult index()
         {
-           
 
             var allProducts = iproductRepo.getAll();
-            if (allProducts == null)
-                return RedirectToAction("Error", "Home");
 
             return View(allProducts);
         }
         // Get By Id
         public IActionResult getById(int id)
         {
+
             Product prd = iproductRepo.getById(id);
-            if (prd == null)
-                return RedirectToAction("Error", "Home");
 
             return View(prd);
         }
@@ -52,8 +48,7 @@ namespace E_Commerce.Controllers
         public IActionResult getByName(string name)
         {
             Product prd = iproductRepo.getByName(name);
-            if (prd == null)
-                return RedirectToAction("Error", "Home");
+
 
             return View("getById", prd);
         }
@@ -61,8 +56,7 @@ namespace E_Commerce.Controllers
         public IActionResult getByBrand(string brand)
         {
             var prds = iproductRepo.getByBrand( brand);
-            if (prds == null)
-                return RedirectToAction("Error","Home");
+
 
             return View("getAll", prds);
         }
@@ -142,6 +136,7 @@ namespace E_Commerce.Controllers
         // Update Product
         public IActionResult UpdateProduct(int productId)
         {
+
             Product? product = iproductRepo.getById(productId);
             var prdVM = new UpdateProductViewModel()
             {
@@ -212,7 +207,6 @@ namespace E_Commerce.Controllers
         {
             //var products = context.Product.Include(a => a.Category).ToList();
             var products = iproductRepo.getAll("Category");
-
             return View(products);
         }
 
@@ -224,6 +218,17 @@ namespace E_Commerce.Controllers
 
             return RedirectToAction("delete");
         }
+
+
+        // Product Details
+
+        public IActionResult Details(int id)
+        {
+            var prpduct = context.Product.Include(a=>a.Images).FirstOrDefault(p=>p.Id==id);
+
+            return View("details", prpduct);
+        }
+
         #endregion
 
     }
