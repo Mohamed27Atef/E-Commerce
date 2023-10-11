@@ -4,13 +4,10 @@
 
 function addToCard(id) {
     console.log(id);
-
-        $.ajax(
-    {
+    $.post({
         url: "/Product/addCard/" + id,
-    success: function (result) {
-        console.log(result);
-   
-                    }
-                });
+        success: function (result) {
+            
         }
+    });
+}
