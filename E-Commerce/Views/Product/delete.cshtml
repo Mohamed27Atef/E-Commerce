@@ -14,6 +14,7 @@
         <th>BuyCounter</th>
         <th>Category</th>
     </tr>
+
     @foreach (var item in Model)
     {
         <form asp-action="delete" asp-route-id="@item.Id">
