@@ -1,6 +1,4 @@
-﻿using E_Commerce.Models;
-using E_Commerce.ViewModel;
-using Humanizer;
+﻿using E_Commerce.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC_Project.Models;
@@ -24,20 +22,20 @@ namespace E_Commerce.Controllers
         public IActionResult index()
         {
             var allProducts = context.Product.ToList();
-            
+
             return View(allProducts);
         }
         // Get By Id
         public IActionResult getById(int id)
         {
-            Product prd = context.Product.FirstOrDefault(p=>p.Id==id);
+            Product prd = context.Product.FirstOrDefault(p => p.Id == id);
 
             return View(prd);
         }
         // Get By Name
         public IActionResult getByName(string name)
         {
-            Product prd = context.Product.FirstOrDefault(p=> p.Name == name);
+            Product prd = context.Product.FirstOrDefault(p => p.Name == name);
 
             return View("getById", prd);
         }
@@ -108,14 +106,15 @@ namespace E_Commerce.Controllers
                  .Select(s => new UpdateProductViewModel()
                  {
                      Brand = s.Brand,
-                     id=s.Id,
+                     id = s.Id,
                      category_id = s.CategoryId,
                      Price = s.Price,
                      Description = s.Description,
-                     Name = s.Name, StockQuantity = s.StockQuantity,
+                     Name = s.Name,
+                     StockQuantity = s.StockQuantity,
                  })
-               .FirstOrDefault() ;
-            if(product == null)
+               .FirstOrDefault();
+            if (product == null)
                 return RedirectToAction("index");
 
             ViewData["Category"] = context.Category.ToList();
@@ -135,8 +134,9 @@ namespace E_Commerce.Controllers
                 {
                     ModelState.AddModelError("", "invalid");
                     ViewData["Category"] = context.Category.ToList();
-                    return View( product);
-                }else
+                    return View(product);
+                }
+                else
                 {
                     oldProduct.Brand = product.Brand;
                     oldProduct.Description = product.Description;
@@ -181,6 +181,17 @@ namespace E_Commerce.Controllers
             context.Product.Remove(product);
             return RedirectToAction("delete");
         }
+
+
+        // Product Details
+
+        public IActionResult Details(int id)
+        {
+            var prpduct = context.Product.Include(a=>a.Images).FirstOrDefault(p=>p.Id==id);
+
+            return View("details", prpduct);
+        }
+
         #endregion
 
 
