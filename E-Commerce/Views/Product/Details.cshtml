@@ -1,0 +1,65 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+<link rel="stylesheet" href="~/css/details.css" />
+
+
+    <div class="container">
+        <h1 class="mt-5">@Model.Name</h1>
+
+        <div class="row mt-4">
+            <div class="col-md-1">
+                <ul class="thumbnail-list">
+                    <li><img src="@Model.image" class="thumbnail" alt="Thumbnail 1"></li>
+                    @foreach (var img in Model.Images)
+                    {
+                        <li><img src="@img.Image" class="thumbnail" ></li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-5 main-image ">
+                <img src="@Model.image" alt="Product Image">
+            </div>
+            <div class="col-md-6">
+                <h2>Product Description</h2>
+                <p>@Model.Description</p>
+                <h3>Price: @Model.Price</h3>
+                @if (Model.StockQuantity>0)
+                {
+                    <p style="color:green;">Availability: In Stock </p>
+                }
+                else
+                {
+                    <p style="color:red;">Availability: In Stock</p>
+                }
+            <p class="product-rating mb-3">
+                <span class="stras-num">3.5</span><span class="stars"></span>
+            </p>
+            <div>
+                <button class="btn btn-primary">Add to Cart</button>
+                <i class="far fa-heart favorite-button fa-lg toggle-favorite ml-3"></i>
+            </div>
+            
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h2>Product Specifications</h2>
+                <ul>
+                    <li>Brand: @Model.Brand</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<script src="~/js/site.js"> </script>
+
+
