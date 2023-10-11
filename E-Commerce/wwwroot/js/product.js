@@ -1,7 +1,5 @@
 
 
-
-
 function addToCard(id) {
     console.log(id);
 
@@ -10,7 +8,8 @@ function addToCard(id) {
         url: "/Product/addCard/" + id,
     success: function (result) {
         console.log(result);
-   
+        console.log("His");
+
                     }
                 });
         }
