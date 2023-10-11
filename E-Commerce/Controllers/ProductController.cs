@@ -221,7 +221,8 @@ namespace E_Commerce.Controllers
 
         public IActionResult Details(int id)
         {
-            var prpduct = context.Product.Include(a=>a.Images).FirstOrDefault(p=>p.Id==id);
+            var prpduct = iproductRepo.getById(id);
+            
 
             return View("details", prpduct);
         }
