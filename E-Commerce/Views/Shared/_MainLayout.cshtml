@@ -42,9 +42,7 @@
                 <button class="prev-btn">&larr;</button>
                 <button class="next-btn">&rarr;</button>
             </div>
-            <div id="scrollToTop" class="scroll-to-top">
-                &uArr;
-            </div>
+            <br/>
         </div>
     </div>
     <!-- End Of Slider-->
@@ -57,35 +55,10 @@
             </div>
         </div>
     </header>
-
     <!-- Section-->
-    <div id="product-categories">
-        <div class="container">
-            <ul class="nav nav-pills justify-content-center">
-                <li class="nav-item p-3">
-                    <button id="electronics" class="nav-link active">
-                        Electronics
-                    </button>
-                </li>
-                <li class="nav-item p-3">
-                    <button id="furniture" class="nav-link">
-                        Furniture
-                    </button>
-                </li>
-                <li class="nav-item p-3">
-                    <button id="fashion" class="nav-link">Fashion</button>
-                </li>
-                <li class="nav-item p-3">
-                    <button id="groceries" class="nav-link">
-                        Groceries
-                    </button>
-                </li>
-            </ul>
-            <div class="container text-center">
-                <div id="row" class="row justify-content-evenly"></div>
-            </div>
-        </div>
-    </div>
+    <!-- Section-->
+    @*<partial name="_CategoryIconsPartial" />*@
+    <!-- Section-->
     <!-- Cards Partial View-->
     @* <partial name="_CardsPartial" /> *@
 
@@ -97,7 +70,7 @@
     <!-- Footer Partial View-->
     <partial name="_FooterPartial" />
     <!-- Footer End Partial View-->
-    <!-- Bootstrap core JS-->
+    <!-- Bootstrap core-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="~/js/scripts.js"></script>

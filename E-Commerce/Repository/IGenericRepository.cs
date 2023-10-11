@@ -7,10 +7,13 @@
       
         List<T> getAll(string include = "");
 
-        int add(T entity);
+        void add(T entity);
 
-        int update(T entity);
+        void update(T entity);
 
-        int delete(int id);
+        void delete(int id);
+
+        public int SaveChanges();
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using MVC_Project.Models;
+﻿using E_Commerce.Models;
+using MVC_Project.Models;
 
 namespace E_Commerce.Repository.ProductRepo
 {
@@ -6,5 +7,6 @@ namespace E_Commerce.Repository.ProductRepo
     {
         Product getByName(string name);
         Product getByBrand(string brand);
+      
     }
 }
