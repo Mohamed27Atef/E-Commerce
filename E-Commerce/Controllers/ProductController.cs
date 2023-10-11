@@ -26,6 +26,7 @@ namespace E_Commerce.Controllers
         private readonly IUserRepository iuserRepo;
         private readonly ECommerceContext context;
 
+
         public ProductController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo, 
             ICartItemRepository iCartitemrepo,ICartRepository icartRepo, UserManager<ApplicationIdentityUser> _userManager,
             IUserRepository IuserRepo)
