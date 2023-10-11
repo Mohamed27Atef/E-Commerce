@@ -14,7 +14,7 @@ namespace E_Commerce.Repository.ProductRepo
 
         public Product getById(int id)
         {
-            var product = context.Product.FirstOrDefault(p => p.Id == id);
+            var product = context.Product.Include(i=>i.Images).FirstOrDefault(p => p.Id == id);
             if (product != null)
                 return product;
 
