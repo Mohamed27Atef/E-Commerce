@@ -1,4 +1,5 @@
-﻿using MVC_Project.Models;
+﻿using E_Commerce.Models;
+using MVC_Project.Models;
 
 namespace E_Commerce.Repository.ProductRepo
 {
