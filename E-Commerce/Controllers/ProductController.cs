@@ -220,14 +220,16 @@ namespace E_Commerce.Controllers
         }
 
 
-        // Product Details
 
-        public IActionResult Details(int id)
-        {
-            var prpduct = context.Product.Include(a=>a.Images).FirstOrDefault(p=>p.Id==id);
 
-            return View("details", prpduct);
-        }
+        //Product Details
+
+        //public IActionResult Details(int id)
+        //{
+        //    var prpduct = context.Product.Include(a => a.Images).FirstOrDefault(p => p.Id == id);
+
+        //    return View("details", prpduct);
+        //}
 
         #endregion
 
