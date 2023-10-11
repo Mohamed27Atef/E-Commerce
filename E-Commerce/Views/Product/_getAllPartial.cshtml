@@ -7,45 +7,42 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 <link rel="stylesheet" type="text/css" href="~/css/getAllProduct.css" />
 
-
-   
-<div class="row justify-content-center">
-    @if(Model.Count == 0)
-    {
-        <h2>there is no Pruduct to show</h2>
-    }
-    @foreach (var item in Model)
-    {
-    <div class="col-12 col-md-6 col-lg-4">
-        <div class="card product-card">
-        <img src="@(item.image)"
-            alt="Product Image"
-            class="card-img-top"
-        />
-        <div class="card-body">
-            <h5 class="card-title product-title">@item.Name</h5>
-            <p class="card-text product-description">
-                        @item.Description
-            </p>
-            <div class="price-rating">
-            <p class="card-text product-price">$@item.Price</p>
-            <p class="card-text product-rating mb-3">
-                <span class="stras-num">4.5 </span><span class="stars"></span>
-            </p>
-
+       <div class="row justify-content-center">
+        @if(Model.Count == 0)
+        {
+            <h2>there is no Pruduct to show</h2>
+        }
+        @foreach (var item in Model)
+        {
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card product-card">
+            <img src="@(item.image)"
+              alt="Product Image"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <h5 class="card-title product-title">@item.Name</h5>
+              <p class="card-text product-description">
+                            @item.Description
+              </p>
+              <div class="price-rating">
+                <p class="card-text product-price">$@item.Price</p>
+                <p class="card-text product-rating mb-3">
+                  <span class="stras-num">4.5 </span><span class="stars"></span>
+                </p>
+              </div>
+              <button class="btn">
+                <i onclick="addToCard(@item.Id)"
+                  class="fas fa-shopping-cart fa-lg"
+                  style="color: #007bff"
+                ></i>
+              </button>
+              <i class="far fa-heart favorite-button fa-lg toggle-favorite"></i>
             </div>
           </div>
         </div>
-
-    </div>
-    <button class="btn">
-    <i
-        class="fas fa-shopping-cart fa-lg"
-        style="color: #007bff"
-    ></i>
-    </button>
-    <i class="far fa-heart favorite-button fa-lg toggle-favorite"></i>
-}
+      
+        }
 </div>
 
 <skript src="~/js/site.js"></skript>
