@@ -10,12 +10,12 @@ namespace E_Commerce.Repository.CategoryRepo
         {
             this.context = context;
         }
-        public int add(Category entity)
+        public void add(Category entity)
         {
             throw new NotImplementedException();
         }
 
-        public int delete(int id)
+        public void delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -30,9 +30,13 @@ namespace E_Commerce.Repository.CategoryRepo
             throw new NotImplementedException();
         }
 
-        public int update(Category entity)
+        public void update(Category entity)
         {
             throw new NotImplementedException();
+        }
+        public int SaveChanges()
+        {
+            return context.SaveChanges();
         }
     }
 }
