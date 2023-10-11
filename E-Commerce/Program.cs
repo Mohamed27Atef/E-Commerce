@@ -1,3 +1,5 @@
+using E_Commerce.Repository.CategoryRepo;
+using E_Commerce.Repository.ProductRepo;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVC_Project.Models;
@@ -16,13 +18,19 @@ namespace E_Commerce
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ECommerceContext>(options => 
             options.UseSqlServer(builder.Configuration.GetConnectionString("DB")));
-           
+
+
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
             builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireDigit = false;
             })
                 .AddEntityFrameworkStores<ECommerceContext>();
+
+         
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -8,14 +8,13 @@ namespace MVC_Project.Models
 {
     public class CartItem
     {
-        [Key]
+
         [Required]
         [ForeignKey("Product")]
         public int ProductId { get; set; }
 
         public virtual Product? Product { get; set; }
 
-        [Key]
         [Required]
         [ForeignKey("Cart")]
         public int CartId { get; set; }

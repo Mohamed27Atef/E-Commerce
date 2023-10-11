@@ -1,4 +1,8 @@
-﻿using E_Commerce.ViewModel;
+using E_Commerce.Models;
+using E_Commerce.Repository.CategoryRepo;
+using E_Commerce.Repository.ProductRepo;
+using E_Commerce.ViewModel;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC_Project.Models;
@@ -8,12 +12,15 @@ namespace E_Commerce.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ECommerceContext context;
+        private readonly IProductRepository iproductRepo;
+        private readonly ICategoryRepository icategoryRepo;
 
-        public ProductController(ECommerceContext context)
+
+        public ProductController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo)
         {
             // inject DBContext
-            this.context = context;
+            this.iproductRepo = iproductRepo;
+            this.icategoryRepo = icategoryRepo;
         }
 
 
@@ -21,28 +28,31 @@ namespace E_Commerce.Controllers
         // Get All
         public IActionResult index()
         {
-            var allProducts = context.Product.ToList();
+
+            var allProducts = iproductRepo.getAll();
 
             return View(allProducts);
         }
         // Get By Id
         public IActionResult getById(int id)
         {
-            Product prd = context.Product.FirstOrDefault(p => p.Id == id);
+
+            Product prd = iproductRepo.getById(id);
 
             return View(prd);
         }
         // Get By Name
         public IActionResult getByName(string name)
         {
-            Product prd = context.Product.FirstOrDefault(p => p.Name == name);
+            Product prd = iproductRepo.getByName(name);
+
 
             return View("getById", prd);
         }
         // Get By Brand 
         public IActionResult getByBrand(string brand)
         {
-            var prds = context.Product.Where(p => p.Brand == brand).ToList();
+            var prds = iproductRepo.getByBrand( brand);
 
 
             return View("getAll", prds);
@@ -56,7 +66,7 @@ namespace E_Commerce.Controllers
         public IActionResult addProduct()
         {
 
-            ViewData["Category"] = context.Category.ToList();
+            ViewData["Category"] = icategoryRepo.getAll();
             return View();
         }
 
@@ -67,57 +77,80 @@ namespace E_Commerce.Controllers
 
             if (ModelState.IsValid)
             {
-                if (image != null && image.Length > 0)
+                string imageName = await updateImageAndReturnItsName(image);
+
+                if(imageName != null)
                 {
-
-                    var extention = Path.GetExtension(image.FileName);
-                    var fileName = Path.GetFileNameWithoutExtension(image.FileName);
-                    var imageName = fileName.Replace(" ", "") + extention;
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", imageName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(fileStream);
-                    }
-                    Product newProduct = new Product()
-                    {
-                        Brand = product.Brand,
-                        Name = product.Name,
-                        image = imageName,
-                        Description = product.Description,
-                        Price = product.Price,
-                        StockQuantity = product.StockQuantity,
-                        CategoryId = product.category_id,
-                    };
-
-                    context.Product.Add(newProduct);
-                    context.SaveChanges();
+                    // map addProductViewModel to productModel and add this product to the database
+                    mapAddProductViewModelToProductModelAndAddToDB(product, imageName);
                     return RedirectToAction("index");
                 }
+                else
+                    ModelState.AddModelError("", "invalid image");
             }
 
             return RedirectToAction();
         }
 
+
+
+        public void mapAddProductViewModelToProductModelAndAddToDB(AddProdcutviewModel product, string imageName)
+        {
+            Product newProduct = new Product()
+            {
+                Brand = product.Brand,
+                Name = product.Name,
+                image = imageName,
+                Description = product.Description,
+                Price = product.Price,
+                StockQuantity = product.StockQuantity,
+                CategoryId = product.category_id,
+            };
+
+            iproductRepo.add(newProduct);
+        }
+
+
+        public async Task<string> updateImageAndReturnItsName(IFormFile image)
+        {
+            if (image != null && image.Length > 0)
+            {
+
+                var extention = Path.GetExtension(image.FileName);
+                var fileName = Path.GetFileNameWithoutExtension(image.FileName);
+                var imageName = fileName + new Guid() + extention;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", imageName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+                return imageName;
+            }
+
+            return null;
+        }
+
         // Update Product
         public IActionResult UpdateProduct(int productId)
         {
-            UpdateProductViewModel? product = context.Product
-                 .Where(p => p.Id == productId)
-                 .Select(s => new UpdateProductViewModel()
-                 {
-                     Brand = s.Brand,
-                     id = s.Id,
-                     category_id = s.CategoryId,
-                     Price = s.Price,
-                     Description = s.Description,
-                     Name = s.Name,
-                     StockQuantity = s.StockQuantity,
-                 })
-               .FirstOrDefault();
-            if (product == null)
+
+            Product? product = iproductRepo.getById(productId);
+            var prdVM = new UpdateProductViewModel()
+            {
+
+                Brand = product.Brand,
+                id = product.Id,
+                category_id = product.CategoryId,
+                Price = product.Price,
+                Description = product.Description,
+                Name = product.Name,
+                StockQuantity = product.StockQuantity,
+            };
+
+            if(product == null)
                 return RedirectToAction("index");
 
-            ViewData["Category"] = context.Category.ToList();
+            ViewData["Category"] = icategoryRepo.getAll();
             return View(product);
         }
 
@@ -129,14 +162,13 @@ namespace E_Commerce.Controllers
 
             if (ModelState.IsValid)
             {
-                Product oldProduct = context.Product.Find(product.id);
+                Product oldProduct = iproductRepo.getById(product.id);
                 if (oldProduct == null)
                 {
                     ModelState.AddModelError("", "invalid");
-                    ViewData["Category"] = context.Category.ToList();
-                    return View(product);
-                }
-                else
+                    ViewData["Category"] = icategoryRepo.getAll();
+                    return View( product);
+                }else
                 {
                     oldProduct.Brand = product.Brand;
                     oldProduct.Description = product.Description;
@@ -144,8 +176,8 @@ namespace E_Commerce.Controllers
                     oldProduct.CategoryId = product.category_id;
                     oldProduct.Price = product.Price;
                 }
-                context.Product.Update(oldProduct);
-                context.SaveChanges();
+                iproductRepo.update(oldProduct);
+                
             }
 
             return RedirectToAction("index");
@@ -170,15 +202,17 @@ namespace E_Commerce.Controllers
         // Delete Product 
         public IActionResult delete()
         {
-            var products = context.Product.Include(a => a.Category).ToList();
+            //var products = context.Product.Include(a => a.Category).ToList();
+            var products = iproductRepo.getAll("Category");
             return View(products);
         }
 
-
-        public IActionResult deleteButton(int id)
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public IActionResult delete(int id)
         {
-            var product = context.Product.FirstOrDefault(a => a.Id == id);
-            context.Product.Remove(product);
+            iproductRepo.delete(id);
+
             return RedirectToAction("delete");
         }
 
@@ -193,9 +227,6 @@ namespace E_Commerce.Controllers
         }
 
         #endregion
-
-
-
 
     }
 }

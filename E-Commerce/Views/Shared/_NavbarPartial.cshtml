@@ -1,0 +1,66 @@
+﻿<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#!">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">All Products</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
+                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                    </ul>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Sign Up</a></li>
+                </li>
+            </ul>
+           
+            <div id="cart-sidebar" class="cart-sidebar">
+                <div class="cart-header">
+                    <h3>Shopping Cart</h3>
+                    <button id="close-cart" class="close-cart">&times;</button>
+                </div>
+                <div class="cart-items">
+                   
+                </div>
+                <div class="cart-footer">
+                    <p>Total: <span id="cart-total">$0.00</span></p>
+                    <button id="clear-cart" class="btn btn-danger">Clear Cart</button>
+                </div>
+            </div>
+           
+            <div id="favorite-sidebar" class="favorite-sidebar">
+                <div class="favorite-header">
+                    <h3>My Favorite</h3>
+                    <button id="close-favorite" class="close-favorite">&times;</button>
+                </div>
+                <div class="favorite-items">
+                   
+                </div>
+                <div class="favorite-footer">
+                    <p>Total: <span id="favorite-total">$0.00</span></p>
+                    <button id="clear-favorite" class="btn btn-danger">Clear favorite</button>
+                </div>
+            </div>
+            
+            <form class="d-flex">
+                <button id="open-cart" class="btn btn-outline-dark" type="button">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                </button>
+                <button id="open-favorite" class="btn btn-outline-dark ml-3" type="button">
+                    <i class="bi-heart-fill me-1"></i>
+                    Favorite
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                </button>
+            </form>
+
+        </div>
+    </div>
+    </div>
+</nav>
