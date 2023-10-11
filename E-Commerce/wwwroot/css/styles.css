@@ -11470,5 +11470,52 @@ fieldset:disabled .btn {
   width: 300px;
 }
 
+.sidebar-card-item {
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border: none;
+    margin-top: 10px;
+}
+
+.sidebar-card-item .card {
+    border: none;
+    width: 280px;
+}
+
+.sidebar-card-item .card-body {
+    border: none;
+}
+
+.sidebar-card-item .card-img-top {
+    max-width: 240px;
+    max-height: 240px;
+    width: 250px;
+    object-fit: contain;
+}
+
+.sidebar-card-item .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.sidebar-card-item .price-rating {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar-card-item .product-price {
+    font-size: 16px;
+    color: #007bff;
+    margin: 0;
+}
+
+.sidebar-card-item .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+}
 
 
