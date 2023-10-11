@@ -64,6 +64,8 @@ function toggleScrollToTopButton() {
   }
 }
 
+
+
 // Scroll to the top when clicking on the button
 // function scrollToTop() {
 //   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -367,3 +369,8 @@ function updateStarRating() {
 }
 
 updateStarRating()
+
+    
+
+
+
