@@ -1,35 +1,34 @@
-//function addToCard(id) {
-//    console.log(id);
-//    // add to loacal stroage
-//    // counter ++
+//let counter = document.getElementById("counter");
+//counter.innerHTML = products.length;
 
-//    let Products = [];
-//    Products.push({ product_id: id, quantity: 1 });
+function addToCard(id) {
+    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
+    let success = document.getElementById("sucess_" + id);
+    let product = { product_id: id, quantity: 1 };
+    var isFound = products.find(val => val.product_id == product.product_id);
+    if (isFound) {
 
-//    localStorage.setItem("cartItem", Products);
-
-//    localStorage.getItem();
-//    // 
-//    //image
-//    //name
-//    //price
-//    //quantity
-
-
+    } else {
+        products.push(product);
+        localStorage.setItem("cartItems", JSON.stringify(products));
+    }
+    counter.innerHTML = products.length;
+    success.style.display = "block";
 
 
-//    $.ajax({
-//        url: "/Product/getbyid/" + id,
-//        success: function (result) {
-            
-//        }
-//    });
-//}
 
 
-//function showProducts() {
-//    let cartItems = document.getElementById("cartItems");
-//    cartItems.innerHTML += `
-//        <p>this is a test</p>
-//    `
-//}
+
+}
+
+
+
+
+    //$.ajax({
+    //    url: "/Product/getbyid/" + id,
+    //    success: function (result) {
+
+    //    }
+    //});
+
+

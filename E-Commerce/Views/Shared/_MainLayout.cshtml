@@ -17,7 +17,7 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 </head>
-<body>
+<body onload="setCounter()">
     <!-- Navbar Partial View-->
     <partial name="_NavbarPartial" />
     <!-- End Navbar Partial View-->
@@ -63,7 +63,7 @@
     @* <partial name="_CardsPartial" /> *@
 
 
-    <div class="container">
+    <div class="container" >
         @RenderBody()
         </div>
     <!-- End Cards Partial View-->
@@ -76,7 +76,6 @@
     <script src="~/js/scripts.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/product.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

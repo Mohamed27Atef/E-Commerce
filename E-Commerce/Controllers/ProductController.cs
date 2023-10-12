@@ -49,13 +49,17 @@ namespace E_Commerce.Controllers
             return View(allProducts);
         }
         // Get By Id
-        public IActionResult getById(int id)
+
+
+        public Product getById(int id)
         {
 
             Product prd = iproductRepo.getById(id);
 
-            return View(prd);
+            return prd;
         }
+
+
         // Get By Name
         public IActionResult getByName(string name)
         {
