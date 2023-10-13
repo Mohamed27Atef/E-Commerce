@@ -8,6 +8,19 @@ function addToCard(id) {
     var isFound = products.find(val => val.product_id == product.product_id);
     if (isFound) {
 
+function addToCard(id) {
+    console.log(id);
+    var cartCounter = document.getElementById("Cart-counter");
+        $.ajax(
+    {
+        url: "/Product/addCard/" + id,
+    success: function (result) {
+        console.log(result);
+        console.log(cartCounter);
+
+                    }
+                });
+
     } else {
         products.push(product);
         localStorage.setItem("cartItems", JSON.stringify(products));
@@ -26,15 +39,13 @@ function addToCard(id) {
         error: function (error) {
             // Handle errors, if any
             console.error("Error:", error);
+
         }
     });
 
 
 
 }
-
-
-
 
     //$.ajax({
     //    url: "/Product/getbyid/" + id,
