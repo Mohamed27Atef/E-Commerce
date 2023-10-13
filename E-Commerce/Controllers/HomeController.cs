@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace E_Commerce.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -12,6 +12,7 @@ namespace E_Commerce.Controllers
         {
             _logger = logger;
         }
+
 
         public IActionResult Index()
         {

@@ -1,4 +1,3 @@
-
 ﻿using E_Commerce.Models;
 using E_Commerce.Repository.CartItemrepo;
 using E_Commerce.Repository.cartRepo;
@@ -6,13 +5,7 @@ using E_Commerce.Repository.CategoryRepo;
 using E_Commerce.Repository.ProductRepo;
 using E_Commerce.Repository.UserRepo;
 using E_Commerce.ViewModel;
-using Humanizer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MVC_Project.Models;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
+
 
 namespace E_Commerce.Controllers
 {
@@ -39,7 +32,6 @@ namespace E_Commerce.Controllers
            this.iuserRepo = IuserRepo;
         }
 
-
         #region Essa Task
         // Get All
         public IActionResult index()
@@ -50,18 +42,21 @@ namespace E_Commerce.Controllers
             return View(allProducts);
         }
         // Get By Id
+
+
         public IActionResult getById(int id)
         {
 
             Product prd = iproductRepo.getById(id);
 
-            return View(prd);
+            return Json("test");
         }
+
+
         // Get By Name
         public IActionResult getByName(string name)
         {
             Product prd = iproductRepo.getByName(name);
-
 
             return View("getById", prd);
         }

@@ -14,12 +14,12 @@ namespace E_Commerce.Controllers
             this.cartItemRepository = cartItemRepository;
         }
 
-        //public List<CartItem> getUserCartItem()
-        //{
-        //    string IDClaim =
-        //        User.Claims
-        //        .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
-        //    return cartItemRepository.getCartItemByUserId();
-        //}
+
+        public IActionResult addToCart(int id)
+        {
+            return View();
+        }
+
+        
     }
 }
