@@ -410,12 +410,22 @@ function getAllCartItems() {
 
 
 
+function removefromlocalstorage(id) {
 
+    products.map((val, i) => {
+        if (val.product_id == id) {
+            products.splice(i, 1);
+        }
+    })
+
+    localStorage.setItem("cartItems", JSON.stringify(products));
+    getAllCartItems();
+    setCounter();
+}
 
 
 function setCounter() {
     let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    console.log("asdfsd");
     let counter = document.getElementById("counter");
     counter.innerHTML = products.length;
 
