@@ -5,6 +5,10 @@ using E_Commerce.Repository.CategoryRepo;
 using E_Commerce.Repository.ProductRepo;
 using E_Commerce.Repository.UserRepo;
 using E_Commerce.ViewModel;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using MVC_Project.Models;
+using System.Text.RegularExpressions;
 
 
 namespace E_Commerce.Controllers
