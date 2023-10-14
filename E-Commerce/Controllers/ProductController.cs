@@ -303,10 +303,10 @@ namespace E_Commerce.Controllers
 
         public IActionResult Details(int id)
         {
-            var prpduct = iproductRepo.getById(id);
+            var product = iproductRepo.getById(id);
             
 
-            return View("details", prpduct);
+            return View("details", product);
         }
 
         #endregion
