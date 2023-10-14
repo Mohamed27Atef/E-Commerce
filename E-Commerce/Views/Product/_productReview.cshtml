@@ -1,23 +1,24 @@
-﻿
+﻿@model List<Review>
 
 <div class="container">
     <h1 class="mt-5">Customer Reviews</h1>
-
+    @foreach (var item in Model)
+    {
+        
+    
     <div class="user-review mt-4">
         <div class="d-flex justify-content-between">
-            <h3>User Name</h3>
+            <h3>@item.</h3>
             <div class="rating">
                 <p class="product-rating mb-3">
-                    <span class="stras-num mr-1">4</span><span class="stars"></span>
+                    <span class="stras-num mr-1">@item.Rate</span><span class="stars"></span>
                 </p>
             </div>
         </div>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non
-            urna non dui eleifend feugiat. Sed aliquam urna sed nisl malesuada,
-            vel venenatis est posuere.
+            @item.Text
         </p>
-        <small>Posted on January 1, 2023</small>
+        <small>@item.PostDate</small>
     </div>
-
+    }
 </div>

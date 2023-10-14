@@ -3,11 +3,13 @@ using E_Commerce.Repository.CartItemrepo;
 using E_Commerce.Repository.cartRepo;
 using E_Commerce.Repository.CategoryRepo;
 using E_Commerce.Repository.ProductRepo;
+using E_Commerce.Repository.ReviewRepo;
 using E_Commerce.Repository.UserRepo;
 using E_Commerce.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 
@@ -21,11 +23,11 @@ namespace E_Commerce.Controllers
         private readonly ICartRepository icartRepo;
         private readonly UserManager<ApplicationIdentityUser> _userManager;
         private readonly IUserRepository iuserRepo;
-
+        private readonly IReviewRepo ireviewRepo;
 
         public ProductController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo, 
             ICartItemRepository iCartitemrepo,ICartRepository icartRepo, UserManager<ApplicationIdentityUser> _userManager,
-            IUserRepository IuserRepo)
+            IUserRepository IuserRepo, IReviewRepo ireview)
         {
             // inject DBContext
             this.iproductRepo = iproductRepo;
@@ -33,7 +35,8 @@ namespace E_Commerce.Controllers
             this.iCartitemrepo = iCartitemrepo;
             this.icartRepo = icartRepo;
             this._userManager = _userManager;
-           this.iuserRepo = IuserRepo;
+            this.iuserRepo = IuserRepo;
+            this.ireviewRepo = ireview;
         }
 
         #region Essa Task
@@ -303,8 +306,8 @@ namespace E_Commerce.Controllers
         public IActionResult Details(int id)
         {
             var product = iproductRepo.getById(id);
+            ViewData["reviews"] = ireviewRepo.getByProduct(id);
             
-
             return View("details", product);
         }
 
