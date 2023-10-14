@@ -51,8 +51,13 @@ namespace E_Commerce.Controllers
         {
 
             Product prd = iproductRepo.getById(id);
-
-            return Json(prd);
+            var newModel = new
+            {
+                prd.Name,
+                prd.image,
+                prd.Price
+            };
+            return Json(newModel);
         }
 
 

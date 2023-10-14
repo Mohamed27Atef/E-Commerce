@@ -411,7 +411,7 @@ function getAllCartItems() {
 
 
 function removefromlocalstorage(id) {
-
+    console.log("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
     products.map((val, i) => {
         if (val.product_id == id) {
             products.splice(i, 1);
