@@ -370,19 +370,62 @@ function updateStarRating() {
 
 updateStarRating()
 
-    
+
+// this for get all product and view them in cart
+ function getAllCartItems() {
+    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
+    const sideBarCardItem = document.getElementById("side-bar-crad-item");
+    sideBarCardItem.innerHTML = "";
+    products.map(item => {
+        $.ajax({
+            type: 'Get',
+            dataType: 'json',
+            data: { id: item.product_id },
+            url: "/Product/getById",
+            success: function (result) {
+                sideBarCardItem.innerHTML += `
+                    <div class="sidebar-card-item">
+                        <div class="card">
+                            <div class="card-body">
+                                <img src="/images/${result.image}" class="card-img-top" alt="Product Image">
+                                <h5 class="card-title">${result.name}</h5>
+                                <div class="price-rating">
+                                    <p class="card-text product-price">$${result.price}</p>
+                                <button class="btn btn-danger"  onclick='removefromlocalstorage(${result.id})'>Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `
+            },
+            error: function (error) {
+                console.error("Error:", error);
+            }
+        });
+    });
+}
 
 
 
 
 
 
+function removefromlocalstorage(id) {
 
+    products.map((val, i) => {
+        if (val.product_id == id) {
+            products.splice(i, 1);
+        }
+    })
+
+    localStorage.setItem("cartItems", JSON.stringify(products));
+    getAllCartItems();
+    setCounter();
+}
 
 
 function setCounter() {
     let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    console.log("asdfsd");
     let counter = document.getElementById("counter");
     counter.innerHTML = products.length;
 

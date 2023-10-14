@@ -53,7 +53,7 @@ namespace E_Commerce.Controllers
 
             Product prd = iproductRepo.getById(id);
 
-            return Json("test");
+            return Json(prd);
         }
 
 
