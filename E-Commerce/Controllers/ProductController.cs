@@ -309,6 +309,35 @@ namespace E_Commerce.Controllers
 
         #endregion
 
+        #region atef
+        public IActionResult Favorites()
+        {
+            string userId = _userManager.GetUserId(User);
+
+            var favoriteProducts = iproductRepo.GetFavoriteProductsForUser(userId);
+
+            return View(favoriteProducts);
+        }
+
+        [HttpPost]
+        public IActionResult AddToFavorites(int productId)
+        {
+            try
+            {
+                string userId = _userManager.GetUserId(User);
+
+                iproductRepo.AddToFavorites(productId, Convert.ToInt32(userId));
+                iproductRepo.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = ex.Message });
+            }
+        }
+
+        #endregion
     }
 
 
