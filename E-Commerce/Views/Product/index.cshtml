@@ -1,9 +1,16 @@
 ﻿
 @model List<Product>
+@* 
 
-
-<h1>Welcome in cards list by Eissa</h1>
-
+@if (User.Identity.IsAuthenticated)
+{
+    <h1>is authrized</h1>
+}
+else
+{
+    <h1>not authrized</h1>
+} *@
+<h1 >Welcome in cards list by Eissa</h1>
 <partial name="_getAllPartial" model="@Model" />
 
 @section scripts {

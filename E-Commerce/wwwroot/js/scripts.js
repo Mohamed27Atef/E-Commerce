@@ -374,3 +374,16 @@ updateStarRating()
 
 
 
+
+
+
+
+
+
+function setCounter() {
+    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
+    console.log("asdfsd");
+    let counter = document.getElementById("counter");
+    counter.innerHTML = products.length;
+
+}

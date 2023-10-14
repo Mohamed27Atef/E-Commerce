@@ -52,6 +52,8 @@ namespace E_Commerce
 
             app.UseAuthorization();
 
+            app.UseAuthorization();
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
