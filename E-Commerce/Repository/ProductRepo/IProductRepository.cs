@@ -7,9 +7,6 @@ namespace E_Commerce.Repository.ProductRepo
     {
         Product getByName(string name);
         Product getByBrand(string brand);
-        void AddToFavorites(int productId, int userId);
-        List<Product> GetFavoriteProductsForUser(string userId);
-
-
+      
     }
 }

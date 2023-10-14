@@ -103,34 +103,7 @@ namespace E_Commerce.Repository.ProductRepo
         {
             return context.SaveChanges();
         }
-        #region atef
-        public void AddToFavorites(int productId, int userId)
-        {
-            var product = getById(productId);
 
-            if (product != null)
-            {
-                if (product.Favorites == null)
-                {
-                    product.Favorites = new List<Favorite>();
-                }
 
-                if (!product.Favorites.Any(f => f.UserId == userId))
-                {
-                    product.Favorites.Add(new Favorite { UserId = userId });
-                    update(product);
-                }
-            }
-        }
-        public List<Product> GetFavoriteProductsForUser(string userId)
-        {
-            var favoriteProducts = context.Product
-                .Where(p => p.Favorites.Any(f => f.UserId == userId))
-                .ToList();
-
-            return favoriteProducts;
-        }
-
-        #endregion
     }
 }
