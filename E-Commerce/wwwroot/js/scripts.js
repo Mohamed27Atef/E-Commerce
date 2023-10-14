@@ -372,7 +372,7 @@ updateStarRating()
 
 
 // this for get all product and view them in cart
-function getAllCartItems() {
+ function getAllCartItems() {
     let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
     const sideBarCardItem = document.getElementById("side-bar-crad-item");
     sideBarCardItem.innerHTML = "";
@@ -391,7 +391,7 @@ function getAllCartItems() {
                                 <h5 class="card-title">${result.name}</h5>
                                 <div class="price-rating">
                                     <p class="card-text product-price">$${result.price}</p>
-                                    <button class="btn btn-danger">Remove</button>
+                                <button class="btn btn-danger"  onclick='removefromlocalstorage(${result.id})'>Remove</button>
                                 </div>
                             </div>
                         </div>
