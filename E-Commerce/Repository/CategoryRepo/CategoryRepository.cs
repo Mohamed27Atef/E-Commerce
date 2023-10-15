@@ -12,7 +12,12 @@ namespace E_Commerce.Repository.CategoryRepo
         }
         public void add(Category entity)
         {
-            throw new NotImplementedException();
+
+            if (entity != null)
+            {
+                context.Category.Add(entity);
+
+            }
         }
 
         public void delete(int id)
