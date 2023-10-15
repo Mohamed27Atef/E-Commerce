@@ -15,7 +15,7 @@ namespace E_Commerce.Repository.ReviewRepo
 
         public List<Review> getByProduct(int id)
         {
-            var reviews = context.Review.Where(a => a.ProductId == id).Include(a=>a.User).ToList();
+            var reviews = context.Review.Where(a => a.ProductId == id).Include(a=>a.User.ApplicationIdentityUser).ToList();
 
             if (reviews != null)
                 return reviews;

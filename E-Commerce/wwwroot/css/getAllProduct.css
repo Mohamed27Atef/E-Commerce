@@ -17,8 +17,11 @@
 
     .product-card .card-body {
         padding: 15px;
-        max-height: 330px !important;
+        display:flex;
+        flex-direction:column;
     }
+
+
 
 .product-title {
     font-weight: bold;
@@ -45,6 +48,7 @@
 .card-body .btn {
     opacity: 0;
     margin-right: 10px;
+    background-color:#ddd;
 }
 
 .card:hover .btn {
@@ -80,3 +84,5 @@
 .sucess {
     display: none;
 }
+
+
