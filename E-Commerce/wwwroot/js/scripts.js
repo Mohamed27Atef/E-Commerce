@@ -430,3 +430,10 @@ function setCounter() {
     counter.innerHTML = products.length;
 
 }
+function setFavoriteCounter() {
+    let products = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    let counter = document.getElementById("favorite-counter");
+    counter.innerHTML = products.length;
+
+}
+
