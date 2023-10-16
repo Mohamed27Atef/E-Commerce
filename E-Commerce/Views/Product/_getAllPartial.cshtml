@@ -37,6 +37,7 @@
                         <span class="text-success text-center m-1 sucess" id="sucess_@item.Id">added to card</span>
                   <div class="d-flex justify-content-center">
                         <button class="btn">
+
                             @if(User.Identity.IsAuthenticated)
                             {
                                 <i onclick="addToCardAuthorize(@item.Id)"
@@ -53,6 +54,13 @@
                                 
                             }
                         </button>
+
+                            <i onclick="addToCard(@item.Id)"
+                          class="fas fa-shopping-cart fa-lg" 
+                          style="color: #007bff"
+                        ></i>
+                      </button>
+
                             <button class="btn"><i class="far fa-heart favorite-button fa-lg toggle-favorite"></i></button>
                   </div>
                 </div>

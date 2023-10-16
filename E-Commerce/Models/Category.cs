@@ -15,6 +15,7 @@ namespace MVC_Project.Models
 
 
         [Required]
+        [Display(Name ="category name")]
         [MaxLength(255)]
         public string CategoryName { get; set; }
 
