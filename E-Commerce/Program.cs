@@ -2,8 +2,10 @@ using E_Commerce.Repository.CartItemrepo;
 using E_Commerce.Repository.cartRepo;
 using E_Commerce.Repository.CategoryRepo;
 using E_Commerce.Repository.ProductRepo;
+using E_Commerce.Repository.ReviewRepo;
 using E_Commerce.Repository.UserRepo;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MVC_Project.Models;
 
@@ -28,7 +30,7 @@ namespace E_Commerce
             builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+            builder.Services.AddScoped<IReviewRepo, ReviewRepo>();
 
 
             builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole>(options =>
