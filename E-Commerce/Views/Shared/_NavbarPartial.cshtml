@@ -40,8 +40,11 @@
                 </div>
                 <div class="cart-footer">
                     <p>Total: <span id="cart-total">$0.00</span></p>
-                    <button id="clear-cart" class="btn btn-danger">Clear Cart</button>
+                  
+                    <button id="clear-cart" onclick="removeAllCart()" class="btn btn-danger">Clear Cart</button>
+                   
                     <a id="clear-cart" class="btn btn-danger" onclick="showAllOrders()" asp-action="Index" asp-controller="order"> Order Cart</a>
+
 
                 </div>
             </div>
@@ -56,7 +59,7 @@
                 </div>
                 <div class="favorite-footer">
                     <p>Total: <span id="favorite-total">$0.00</span></p>
-                    <button id="clear-favorite" class="btn btn-danger">Clear favorite</button>
+                    <button id="clear-favorite" onclick="removeAllFavorite()" class="btn btn-danger">Clear favorite</button>
                 </div>
             </div>
             

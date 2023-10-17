@@ -407,6 +407,8 @@ updateStarRating()
 
 
 function getAllFavorite() {
+    console.log("mnk lllah ya galy");
+
     let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
     const sideBarCardItem = document.getElementById("favorite-items");
     sideBarCardItem.innerHTML = "";
@@ -425,7 +427,8 @@ function getAllFavorite() {
                             <h5 class="card-title">${result.name}</h5>
                             <div class="price-rating">
                                 <p class="card-text product-price">$${result.price}</p>
-                                <button class="btn btn-danger"  onclick='removefromlocalstorage(${result.id})'>Remove</button>
+                                <button class="btn btn-danger"  onclick='removefromFavoriteById(${result.id})'>Remove</button>
+
                             </div>
                         </div>
                     </div>
@@ -440,6 +443,7 @@ function getAllFavorite() {
 }
 
 
+
 function removefromlocalstorage(id) {
     products.map((val, i) => {
         if (val.product_id == id) {
@@ -452,6 +456,41 @@ function removefromlocalstorage(id) {
     setCounter();
 }
 
+
+
+
+function removefromFavoriteById(id) {
+    let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    Favorites.map((val, i) => {
+        if (val.product_id == id) {
+            Favorites.splice(i, 1);
+        }
+    })
+
+    localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
+    console.log(Favorites);
+    getAllFavorite();
+    setFavoriteCounter();
+}
+
+function removeAllCart() {
+    (typeof (Storage) !== "undefined")
+    {
+        localStorage.removeItem("cartItems");
+    }
+
+    getAllCartItems();
+    setCounter();
+}
+
+function removeAllFavorite() {
+    (typeof (Storage) !== "undefined")
+    {
+        localStorage.removeItem("favoriteItem");
+    }
+    getAllFavorite();
+    setFavoriteCounter();
+}
 
 function setCounter() {
     let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
