@@ -104,6 +104,9 @@ namespace E_Commerce.Repository.ProductRepo
             return context.SaveChanges();
         }
 
-
+        public List<Product> getbyid(int id)
+        {
+            return context.Product.Where(p=> p.Id == id).ToList();
+        }
     }
 }

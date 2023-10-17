@@ -11519,3 +11519,32 @@ fieldset:disabled .btn {
 }
 
 
+.sidebar-card-item .qty-buttons {
+  display: flex;
+  align-items: center;
+  opacity: 0;
+}
+
+.card:hover .qty-buttons {
+  opacity: 1;
+  box-shadow: none;
+}
+
+.sidebar-card-item .qty-buttons input {
+  width: 30px;
+  text-align: center;
+}
+
+.qty-buttons .btn-danger,
+.btn-success {
+  width: 30px;
+}
+
+.quantity-button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
