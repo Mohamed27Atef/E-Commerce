@@ -10,7 +10,7 @@
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 <link rel="stylesheet" href="~/css/details.css" />
-
+<link href="~/css/styles.css" rel="stylesheet" />
 
     <div class="container">
         <h1 class="mt-5">@Model.Name</h1>
@@ -59,6 +59,8 @@
             </div>
         </div>
     </div>
+
+    <partial name="_productReview" model="@ViewBag.reviews" />
 
 <script src="~/js/site.js"> </script>
 
