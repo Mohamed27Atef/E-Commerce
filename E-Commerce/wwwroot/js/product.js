@@ -25,8 +25,6 @@ function addToCard(id) {
     
 
 
-
-
 function addToCardAuthorize(id){
     console.log("Authorize id= "+id);
     $.ajax({
