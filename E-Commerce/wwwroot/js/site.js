@@ -67,5 +67,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 updateStarRating();
 
+document.addEventListener("DOMContentLoaded", function () {
+    let qty = document.getElementById("qty")
+    let addQty = document.getElementById("addQty")
+    let removeQty = document.getElementById("removeQty")
 
+    function updateNumQty() {
+        numQty = parseInt(qty.value) || 0
+    }
+    updateNumQty()
 
+    addQty.addEventListener("click", function () {
+        updateNumQty()
+        numQty++
+        qty.value = numQty
+        console.log("Quantity increased: " + numQty)
+    })
+    removeQty.addEventListener("click", function () {
+        updateNumQty()
+        if (numQty > 0) {
+            numQty--
+            qty.value = numQty
+        }
+    })
+})

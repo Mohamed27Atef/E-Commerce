@@ -52,7 +52,7 @@ namespace E_Commerce.Controllers
                 {
                     await signInManager.SignInAsync(userModel, false);
 
-                    return RedirectToAction("index", "Home");
+                    return RedirectToAction("index", "Product");
                 }
                 foreach (var item in res.Errors)
                     ModelState.AddModelError("", item.Description);
@@ -74,7 +74,7 @@ namespace E_Commerce.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel loginModel, string ReturnUrl = "/home/index")
+        public async Task<IActionResult> Login(LoginViewModel loginModel, string ReturnUrl = "/product/index")
         {
             if (ModelState.IsValid)
             {
