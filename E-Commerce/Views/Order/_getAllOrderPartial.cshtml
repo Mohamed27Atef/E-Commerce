@@ -1,0 +1,58 @@
+﻿@using E_Commerce.ViewModel.OrderViewModels;
+@model List<OrderedItemForUserVM>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+<link rel="stylesheet" href="~/css/getAllProduct.css" />
+<link href="~/css/styles.css" rel="stylesheet" />
+
+
+<div class="row justify-content-center">
+
+    @if (Model.Count == 0)
+    {
+        <h2>there is no Pruduct to show</h2>
+    }
+    @foreach (var item in Model)
+    {
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card product-card">
+                <img src="/images/@item.image"
+                 alt="Product Image"
+                 class="card-img-top" />
+                <div class="card-body">
+                    <h5 class="card-title product-title">@item.Name</h5>
+                   
+                    <div class="price-rating">
+                        <p class="card-text product-price">$@item.TotalPrice</p>
+                        <p class="card-text product-rating mb-3">
+                            <span class="stras-num">@item.Quantity </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*             <button class="btn">
+    <i
+    class="fas fa-shopping-cart fa-lg"
+    style="color: #007bff"
+    ></i>
+    </button>
+    <i class="far fa-heart favorite-button fa-lg toggle-favorite"></i>
+    </div>
+    </div>
+
+    </div>
+    <button class="btn" onclick="addToCard(@item.Id)">
+    <i
+    class="fas fa-shopping-cart fa-lg"
+    style="color: #007bff"
+    ></i>
+    </button>
+    <i class="far fa-heart favorite-button fa-lg toggle-favorite"></i> *@
+    }
+
+</div>

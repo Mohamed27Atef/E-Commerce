@@ -406,7 +406,38 @@ updateStarRating()
 }
 
 
-
+function getAllFavorite() {
+    let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    const sideBarCardItem = document.getElementById("favorite-items");
+    sideBarCardItem.innerHTML = "";
+    Favorites.map(item => {
+        $.ajax({
+            type: 'Get',
+            dataType: 'json',
+            data: { id: item.product_id },
+            url: "/Product/getById",
+            success: function (result) {
+                sideBarCardItem.innerHTML += `
+                <div class="sidebar-card-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="/images/${result.image}" class="card-img-top" alt="Product Image">
+                            <h5 class="card-title">${result.name}</h5>
+                            <div class="price-rating">
+                                <p class="card-text product-price">$${result.price}</p>
+                                <button class="btn btn-danger"  onclick='removefromlocalstorage(${result.id})'>Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `
+            },
+            error: function (error) {
+                console.error("Error:", error);
+            }
+        });
+    });
+}
 
 
 function removefromlocalstorage(id) {
@@ -417,7 +448,6 @@ function removefromlocalstorage(id) {
     })
 
     localStorage.setItem("cartItems", JSON.stringify(products));
-    console.log(products);
     getAllCartItems();
     setCounter();
 }
@@ -437,8 +467,8 @@ function setFavoriteCounter() {
 }
 
 
-
 $(document).ready(function () {
+    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
     var jsonData = JSON.stringify(products);
 
     $.ajax({
@@ -457,3 +487,121 @@ $(document).ready(function () {
         }
     });
 });
+
+
+
+//function showAllOrders() {
+//   // console.log("showAllOrders() in script line 462");
+//    $.ajax({
+//        type: "get",
+//        url: "/Order/index",
+
+//        success: function (data) {
+
+//            console.log(data);
+//        },
+//        error: function (error) {
+
+//            console.error(error);
+//        }
+//    });
+//}
+
+
+function addToCardAuthorize(id) {
+
+    $.ajax({
+        type: "get",
+        url: "/Home/AddProductToDB/" + id,
+        data: id,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
+            ShowAllCartItemFromDBToView();
+            localStorage.clear();
+
+        },
+        error: function (error) {
+
+            console.error(error);
+        }
+    });
+}
+
+let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
+function addToCard(id) {
+
+    let success = document.getElementById("sucess_" + id);
+    let product = { product_id: id, quantity: 1 };
+    var isFound = products.find(val => val.product_id == product.product_id);
+    if (isFound) {
+
+
+    } else {
+        products.push(product);
+        getAllCartItems();
+        localStorage.setItem("cartItems", JSON.stringify(products));
+    }
+    counter.innerHTML = products.length;
+    success.style.display = "block";
+
+
+}
+
+
+let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+function addToFavorite(id) {
+    let success = document.getElementById("sucess_" + id);
+    let Favorite = { product_id: id };
+    var isFound = Favorites.find(val => val.product_id == Favorite.product_id);
+    if (isFound) {
+
+
+    } else {
+        Favorites.push(Favorite);
+        getAllFavorite();
+        localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
+    }
+    success.style.display = "block";
+    setFavoriteCounter();
+}
+
+
+$(document).ready(function () { ShowAllCartItemFromDBToView() });
+
+
+function ShowAllCartItemFromDBToView() {
+    let counter = document.getElementById("counter");
+   
+    const sideBarCardItem = document.getElementById("cartItems");
+    sideBarCardItem.innerHTML = "";
+
+    $.ajax({
+        type: 'Get',
+        url: "/Order/getproductByCartItem",
+        success: function (result) {
+            result.map(item =>
+            { 
+                sideBarCardItem.innerHTML += `
+                    <div class="sidebar-card-item">
+                        <div class="card">
+                            <div class="card-body">
+                                <img src="/images/${item.image}" class="card-img-top" alt="Product Image">
+                                <h5 class="card-title">${item.name}</h5>
+                                <div class="price-rating">
+                                    <p class="card-text product-price">$${item.TotalPrice}</p>
+                                    <button class="btn btn-danger"  onclick='removefromlocalstorage(${2})'>Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            });
+            counter.innerHTML = result.length;
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+
+}
