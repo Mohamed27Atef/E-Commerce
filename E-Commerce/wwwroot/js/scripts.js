@@ -409,9 +409,7 @@ updateStarRating()
 
 
 
-
 function removefromlocalstorage(id) {
-
     products.map((val, i) => {
         if (val.product_id == id) {
             products.splice(i, 1);
@@ -419,6 +417,7 @@ function removefromlocalstorage(id) {
     })
 
     localStorage.setItem("cartItems", JSON.stringify(products));
+    console.log(products);
     getAllCartItems();
     setCounter();
 }
@@ -430,3 +429,31 @@ function setCounter() {
     counter.innerHTML = products.length;
 
 }
+function setFavoriteCounter() {
+    let products = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    let counter = document.getElementById("favorite-counter");
+    counter.innerHTML = products.length;
+
+}
+
+
+
+$(document).ready(function () {
+    var jsonData = JSON.stringify(products);
+
+    $.ajax({
+        type: "POST",
+        url: "/Home/GetFromLocalToDB",
+        data: jsonData,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            
+            console.log(data);
+            localStorage.clear();
+        },
+        error: function (error) {
+          
+            console.error(error);
+        }
+    });
+});
