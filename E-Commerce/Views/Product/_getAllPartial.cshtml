@@ -5,8 +5,8 @@
       rel="stylesheet" />
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
-<link rel="stylesheet" type="text/css" href="~/css/getAllProduct.css" />
-
+<link rel="stylesheet"  href="~/css/getAllProduct.css" />
+<link href="~/css/styles.css" rel="stylesheet" />
 
 
        <div class="row justify-content-center" >
@@ -25,7 +25,7 @@
                 />
                 <div class="card-body">
                   <h5 class="card-title product-title">@item.Name</h5>
-                  <p class="card-text product-description">
+                    <p class="card-text product-description" style="max-height:50px;overflow: auto;">
                                 @item.Description
                   </p>
                   <div class="price-rating">
@@ -37,6 +37,7 @@
                         <span class="text-success text-center m-1 sucess" id="sucess_@item.Id">added to card</span>
                   <div class="d-flex justify-content-center">
                         <button class="btn">
+
                             @if(User.Identity.IsAuthenticated)
                             {
                                 <i onclick="addToCardAuthorize(@item.Id)"
@@ -53,7 +54,16 @@
                                 
                             }
                         </button>
+
+
+                            <i onclick="addToCard(@item.Id)"
+                          class="fas fa-shopping-cart fa-lg" 
+                          style="color: #007bff;"
+                        ></i>
+                      </button>
+
                             <button class="btn"><i class="far fa-heart favorite-button fa-lg toggle-favorite"></i></button>
+
                   </div>
                 </div>
               </div>
