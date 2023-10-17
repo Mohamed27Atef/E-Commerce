@@ -41,7 +41,7 @@ namespace E_Commerce.Controllers
         {
 
             var allProducts = iproductRepo.getAll();
-
+            
             return View(allProducts);
         }
         // Get By Id
