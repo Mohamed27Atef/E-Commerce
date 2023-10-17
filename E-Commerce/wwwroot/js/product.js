@@ -47,6 +47,66 @@ function addToCardAuthorize(id){
 }
 
 
+//atef
+let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+function addToFavorite(id) {
+    let success = document.getElementById("sucess_" + id);
+    let Favorite = { product_id: id};
+    var isFound = Favorites.find(val => val.product_id == Favorite.product_id);
+    if (isFound) {
+
+
+    } else {
+        Favorites.push(Favorite);
+        getAllFavorite();
+        localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
+    }
+    success.style.display = "block";
+    setFavoriteCounter();
+}
+
+
+function getAllFavorite() {
+    console.log("eisa");
+    let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    const sideBarCardItem = document.getElementById("favorite-items");
+    sideBarCardItem.innerHTML = "";
+    Favorites.map(item => {
+        $.ajax({
+            type: 'Get',
+            dataType: 'json',
+            data: { id: item.product_id },
+            url: "/Product/getById",
+            success: function (result) {
+                sideBarCardItem.innerHTML += `
+                <div class="sidebar-card-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="/images/${result.image}" class="card-img-top" alt="Product Image">
+                            <h5 class="card-title">${result.name}</h5>
+                            <div class="price-rating">
+                                <p class="card-text product-price">$${result.price}</p>
+                                <button class="btn btn-danger"  onclick='removefromlocalstorage(${result.id})'>Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `
+            },
+            error: function (error) {
+                console.error("Error:", error);
+            }
+        });
+    });
+}
+
+
+
+    //$.ajax({
+    //    url: "/Product/getbyid/" + id,
+    //    success: function (result) {
+
+
 
 
 function getAllCartItems() {
