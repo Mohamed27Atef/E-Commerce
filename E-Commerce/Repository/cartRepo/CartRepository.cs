@@ -60,5 +60,10 @@ namespace E_Commerce.Repository.cartRepo
         {
             return context.SaveChanges();
         }
+
+        bool ICartRepository.CheckIfUserHasCart(int user_id)
+        {
+            return context.Carts.Where(r => r.user_id == user_id).FirstOrDefault() == null ? false : true;
+        }
     }
 }

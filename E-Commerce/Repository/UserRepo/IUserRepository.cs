@@ -5,5 +5,6 @@ namespace E_Commerce.Repository.UserRepo
     public interface IUserRepository:IGenericRepository<User>
     {
         public User getUserByID(string id);
+        public int getUserByApplicationId(string applicationId);
     }
 }
