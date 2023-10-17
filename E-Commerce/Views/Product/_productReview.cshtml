@@ -1,0 +1,24 @@
+﻿@model List<Review>
+
+<div class="container">
+    <h1 class="mt-5">Customer Reviews</h1>
+    @foreach (var item in Model)
+    {
+        
+    
+    <div class="user-review mt-4">
+        <div class="d-flex justify-content-between">
+            <h3>@item.User.ApplicationIdentityUser.UserName</h3>
+            <div class="rating">
+                <p class="product-rating mb-3">
+                    <span class="stras-num mr-1">@item.Rate</span><span class="stars"></span>
+                </p>
+            </div>
+        </div>
+        <p>
+            @item.Text
+        </p>
+        <small>@item.PostDate</small>
+    </div>
+    }
+</div>
