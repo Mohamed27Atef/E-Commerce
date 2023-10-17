@@ -406,6 +406,40 @@ updateStarRating()
 }
 
 
+function getAllFavorite() {
+    console.log("mnk lllah ya ");
+
+    let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    const sideBarCardItem = document.getElementById("favorite-items");
+    sideBarCardItem.innerHTML = "";
+    Favorites.map(item => {
+        $.ajax({
+            type: 'Get',
+            dataType: 'json',
+            data: { id: item.product_id },
+            url: "/Product/getById",
+            success: function (result) {
+                sideBarCardItem.innerHTML += `
+                <div class="sidebar-card-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="/images/${result.image}" class="card-img-top" alt="Product Image">
+                            <h5 class="card-title">${result.name}</h5>
+                            <div class="price-rating">
+                                <p class="card-text product-price">$${result.price}</p>
+                                <button class="btn btn-danger"  onclick='removefromFavoriteById(${result.id})'>Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `
+            },
+            error: function (error) {
+                console.error("Error:", error);
+            }
+        });
+    });
+}
 
 
 
@@ -422,6 +456,41 @@ function removefromlocalstorage(id) {
     setCounter();
 }
 
+
+
+
+function removefromFavoriteById(id) {
+    let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    Favorites.map((val, i) => {
+        if (val.product_id == id) {
+            Favorites.splice(i, 1);
+        }
+    })
+
+    localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
+    console.log(Favorites);
+    getAllFavorite();
+    setFavoriteCounter();
+}
+
+function removeAllCart() {
+    (typeof (Storage) !== "undefined")
+    {
+        localStorage.removeItem("cartItems");
+    }
+
+    getAllCartItems();
+    setCounter();
+}
+
+function removeAllFavorite() {
+    (typeof (Storage) !== "undefined")
+    {
+        localStorage.removeItem("favoriteItem");
+    }
+    getAllFavorite();
+    setFavoriteCounter();
+}
 
 function setCounter() {
     let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];

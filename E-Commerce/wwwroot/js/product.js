@@ -86,7 +86,7 @@ function getAllFavorite() {
                             <h5 class="card-title">${result.name}</h5>
                             <div class="price-rating">
                                 <p class="card-text product-price">$${result.price}</p>
-                                <button class="btn btn-danger"  onclick='removefromlocalstorage(${result.id})'>Remove</button>
+                                <button class="btn btn-danger"  onclick='removefromFavoriteById(${result.id})'>Remove</button>
                             </div>
                         </div>
                     </div>

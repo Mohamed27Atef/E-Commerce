@@ -10,6 +10,12 @@ function setCounter() {
 
 }
 
+function setFavoriteCounter() {
+    let products = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    let counter = document.getElementById("favorite-counter");
+    counter.innerHTML = products.length;
+
+}
 
 const favoriteIcons = document.querySelectorAll(".toggle-favorite")
 
