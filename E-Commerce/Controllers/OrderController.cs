@@ -2,6 +2,7 @@
 using E_Commerce.Repository.CartItemrepo;
 using E_Commerce.Repository.cartRepo;
 using E_Commerce.Repository.CategoryRepo;
+using E_Commerce.Repository.OrderRepo;
 using E_Commerce.Repository.ProductRepo;
 using E_Commerce.Repository.ReviewRepo;
 using E_Commerce.Repository.UserRepo;
@@ -23,10 +24,11 @@ namespace E_Commerce.Controllers
         private readonly UserManager<ApplicationIdentityUser> _userManager;
         private readonly IUserRepository iuserRepo;
         private readonly IReviewRepo ireviewRepo;
+        private readonly IOrderRepository iorderRepo;
 
         public OrderController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo,
             ICartItemRepository iCartitemrepo, ICartRepository icartRepo, UserManager<ApplicationIdentityUser> _userManager,
-            IUserRepository IuserRepo, IReviewRepo ireview)
+            IUserRepository IuserRepo, IReviewRepo ireview,IOrderRepository _iorderRepo)
         {
             // inject DBContext
             this.iproductRepo = iproductRepo;
@@ -36,6 +38,7 @@ namespace E_Commerce.Controllers
             this._userManager = _userManager;
             this.iuserRepo = IuserRepo;
             this.ireviewRepo = ireview;
+            iorderRepo = _iorderRepo;
         }
         [Authorize]
         public IActionResult Index()
@@ -68,6 +71,7 @@ namespace E_Commerce.Controllers
             {
                 OrderedItemForUserVM order = new OrderedItemForUserVM
                 {
+                    Id = prdLst[i].Id,
                     Name = prdLst[i].Name,
                     Brand = prdLst[i].Brand,
                     image = prdLst[i].image,
@@ -79,6 +83,13 @@ namespace E_Commerce.Controllers
             }
 
             return orderedItemForUserVM;
+        }
+
+        public void DelteOrderById(int id)
+        {
+            iorderRepo.delete(id);
+            iorderRepo.SaveChanges();
+
         }
     }
 }

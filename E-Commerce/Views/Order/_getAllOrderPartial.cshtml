@@ -9,50 +9,57 @@
 <link href="~/css/styles.css" rel="stylesheet" />
 
 
-<div class="row justify-content-center">
+
 
     @if (Model.Count == 0)
     {
         <h2>there is no Pruduct to show</h2>
     }
-    @foreach (var item in Model)
-    {
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card product-card">
-                <img src="/images/@item.image"
-                 alt="Product Image"
-                 class="card-img-top" />
-                <div class="card-body">
-                    <h5 class="card-title product-title">@item.Name</h5>
-                   
-                    <div class="price-rating">
-                        <p class="card-text product-price">$@item.TotalPrice</p>
-                        <p class="card-text product-rating mb-3">
-                            <span class="stras-num">@item.Quantity </span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        @*             <button class="btn">
-    <i
-    class="fas fa-shopping-cart fa-lg"
-    style="color: #007bff"
-    ></i>
-    </button>
-    <i class="far fa-heart favorite-button fa-lg toggle-favorite"></i>
-    </div>
-    </div>
+ 
+       
+        
+<table class="table">
 
-    </div>
-    <button class="btn" onclick="addToCard(@item.Id)">
-    <i
-    class="fas fa-shopping-cart fa-lg"
-    style="color: #007bff"
-    ></i>
-    </button>
-    <i class="far fa-heart favorite-button fa-lg toggle-favorite"></i> *@
-    }
+        @foreach (var order in Model)
+        {
 
+            <tr style="text-align:center;">
+                
+                    <td><img src="/images/@order.image" style="width:100px; height:100px; border-radius: 50%;" /></td>
+
+                    <td>
+                        <a id="btn-minus-order-quantity" style="cursor: pointer; border: none;"
+                       data-action="decrease" data-id="@order.Id" onclick="decreaseQuantity(this)">-</a>
+                        <span id="quantity-order-@order.Id">@order.Quantity</span>
+                        <a id="btn-plus-order-quantity" style="cursor: pointer; border: none;"
+                       data-action="increase" data-id="@order.Id" onclick="increaseQuantity(this)">+</a>
+                    </td>
+                    <td>@order.TotalPrice</td>
+                    <td>
+                <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.Id" class="btn btn-success">Delete</a>
+                    </td>
+            <td>
+                <a asp-action="Details" asp-controller="Product" asp-route-id="@order.Id" class="btn btn-success">Details</a>
+            </td>
+               
+            </tr>
+
+            
+            
+        }
+
+
+</table>
+
+    <div><a asp-action="New" asp-controller="Course" class="btn btn-success"> Check it   </a></div>
 </div>
+
+
+@section scripts {
+
+
+    function getOrderDetails() {
+        console.log("test";
+    }
+}

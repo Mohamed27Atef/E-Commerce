@@ -20,7 +20,8 @@ namespace E_Commerce.Repository.CartItemrepo
 
         public void delete(int id)
         {
-            throw new NotImplementedException();
+            CartItem cartItem = getById(id);
+            context.CartItem.Remove(cartItem);
         }
 
         public List<CartItem> getAll(string include = "")

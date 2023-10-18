@@ -605,3 +605,31 @@ function ShowAllCartItemFromDBToView() {
     });
 
 }
+
+
+function increaseQuantity(button) {
+    var orderId = button.getAttribute("data-id");
+
+    const qunatityOrder = document.getElementById("quantity-order-" + orderId);
+    var currentValue = parseInt(qunatityOrder.textContent, 10);
+
+    var newQuantity = ++currentValue;
+    
+    qunatityOrder.textContent = newQuantity;
+
+}
+function decreaseQuantity(button) {
+    var orderId = button.getAttribute("data-id");
+
+    const qunatityOrder = document.getElementById("quantity-order-" + orderId);
+    var currentValue = parseInt(qunatityOrder.textContent, 10);
+
+   
+        var newQuantity = --currentValue;
+    if (newQuantity >= 0) {
+        qunatityOrder.textContent = newQuantity;
+    }
+ 
+
+}
+

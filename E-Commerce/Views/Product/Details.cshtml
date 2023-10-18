@@ -13,13 +13,13 @@
 <link href="~/css/styles.css" rel="stylesheet" />
 
     <div class="container">
-        <h1 class="mt-5">@Model.Name</h1>
+        <h1 class="mt-5">@Model?.Name</h1>
 
         <div class="row mt-4">
             <div class="col-md-1">
                 <ul class="thumbnail-list">
-                    <li><img src="@Model.image" class="thumbnail" alt="Thumbnail 1"></li>
-                    @foreach (var img in Model.Images)
+                    <li><img src="@Model?.image" class="thumbnail" alt="Thumbnail 1"></li>
+                    @foreach (var img in Model?.Images)
                     {
                         <li><img src="@img.Image" class="thumbnail" ></li>
                     }
