@@ -55,12 +55,30 @@
             </div>
             
             <form class="d-flex">
-                <button id="open-cart" onclick="getAllCartItems()" class="btn btn-outline-dark" type="button">
-                    <i class="bi-cart-fill me-1"></i>
-                    Cart                        
-                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="counter">0</span>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button id="open-cart"
+                        onclick="ShowAllCartItemFromDBToView()"
+                        class="btn btn-outline-dark" type="button">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="counter">0</span>
 
-                </button>
+                    </button>
+                }
+                else
+                {
+                    <button id="open-cart"
+                            onclick="getAllCartItems()"
+                        class="btn btn-outline-dark" type="button">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="counter">0</span>
+
+                    </button>
+                }
+                
+                
                 <button id="open-favorite" class="btn btn-outline-dark ml-3" type="button" onclick="getAllFavorite()">
                     <i class="bi-heart-fill me-1"></i>
                     Favorite

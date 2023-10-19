@@ -386,7 +386,8 @@ updateStarRating()
 ////////////////////////////////////////////////// decllar variables ////////////////////////////////////////////////////////
 let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
 let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
+const sideBarCardItem = document.getElementById("side-bar-crad-item");
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////// self invoke ///////////////////////////////////////////////////////////////////////////
 (function () {
@@ -394,7 +395,7 @@ let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
     products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
     setCounter();
     setFavoriteCounter();
-    //ShowAllCartItemFromDBToView()
+    //
 })();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -413,8 +414,27 @@ function setFavoriteCounter() {
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////// view cart and favorite ///////////////////////////////////////////
- function getAllCartItems() {
-    const sideBarCardItem = document.getElementById("side-bar-crad-item");
+
+function showSideBarItems(image, name, price, id) {
+    
+    sideBarCardItem.innerHTML += `
+            <div class="sidebar-card-item">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="/images/${image}" class="card-img-top" alt="Product Image">
+                        <h5 class="card-title">${name}</h5>
+                        <div class="price-rating">
+                            <p class="card-text product-price">$${price}</p>
+                        <button class="btn btn-danger"  onclick='removefromlocalstorage(${id})'>Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
+}
+
+
+function getAllCartItems() {
     sideBarCardItem.innerHTML = "";
     products.map(item => {
         $.ajax({
@@ -423,20 +443,8 @@ function setFavoriteCounter() {
             data: { id: item.product_id },
             url: "/Product/getById",
             success: function (result) {
-                sideBarCardItem.innerHTML += `
-                    <div class="sidebar-card-item">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="/images/${result.image}" class="card-img-top" alt="Product Image">
-                                <h5 class="card-title">${result.name}</h5>
-                                <div class="price-rating">
-                                    <p class="card-text product-price">$${result.price}</p>
-                                <button class="btn btn-danger"  onclick='removefromlocalstorage(${result.id})'>Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `
+                
+                showSideBarItems(result.image, result.name, result.price, result.id)
             },
             error: function (error) {
                 console.error("Error:", error);
@@ -526,49 +534,7 @@ function removeAllFavorite() {
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-////////////////// what is this ////////////////////////////////////
-//$(document).ready(function () {
-//    var jsonData = JSON.stringify(products);
-
-//    $.ajax({
-//        type: "POST",
-//        url: "/Home/GetFromLocalToDB",
-//        data: jsonData,
-//        contentType: "application/json; charset=utf-8",
-//        success: function (data) {
-            
-//            console.log(data);
-//            localStorage.clear();
-//        },
-//        error: function (error) {
-          
-//            console.error(error);
-//        }
-//    });
-//});
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////// authentication methodes ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function addToCardAuthorize(id) {
-
-    $.ajax({
-        type: "get",
-        url: "/Home/AddProductToDB/" + id,
-        data: id,
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
-            ShowAllCartItemFromDBToView();
-            localStorage.clear();
-
-        },
-        error: function (error) {
-
-            console.error(error);
-        }
-    });
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////// add local storage //////////////////////////////////////////////////////////////////////////
 function addToCard(id) {
@@ -608,33 +574,20 @@ function addToFavorite(id) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////// show from DB /////////////////////////////////////////////////////////////////////////////////////////////
-function ShowAllCartItemFromDBToView() {
-    let counter = document.getElementById("counter");
-    const sideBarCardItem = document.getElementById("cartItems");
-    sideBarCardItem.innerHTML = "";
 
+
+function ShowAllCartItemFromDBToView() {
+    sideBarCardItem.innerHTML = "";
     $.ajax({
         type: 'Get',
         url: "/Order/getproductByCartItem",
         success: function (result) {
             result.map(item =>
-            { 
-                sideBarCardItem.innerHTML += `
-                    <div class="sidebar-card-item">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="/images/${item.image}" class="card-img-top" alt="Product Image">
-                                <h5 class="card-title">${item.name}</h5>
-                                <div class="price-rating">
-                                    <p class="card-text product-price">$${item.TotalPrice}</p>
-                                    <button class="btn btn-danger"  onclick='removefromlocalstorage(${2})'>Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `
+            {
+                showSideBarItemsFromDB(item.image, item.name, item.price, item.id, item.cart_id);
+                console.log(item);
             });
-            counter.innerHTML = result.length;
+            setCounterFromDB(result.length);
         },
         error: function (error) {
             console.error("Error:", error);
@@ -642,4 +595,58 @@ function ShowAllCartItemFromDBToView() {
     });
 
 }
+
+function addToCardAuthorize(id) {
+    $.ajax({
+        type: "get",
+        url: "/Home/AddProductToDB?id=" + id,
+
+        success: function (data) {
+            localStorage.clear();
+
+        },
+        error: function (error) {
+
+            console.error(error);
+        }
+    });
+}
+
+function setCounterFromDB(count) {
+    let counter = document.getElementById("counter");
+    counter.innerHTML = count;
+
+}
+
+function removeFromDB(id, cart_item) {
+    $.ajax({
+        type: 'Delete',
+        url: "/Cart/removeCartItem?prodcut_id=" + id + "&cart_id=" + cart_item,
+        success: function (result) {
+            ShowAllCartItemFromDBToView();
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+function showSideBarItemsFromDB(image, name, price, id, cart_id) {
+
+    sideBarCardItem.innerHTML += `
+            <div class="sidebar-card-item">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="/images/${image}" class="card-img-top" alt="Product Image">
+                        <h5 class="card-title">${name}</h5>
+                        <div class="price-rating">
+                            <p class="card-text product-price">$${price}</p>
+                        <button class="btn btn-danger"  onclick='removeFromDB(${id}, ${cart_id})'>Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

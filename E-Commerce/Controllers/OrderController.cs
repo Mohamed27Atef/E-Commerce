@@ -71,6 +71,9 @@ namespace E_Commerce.Controllers
                     Name = prdLst[i].Name,
                     Brand = prdLst[i].Brand,
                     image = prdLst[i].image,
+                    cart_id = iuserRepo.getUserByApplicationId(IDClaim),
+                    id = prdLst[i].Id,
+                    price = prdLst[i].Price,
                     Quantity = allCartItemOfCurrentUser[i].Quantity,
                     TotalPrice = allCartItemOfCurrentUser[i].Price
                 };

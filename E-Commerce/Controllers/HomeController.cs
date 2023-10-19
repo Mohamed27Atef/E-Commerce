@@ -70,7 +70,6 @@ namespace E_Commerce.Controllers
             return "BaaaaaaaaaaaaaaaaaaaaaaaaaaD";
         }
 
-        [HttpGet]
 
         public void AddProductToDB(int id)
         {
@@ -84,7 +83,6 @@ namespace E_Commerce.Controllers
 
 
 
-            // this must must must be exists please be wake up
             Cart cart = icartRepo.getCartByUserId(user.user_id);
             
 
@@ -113,8 +111,8 @@ namespace E_Commerce.Controllers
 
             }
             iCartitemrepo.SaveChanges();
-
             //return CartItem;
+
         }
 
 
