@@ -650,3 +650,47 @@ function showSideBarItemsFromDB(image, name, price, id, cart_id) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////// Increase and decrease counter of order /////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function increaseQuantity(button, TotalPrice) {
+    var orderId = button.getAttribute("data-id");
+    var price = button.getAttribute("data-price");
+
+    const qunatityOrder = document.getElementById("quantity-order-" + orderId);
+    const priceOrder = document.getElementById("price-order-" + orderId);
+    var currentValueQuantity = parseInt(qunatityOrder.textContent, 10);
+    var currentValuePrice = parseInt(priceOrder.textContent, 10);
+    var PriceValue = parseInt(TotalPrice, 10);
+
+    console.log("currentValuePrice " + price);
+    console.log(button);
+
+
+    var newQuantity = ++currentValueQuantity;
+    var newPrice = currentValuePrice + PriceValue;
+
+
+    qunatityOrder.textContent = newQuantity;
+    priceOrder.textContent = newPrice;
+
+}
+function decreaseQuantity(button) {
+    var orderId = button.getAttribute("data-id");
+
+    const qunatityOrder = document.getElementById("quantity-order-" + orderId);
+    var currentValue = parseInt(qunatityOrder.textContent, 10);
+
+
+
+    var newQuantity = --currentValue;
+    if (newQuantity >= 0) {
+        qunatityOrder.textContent = newQuantity;
+    }
+
+
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

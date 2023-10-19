@@ -71,12 +71,11 @@ namespace E_Commerce.Controllers
             {
                 OrderedItemForUserVM order = new OrderedItemForUserVM
                 {
-                    Id = prdLst[i].Id,
+                    id = prdLst[i].Id,
                     Name = prdLst[i].Name,
                     Brand = prdLst[i].Brand,
                     image = prdLst[i].image,
                     cart_id = iuserRepo.getUserByApplicationId(IDClaim),
-                    id = prdLst[i].Id,
                     price = prdLst[i].Price,
                     Quantity = allCartItemOfCurrentUser[i].Quantity,
                     TotalPrice = allCartItemOfCurrentUser[i].Price
