@@ -108,5 +108,10 @@ namespace E_Commerce.Repository.ProductRepo
         {
             return context.Product.Where(p=> p.Id == id).ToList();
         }
+
+        public List<Product> search(string search)
+        {
+            return context.Product.Where(p => p.Name.Contains(search)).ToList();
+        }
     }
 }
