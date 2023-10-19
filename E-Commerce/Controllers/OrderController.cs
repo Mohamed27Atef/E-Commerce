@@ -120,18 +120,20 @@ namespace E_Commerce.Controllers
 
         }
         [HttpPost]
-        public IActionResult saveOrder(string Address,decimal TotalPrice= 0)
+        public IActionResult saveOrder(OrderCheckedUserVM orderChecked)
         {
             User user = getUser();
             Cart cart = icartRepo.getCartByUserId(user.user_id);
             Order order = new Order()
                 {
                     cart_id = cart.Id,
-                    TotalPrice = TotalPrice,
+                    TotalPrice = orderChecked.TotalPrice,
                     Status = OrderStatus.Shipped,
                     OrderDate = DateTime.Now,
                     UserId = user.user_id,
-                    Address = Address
+                    Street = orderChecked.Street,
+                    City = orderChecked.City,
+                    Country = orderChecked.Country
             };
 
 
