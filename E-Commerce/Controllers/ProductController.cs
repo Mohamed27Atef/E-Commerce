@@ -333,6 +333,13 @@ namespace E_Commerce.Controllers
             return View("details", product);
         }
 
+        public IActionResult DeleteCartItemById(int id)
+        {
+            iCartitemrepo.delete(id);
+            iCartitemrepo.SaveChanges();
+            return RedirectToAction("Index", "Order");
+        }
+
         #endregion
 
 
