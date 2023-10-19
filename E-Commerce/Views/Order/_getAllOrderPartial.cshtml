@@ -46,7 +46,6 @@
                 </tr>
             </a>
             
-            
         }
 
     <tr style="text-align:center;">
@@ -60,14 +59,10 @@
 
 </table>
 
-    <div><a asp-action="New" asp-controller="Course" class="btn btn-success"> Check it   </a></div>
+    <form method="post" action="/Order/saveOrder">
+        <label for="Address-order">Address:</label>
+        <input type="text" id="Address-order" name="Address" /> <!-- Added name attribute -->
+        <button type="submit" class="btn btn-success">Check out</button>
+    </form>
+
 </div>
-
-
-@section scripts {
-
-
-    function getOrderDetails() {
-        console.log("test";
-    }
-}
