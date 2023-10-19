@@ -23,9 +23,9 @@
 
         @foreach (var order in Model)
         {
-                <tr style="text-align:center;">
+                <tr style="">
                 
-                        <td><img src="/images/@order.image" style="width:100px; height:100px; border-radius: 50%;" /></td>
+                        <td><img src="/images/@order.image" style="width:50px; height:50px; border-radius: 50%;" /></td>
 
                         <td>
                             <a id="btn-minus-order-quantity" style="cursor: pointer; border: none;"
@@ -36,10 +36,21 @@
                         </td>
                         <td id="price-order-@order.id">@order.TotalPrice</td>
                         <td>
-                    <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.id" class="btn btn-success">Delete</a>
-                        </td>
-                <td>
-                    <a asp-action="Details" asp-controller="Product" asp-route-id="@order.id" class="btn btn-success">Details</a>
+                <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.id" class="btn btn-success" 
+                style="padding: 2px;
+                        width: 84px;
+                        height: 50px;
+                        border-radius: 17px;
+                       line-height:2.2;
+                       margin:0 20px"
+                >Delete</a>
+            </td>
+            <td>
+                <a asp-action="Details" asp-controller="Product" asp-route-id="@order.id" class="btn btn-success" style="padding: 2px;
+    width: 84px;
+    height: 50px;
+    border-radius: 17px;
+line-height:2.2;">Details</a>
                 </td>
                
                 </tr>
@@ -58,10 +69,23 @@
 
 </table>
 
-    <form method="post" action="/Order/saveOrder">
-        <label for="Address-order">Address:</label>
-        <input type="text" id="Address-order" name="Address" /> <!-- Added name attribute -->
-        <button type="submit" class="btn btn-success">Check out</button>
-    </form>
+<form method="post"  asp-action="saveOrder" asp-controller="Order" style="margin:50px 0">
+        <label for="Street-order" class="form-label">Street:</label>
+    <input type="text" id="Street-order" name="Street" class="form-control" />
 
-</div>
+    <label for="City-order" class="form-label">City:</label>
+    <input type="text" id="City-order" name="City" class="form-control" />
+
+    <label for="Country-order" class="form-label">Country:</label>
+    <input type="text" id="Country-order" name="Country" class="form-control"/>
+ 
+    <div>
+
+        <button type="submit" class="btn btn-success" style="    padding: 2px;
+    width: 84px;
+    height: 50px;
+    border-radius: 17px;">
+            Check out
+        </button>
+    </div>
+    </form>

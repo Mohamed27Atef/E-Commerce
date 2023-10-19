@@ -19,9 +19,14 @@ namespace MVC_Project.Models
         public int Id { get; set; }
 
         [MaxLength(255)] 
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
-        
+        [MaxLength(255)]
+        public string? Street { get; set; }
+        [MaxLength(255)]
+        public string? City { get; set; }
+        [MaxLength(255)]
+        public string? Country { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
 
