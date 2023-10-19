@@ -10,78 +10,49 @@
 
 
 
-
-@if (Model.Count == 0)
-{
-    <h2>there is no Pruduct to show</h2>
-}
-
-
-
-
-<table class="table">
-
-    @foreach (var order in Model)
+<div id="orderDetails">
+    @if (Model.Count == 0)
     {
-        <tr style="">
-
-            <td><img src="/images/@order.image" style="width:50px; height:50px; border-radius: 50%;" /></td>
-
-            <td>
-                <a id="btn-minus-order-quantity" style="cursor: pointer; border: none;"
-                   data-action="decrease" data-orderId="@order.id" data-price="@order.price" onclick="decreaseQuantity(this, @order.price)">-</a>
-                <span id="quantity-order-@order.id">@order.Quantity</span>
-                <a id="btn-plus-order-quantity" style="cursor: pointer; border: none;"
-                   data-action="increase" data-id="@order.id" onclick="increaseQuantity(this, @order.price)">+</a>
-            </td>
-            <td id="price-order-@order.id">@order.price</td>
-            <td>
-                <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.id" class="btn btn-success"
-                   style="padding: 2px;
-                        width: 84px;
-                        height: 50px;
-                        border-radius: 17px;
-                       line-height:2.2;
-                       margin:0 20px">Delete</a>
-            </td>
-            <td>
-                <a asp-action="Details" asp-controller="Product" asp-route-id="@order.id" class="btn btn-success" style="padding: 2px;
-    width: 84px;
-    height: 50px;
-    border-radius: 17px;
-line-height:2.2;">Details</a>
-            </td>
-
-        </tr>
-
-
+        <h2>there is no Pruduct to show</h2>
     }
-    <tr style="text-align:center;">
-        <td></td>
-        <td>Total Price: </td>
-        <td><div id="totalPriceOfOrder"></div></td>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
 
-<form method="post" asp-action="saveOrder" asp-controller="Order" style="margin:50px 0">
-    <label for="Street-order" class="form-label">Street:</label>
-    <input type="text" id="Street-order" name="Street" class="form-control" />
 
-    <label for="City-order" class="form-label">City:</label>
-    <input type="text" id="City-order" name="City" class="form-control" />
+    <table class="table">
 
-    <label for="Country-order" class="form-label">Country:</label>
-    <input type="text" id="Country-order" name="Country" class="form-control" />
+        @foreach (var order in Model)
+        {
+            <tr style="">
 
-    <div>
+                <td><img src="/images/@order.image" style="width:50px; height:50px; border-radius: 50%;" /></td>
 
-        <button type="submit" class="btn btn-success" style="    padding: 2px;
-    width: 84px;
-    height: 50px;
-    border-radius: 17px;">
-            Check out
-        </button>
-    </div>
-</form>
+                <td>
+                    <a id="btn-minus-order-quantity" style="cursor: pointer; border: none;"
+                       data-action="decrease" data-orderId="@order.id" data-price="@order.price" onclick="decreaseQuantity(this, @order.price)">-</a>
+                    <span id="quantity-order-@order.id">@order.Quantity</span>
+                    <a id="btn-plus-order-quantity" style="cursor: pointer; border: none;"
+                       data-action="increase" data-id="@order.id" onclick="increaseQuantity(this, @order.price)">+</a>
+                </td>
+                <td id="price-order-@order.id">@order.price</td>
+                <td>
+                    <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.id" class="btn btn-success">Delete</a>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-controller="Product" asp-route-id="@order.id" class="btn btn-success" >Details</a>
+                </td>
+
+            </tr>
+
+
+        }
+        <tr style="text-align:center;">
+            <td></td>
+            <td>Total Price: </td>
+            <td><div id="totalPriceOfOrder"></div></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+    <button onclick="getTotalPriceOfOrder()" class="btn btn-outline-success"> Order Now</button>
+
+</div>

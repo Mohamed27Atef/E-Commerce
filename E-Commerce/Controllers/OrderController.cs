@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
 using System.Security.Claims;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.AspNetCore.Authentication;
 
 namespace E_Commerce.Controllers
 {
@@ -119,6 +120,13 @@ namespace E_Commerce.Controllers
             iorderRepo.SaveChanges();
 
         }
+
+        [HttpGet]
+        public IActionResult saveOrder(decimal totalPrice)
+        {
+            return PartialView("createOrder", totalPrice);
+        }
+
         [HttpPost]
         public IActionResult saveOrder(OrderCheckedUserVM orderChecked)
         {

@@ -1,0 +1,21 @@
+﻿
+<h1>createOrder</h1>
+
+<form method="post" asp-action="saveOrder" style="margin:50px 0">
+    <input hidden name="TotalPrice" value="@Model" />
+    <label for="Street-order" class="form-label">Street:</label>
+    <input type="text" id="Street-order" name="Street" class="form-control" />
+
+    <label for="City-order" class="form-label">City:</label>
+    <input type="text" id="City-order" name="City" class="form-control" />
+
+    <label for="Country-order" class="form-label">Country:</label>
+    <input type="text" id="Country-order" name="Country" class="form-control" />
+
+    <div>
+
+        <button type="submit" class="m-3 btn btn-outline-success">
+            Check out
+        </button>
+    </div>
+</form>
