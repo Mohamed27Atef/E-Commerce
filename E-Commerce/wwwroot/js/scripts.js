@@ -395,7 +395,6 @@ const sideBarCardItem = document.getElementById("side-bar-crad-item");
     products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
     setCounter();
     setFavoriteCounter();
-    //
 })();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -585,7 +584,6 @@ function ShowAllCartItemFromDBToView() {
             result.map(item =>
             {
                 showSideBarItemsFromDB(item.image, item.name, item.price, item.id, item.cart_id);
-                console.log(item);
             });
             setCounterFromDB(result.length);
         },
@@ -647,6 +645,26 @@ function showSideBarItemsFromDB(image, name, price, id, cart_id) {
                 </div>
             </div>
         `
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////// search ///////////////////////////////////////////////////////////////////////////////////
+
+function search(e, te) {
+    console.log(te);
+    $.ajax({
+        type: "get",
+        url: "/Product/search?search=" + e.target.value,
+
+        success: function (data) {
+            console.log(data);
+
+        },
+        error: function (error) {
+
+            console.error(error);
+        }
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

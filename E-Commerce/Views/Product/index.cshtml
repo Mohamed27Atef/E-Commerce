@@ -1,3 +1,16 @@
 ﻿
 @model List<Product>  
+@* @{
+    List<Product> mylist = new List<Product>()
+    {
+        new Product(){Name= "test", BuyCounter=0, CategoryId=1, Price=54, image="aflkjadfkljasd"}
+    };
+} *@
+
+
+<div class="searchParent">
+    <input oninput="search(event)" type="text" id="searchInput" placeholder="Search...">
+</div>
+
+
 <partial name="_getAllPartial" model="@Model" />

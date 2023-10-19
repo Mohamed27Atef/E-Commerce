@@ -336,6 +336,11 @@ namespace E_Commerce.Controllers
         #endregion
 
 
+        public IActionResult search(string search) {
+            return Json(iproductRepo.search(search));
+        }
+
+
 
         void createUser(string applicationUserId)
         {

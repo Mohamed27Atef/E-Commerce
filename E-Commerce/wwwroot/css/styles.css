@@ -11548,3 +11548,16 @@ fieldset:disabled .btn {
   font-weight: bold;
   cursor: pointer;
 }
+.searchParent {
+    text-align: center
+}
+
+
+#searchInput {
+    width: 80%;
+    margin: 18px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+}
