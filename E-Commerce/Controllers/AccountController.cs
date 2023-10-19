@@ -1,4 +1,6 @@
 ﻿using E_Commerce.Models;
+using E_Commerce.Repository.cartRepo;
+using E_Commerce.Repository.UserRepo;
 using E_Commerce.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +20,6 @@ namespace E_Commerce.Controllers
         public AccountController(
             UserManager<ApplicationIdentityUser> usermanager,
             SignInManager<ApplicationIdentityUser> signInManager,
-
             ECommerceContext context
 
             )
@@ -52,7 +53,7 @@ namespace E_Commerce.Controllers
                 {
                     await signInManager.SignInAsync(userModel, false);
 
-                    return RedirectToAction("index", "Home");
+                    return RedirectToAction("index", "Product");
                 }
                 foreach (var item in res.Errors)
                     ModelState.AddModelError("", item.Description);
@@ -74,7 +75,7 @@ namespace E_Commerce.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel loginModel, string ReturnUrl = "/home/index")
+        public async Task<IActionResult> Login(LoginViewModel loginModel, string ReturnUrl = "/product/index")
         {
             if (ModelState.IsValid)
             {
@@ -128,5 +129,7 @@ namespace E_Commerce.Controllers
 
             return regexPattern.IsMatch(password);
         }
+
+        
     }
 }

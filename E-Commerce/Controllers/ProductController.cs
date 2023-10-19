@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
 using System.Diagnostics;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 
@@ -25,9 +26,13 @@ namespace E_Commerce.Controllers
         private readonly IUserRepository iuserRepo;
         private readonly IReviewRepo ireviewRepo;
 
-        public ProductController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo, 
-            ICartItemRepository iCartitemrepo,ICartRepository icartRepo, UserManager<ApplicationIdentityUser> _userManager,
-            IUserRepository IuserRepo, IReviewRepo ireview)
+        public ProductController(IProductRepository iproductRepo,
+            ICategoryRepository icategoryRepo, 
+            ICartItemRepository iCartitemrepo,
+            ICartRepository icartRepo,
+            UserManager<ApplicationIdentityUser> _userManager,
+            IUserRepository IuserRepo,
+            IReviewRepo ireview)
         {
             // inject DBContext
             this.iproductRepo = iproductRepo;
@@ -43,6 +48,17 @@ namespace E_Commerce.Controllers
         // Get All
         public IActionResult index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                string applicationUserId = User.Claims
+                    .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                int user_id = iuserRepo.getUserByApplicationId(applicationUserId);
+                if(user_id == 0)
+                    createUser(applicationUserId);
+                if(!icartRepo.CheckIfUserHasCart(user_id))
+                    createUserCart(user_id);
+            }
 
             var allProducts = iproductRepo.getAll();
             
@@ -325,6 +341,34 @@ namespace E_Commerce.Controllers
         }
 
         #endregion
+
+
+
+        void createUser(string applicationUserId)
+        {
+            User user = new User()
+            {
+                ApplicationIdentityUser_id = applicationUserId,
+            };
+
+            iuserRepo.add(user);
+            iuserRepo.SaveChanges();
+
+        }
+
+        void createUserCart(int userId)
+        {
+            Cart cart = new Cart()
+            {
+                user_id = userId,
+                TotalPrice = 0,
+            };
+
+            icartRepo.add(cart);
+            icartRepo.SaveChanges();
+
+        }
+
 
     }
 

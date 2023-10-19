@@ -371,10 +371,70 @@ function updateStarRating() {
 updateStarRating()
 
 
-// this for get all product and view them in cart
- function getAllCartItems() {
-    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    const sideBarCardItem = document.getElementById("side-bar-crad-item");
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////// decllar variables ////////////////////////////////////////////////////////
+let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
+const sideBarCardItem = document.getElementById("side-bar-crad-item");
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////// self invoke ///////////////////////////////////////////////////////////////////////////
+(function () {
+    Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
+    setCounter();
+    setFavoriteCounter();
+    //
+})();
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////// set counters ///////////////////////////////////////////////////////////
+function setCounter() {
+    let counter = document.getElementById("counter");
+    counter.innerHTML = products.length;
+
+}
+function setFavoriteCounter() {
+    let counter = document.getElementById("favorite-counter");
+    counter.innerHTML = Favorites.length;
+
+
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////// view cart and favorite ///////////////////////////////////////////
+
+function showSideBarItems(image, name, price, id) {
+    
+    sideBarCardItem.innerHTML += `
+            <div class="sidebar-card-item">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="/images/${image}" class="card-img-top" alt="Product Image">
+                        <h5 class="card-title">${name}</h5>
+                        <div class="price-rating">
+                            <p class="card-text product-price">$${price}</p>
+                        <button class="btn btn-danger"  onclick='removefromlocalstorage(${id})'>Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
+}
+
+
+function getAllCartItems() {
     sideBarCardItem.innerHTML = "";
     products.map(item => {
         $.ajax({
@@ -383,20 +443,8 @@ updateStarRating()
             data: { id: item.product_id },
             url: "/Product/getById",
             success: function (result) {
-                sideBarCardItem.innerHTML += `
-                    <div class="sidebar-card-item">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="/images/${result.image}" class="card-img-top" alt="Product Image">
-                                <h5 class="card-title">${result.name}</h5>
-                                <div class="price-rating">
-                                    <p class="card-text product-price">$${result.price}</p>
-                                <button class="btn btn-danger"  onclick='removefromlocalstorage(${result.id})'>Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `
+                
+                showSideBarItems(result.image, result.name, result.price, result.id)
             },
             error: function (error) {
                 console.error("Error:", error);
@@ -404,10 +452,9 @@ updateStarRating()
         });
     });
 }
-
-
 function getAllFavorite() {
-    let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    console.log("mnk lllah ya galy");
+
     const sideBarCardItem = document.getElementById("favorite-items");
     sideBarCardItem.innerHTML = "";
     Favorites.map(item => {
@@ -425,7 +472,8 @@ function getAllFavorite() {
                             <h5 class="card-title">${result.name}</h5>
                             <div class="price-rating">
                                 <p class="card-text product-price">$${result.price}</p>
-                                <button class="btn btn-danger"  onclick='removefromlocalstorage(${result.id})'>Remove</button>
+                                <button class="btn btn-danger"  onclick='removefromFavoriteById(${result.id})'>Remove</button>
+
                             </div>
                         </div>
                     </div>
@@ -438,8 +486,10 @@ function getAllFavorite() {
         });
     });
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+//////////////////////////////////////// remove from local storage ///////////////////////////////////////////////////////////////////////////
 function removefromlocalstorage(id) {
     products.map((val, i) => {
         if (val.product_id == id) {
@@ -451,84 +501,42 @@ function removefromlocalstorage(id) {
     getAllCartItems();
     setCounter();
 }
-
-
-function setCounter() {
-    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    let counter = document.getElementById("counter");
-    counter.innerHTML = products.length;
-
-}
-function setFavoriteCounter() {
-    let products = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
-    let counter = document.getElementById("favorite-counter");
-    counter.innerHTML = products.length;
-
-}
-
-
-$(document).ready(function () {
-    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    var jsonData = JSON.stringify(products);
-
-    $.ajax({
-        type: "POST",
-        url: "/Home/GetFromLocalToDB",
-        data: jsonData,
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            
-            console.log(data);
-            localStorage.clear();
-        },
-        error: function (error) {
-          
-            console.error(error);
+function removefromFavoriteById(id) {
+    Favorites.map((val, i) => {
+        if (val.product_id == id) {
+            Favorites.splice(i, 1);
         }
-    });
-});
+    })
 
-
-
-//function showAllOrders() {
-//   // console.log("showAllOrders() in script line 462");
-//    $.ajax({
-//        type: "get",
-//        url: "/Order/index",
-
-//        success: function (data) {
-
-//            console.log(data);
-//        },
-//        error: function (error) {
-
-//            console.error(error);
-//        }
-//    });
-//}
-
-
-function addToCardAuthorize(id) {
-
-    $.ajax({
-        type: "get",
-        url: "/Home/AddProductToDB/" + id,
-        data: id,
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
-            ShowAllCartItemFromDBToView();
-            localStorage.clear();
-
-        },
-        error: function (error) {
-
-            console.error(error);
-        }
-    });
+    localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
+    console.log(Favorites);
+    getAllFavorite();
+    setFavoriteCounter();
 }
+function removeAllCart() {
+    (typeof (Storage) !== "undefined")
+    {
+        localStorage.removeItem("cartItems");
+        products = [];
+    }
 
-let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
+    getAllCartItems();
+    setCounter();
+}
+function removeAllFavorite() {
+    (typeof (Storage) !== "undefined")
+    {
+        localStorage.removeItem("favoriteItem");
+        Favorites = [];
+    }
+    getAllFavorite();
+    setFavoriteCounter();
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////// add local storage //////////////////////////////////////////////////////////////////////////
 function addToCard(id) {
 
     let success = document.getElementById("sucess_" + id);
@@ -547,9 +555,6 @@ function addToCard(id) {
 
 
 }
-
-
-let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
 function addToFavorite(id) {
     let success = document.getElementById("sucess_" + id);
     let Favorite = { product_id: id };
@@ -562,42 +567,27 @@ function addToFavorite(id) {
         getAllFavorite();
         localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
     }
-    success.style.display = "block";
     setFavoriteCounter();
+
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-$(document).ready(function () { ShowAllCartItemFromDBToView() });
+/////////////////////////////////////////////////////// show from DB /////////////////////////////////////////////////////////////////////////////////////////////
 
 
 function ShowAllCartItemFromDBToView() {
-    let counter = document.getElementById("counter");
-   
-    const sideBarCardItem = document.getElementById("cartItems");
     sideBarCardItem.innerHTML = "";
-
     $.ajax({
         type: 'Get',
         url: "/Order/getproductByCartItem",
         success: function (result) {
             result.map(item =>
-            { 
-                sideBarCardItem.innerHTML += `
-                    <div class="sidebar-card-item">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="/images/${item.image}" class="card-img-top" alt="Product Image">
-                                <h5 class="card-title">${item.name}</h5>
-                                <div class="price-rating">
-                                    <p class="card-text product-price">$${item.TotalPrice}</p>
-                                    <button class="btn btn-danger"  onclick='removefromlocalstorage(${2})'>Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `
+            {
+                showSideBarItemsFromDB(item.image, item.name, item.price, item.id, item.cart_id);
+                console.log(item);
             });
-            counter.innerHTML = result.length;
+            setCounterFromDB(result.length);
         },
         error: function (error) {
             console.error("Error:", error);
@@ -606,42 +596,57 @@ function ShowAllCartItemFromDBToView() {
 
 }
 
+function addToCardAuthorize(id) {
+    $.ajax({
+        type: "get",
+        url: "/Home/AddProductToDB?id=" + id,
 
-function increaseQuantity(button, TotalPrice) {
-    var orderId = button.getAttribute("data-id");
-    var price = button.getAttribute("data-price");
+        success: function (data) {
+            localStorage.clear();
 
-    const qunatityOrder = document.getElementById("quantity-order-" + orderId);
-    const priceOrder = document.getElementById("price-order-" + orderId);
-    var currentValueQuantity = parseInt(qunatityOrder.textContent, 10);
-    var currentValuePrice = parseInt(priceOrder.textContent, 10);
-    var PriceValue = parseInt(TotalPrice, 10);
+        },
+        error: function (error) {
 
-    console.log("currentValuePrice " + price);
-    console.log(button);
-
-
-    var newQuantity = ++currentValueQuantity;
-    var newPrice = currentValuePrice + PriceValue;
-
-
-    qunatityOrder.textContent = newQuantity;
-    priceOrder.textContent = newPrice;
-
+            console.error(error);
+        }
+    });
 }
-function decreaseQuantity(button) {
-    var orderId = button.getAttribute("data-id");
 
-    const qunatityOrder = document.getElementById("quantity-order-" + orderId);
-    var currentValue = parseInt(qunatityOrder.textContent, 10);
-  
-
-   
-        var newQuantity = --currentValue;
-    if (newQuantity >= 0) {
-        qunatityOrder.textContent = newQuantity;
-    }
- 
+function setCounterFromDB(count) {
+    let counter = document.getElementById("counter");
+    counter.innerHTML = count;
 
 }
 
+function removeFromDB(id, cart_item) {
+    $.ajax({
+        type: 'Delete',
+        url: "/Cart/removeCartItem?prodcut_id=" + id + "&cart_id=" + cart_item,
+        success: function (result) {
+            ShowAllCartItemFromDBToView();
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+function showSideBarItemsFromDB(image, name, price, id, cart_id) {
+
+    sideBarCardItem.innerHTML += `
+            <div class="sidebar-card-item">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="/images/${image}" class="card-img-top" alt="Product Image">
+                        <h5 class="card-title">${name}</h5>
+                        <div class="price-rating">
+                            <p class="card-text product-price">$${price}</p>
+                        <button class="btn btn-danger"  onclick='removeFromDB(${id}, ${cart_id})'>Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -22,7 +22,7 @@ namespace E_Commerce.Repository.UserRepo
         }
         public void add(User entity)
         {
-            throw new NotImplementedException();
+            context.Users.Add(entity);
         }
 
         public void delete(int id)
@@ -47,6 +47,11 @@ namespace E_Commerce.Repository.UserRepo
         public int SaveChanges()
         {
             return context.SaveChanges();
+        }
+
+        public int getUserByApplicationId(string applicationId)
+        {
+            return context.Users.Where(r => r.ApplicationIdentityUser_id == applicationId).Select(r => r.user_id).FirstOrDefault();
         }
     }
 }

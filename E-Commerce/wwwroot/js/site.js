@@ -1,17 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-function setCounter() {
-    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    let counter = document.getElementById("counter");
-    counter.innerHTML = products.length;
-
-}
-
-
-const favoriteIcons = document.querySelectorAll(".toggle-favorite")
+﻿const favoriteIcons = document.querySelectorAll(".toggle-favorite")
 
 favoriteIcons.forEach(icon => {
     icon.addEventListener("click", () => {
@@ -67,5 +54,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 updateStarRating();
 
+document.addEventListener("DOMContentLoaded", function () {
+    let qty = document.getElementById("qty")
+    let addQty = document.getElementById("addQty")
+    let removeQty = document.getElementById("removeQty")
 
+    function updateNumQty() {
+        numQty = parseInt(qty.value) || 0
+    }
+    updateNumQty()
 
+    addQty.addEventListener("click", function () {
+        updateNumQty()
+        numQty++
+        qty.value = numQty
+        console.log("Quantity increased: " + numQty)
+    })
+    removeQty.addEventListener("click", function () {
+        updateNumQty()
+        if (numQty > 0) {
+            numQty--
+            qty.value = numQty
+        }
+    })
+})

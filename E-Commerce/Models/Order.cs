@@ -36,6 +36,9 @@ namespace MVC_Project.Models
 
         [Column(TypeName = "money")]    
         public decimal TotalPrice { get; set; }
+
+        [ForeignKey("Cart")]
+        public int cart_id { get; set; }
         public virtual Cart? Cart { get; set; }
 
     }

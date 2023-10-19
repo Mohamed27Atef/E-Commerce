@@ -7,18 +7,17 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">All Products</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                    </ul>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Sign Up</a></li>
-                </li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="Product" asp-action="index">Home</a></li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="addProduct">Add Product</a></li>
+                    <li class="nav-item"><a class="nav-link" >Sign Out</a></li>
+                }
+                else
+                {
+                    <li class="nav-item"><a class="nav-link" asp-controller="account" asp-action="login">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="account" asp-action="signUp">Sign Up</a></li>
+                }
             </ul>
            
             <div id="cart-sidebar" class="cart-sidebar">
@@ -33,8 +32,11 @@
                 </div>
                 <div class="cart-footer">
                     <p>Total: <span id="cart-total">$0.00</span></p>
-                    <button id="clear-cart" class="btn btn-danger">Clear Cart</button>
+                  
+                    <button id="clear-cart" onclick="removeAllCart()" class="btn btn-danger">Clear Cart</button>
+                   
                     <a id="clear-cart" class="btn btn-danger" onclick="showAllOrders()" asp-action="Index" asp-controller="order"> Order Cart</a>
+
 
                 </div>
             </div>
@@ -48,18 +50,35 @@
                    
                 </div>
                 <div class="favorite-footer">
-                    <p>Total: <span id="favorite-total">$0.00</span></p>
-                    <button id="clear-favorite" class="btn btn-danger">Clear favorite</button>
+                    <button id="clear-favorite" onclick="removeAllFavorite()" class="btn btn-danger">Clear favorite</button>
                 </div>
             </div>
             
             <form class="d-flex">
-                <button id="open-cart" onclick="getAllCartItems()" class="btn btn-outline-dark" type="button">
-                    <i class="bi-cart-fill me-1"></i>
-                    Cart                        
-                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="counter">0</span>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button id="open-cart"
+                        onclick="ShowAllCartItemFromDBToView()"
+                        class="btn btn-outline-dark" type="button">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="counter">0</span>
 
-                </button>
+                    </button>
+                }
+                else
+                {
+                    <button id="open-cart"
+                            onclick="getAllCartItems()"
+                        class="btn btn-outline-dark" type="button">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                        <span class="badge bg-dark text-white ms-1 rounded-pill" id="counter">0</span>
+
+                    </button>
+                }
+                
+                
                 <button id="open-favorite" class="btn btn-outline-dark ml-3" type="button" onclick="getAllFavorite()">
                     <i class="bi-heart-fill me-1"></i>
                     Favorite

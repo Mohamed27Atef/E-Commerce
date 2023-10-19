@@ -5,5 +5,6 @@ namespace E_Commerce.Repository.cartRepo
     public interface ICartRepository : IGenericRepository<Cart>
     {
         public Cart getCartByUserId(int id);
+        public bool CheckIfUserHasCart(int user_id);
     }
 }

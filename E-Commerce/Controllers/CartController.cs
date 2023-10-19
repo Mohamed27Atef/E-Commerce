@@ -14,12 +14,17 @@ namespace E_Commerce.Controllers
             this.cartItemRepository = cartItemRepository;
         }
 
-
+        
         public IActionResult addToCart(int id)
         {
             return View();
         }
-
+        [HttpDelete]
+        public void removeCartItem(int prodcut_id, int cart_id)
+        {
+            cartItemRepository.deleteCart(prodcut_id, cart_id);
+            cartItemRepository.SaveChanges();
+        }
         
     }
 }

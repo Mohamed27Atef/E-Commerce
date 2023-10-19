@@ -70,6 +70,7 @@ namespace E_Commerce.Controllers
             return "BaaaaaaaaaaaaaaaaaaaaaaaaaaD";
         }
 
+
         public void AddProductToDB(int id)
         {
             string IDClaim =
@@ -81,19 +82,8 @@ namespace E_Commerce.Controllers
            Product prd = iproductRepo.getById(id);
 
 
-            Cart cart;
-            //if (user.Cart == null)
-            //{
-            //    cart = new Cart()
-            //    {
-            //        user_id = user.user_id
-            //    };
-            //    icartRepo.add(cart);
-            //    icartRepo.SaveChanges();
-            //}
-            
-            // this must must must be exists please be wake up
-             cart = icartRepo.getCartByUserId(user.user_id);
+
+            Cart cart = icartRepo.getCartByUserId(user.user_id);
             
 
             CartItem CartItem = iCartitemrepo.getByPrdIdUserId(prd.Id, cart.Id);
@@ -121,8 +111,8 @@ namespace E_Commerce.Controllers
 
             }
             iCartitemrepo.SaveChanges();
-
             //return CartItem;
+
         }
 
 

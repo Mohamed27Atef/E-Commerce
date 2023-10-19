@@ -4,6 +4,7 @@ using MVC_Project.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce.Migrations
 {
     [DbContext(typeof(ECommerceContext))]
-    partial class ECommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20231017212450_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,9 +130,6 @@ namespace E_Commerce.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("money");
 
@@ -137,9 +137,6 @@ namespace E_Commerce.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
 
                     b.HasIndex("user_id")
                         .IsUnique();
@@ -489,19 +486,11 @@ namespace E_Commerce.Migrations
 
             modelBuilder.Entity("MVC_Project.Models.Cart", b =>
                 {
-                    b.HasOne("MVC_Project.Models.Order", "Order")
-                        .WithOne("Cart")
-                        .HasForeignKey("MVC_Project.Models.Cart", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("E_Commerce.Models.User", "User")
                         .WithOne("Cart")
                         .HasForeignKey("MVC_Project.Models.Cart", "user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Order");
 
                     b.Navigation("User");
                 });
@@ -681,11 +670,6 @@ namespace E_Commerce.Migrations
             modelBuilder.Entity("MVC_Project.Models.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("MVC_Project.Models.Order", b =>
-                {
-                    b.Navigation("Cart");
                 });
 
             modelBuilder.Entity("MVC_Project.Models.Product", b =>
