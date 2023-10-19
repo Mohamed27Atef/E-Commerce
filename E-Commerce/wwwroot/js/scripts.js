@@ -371,9 +371,49 @@ function updateStarRating() {
 updateStarRating()
 
 
-// this for get all product and view them in cart
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////// decllar variables ////////////////////////////////////////////////////////
+let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////// self invoke ///////////////////////////////////////////////////////////////////////////
+(function () {
+    Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
+    products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
+    setCounter();
+    setFavoriteCounter();
+    //ShowAllCartItemFromDBToView()
+})();
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////// set counters ///////////////////////////////////////////////////////////
+function setCounter() {
+    let counter = document.getElementById("counter");
+    counter.innerHTML = products.length;
+
+}
+function setFavoriteCounter() {
+    let counter = document.getElementById("favorite-counter");
+    counter.innerHTML = Favorites.length;
+
+
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////// view cart and favorite ///////////////////////////////////////////
  function getAllCartItems() {
-    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
     const sideBarCardItem = document.getElementById("side-bar-crad-item");
     sideBarCardItem.innerHTML = "";
     products.map(item => {
@@ -404,12 +444,9 @@ updateStarRating()
         });
     });
 }
-
-
 function getAllFavorite() {
     console.log("mnk lllah ya galy");
 
-    let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
     const sideBarCardItem = document.getElementById("favorite-items");
     sideBarCardItem.innerHTML = "";
     Favorites.map(item => {
@@ -441,9 +478,10 @@ function getAllFavorite() {
         });
     });
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+//////////////////////////////////////// remove from local storage ///////////////////////////////////////////////////////////////////////////
 function removefromlocalstorage(id) {
     products.map((val, i) => {
         if (val.product_id == id) {
@@ -455,12 +493,7 @@ function removefromlocalstorage(id) {
     getAllCartItems();
     setCounter();
 }
-
-
-
-
 function removefromFavoriteById(id) {
-    let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
     Favorites.map((val, i) => {
         if (val.product_id == id) {
             Favorites.splice(i, 1);
@@ -472,81 +505,50 @@ function removefromFavoriteById(id) {
     getAllFavorite();
     setFavoriteCounter();
 }
-
 function removeAllCart() {
     (typeof (Storage) !== "undefined")
     {
         localStorage.removeItem("cartItems");
+        products = [];
     }
 
     getAllCartItems();
     setCounter();
 }
-
 function removeAllFavorite() {
     (typeof (Storage) !== "undefined")
     {
         localStorage.removeItem("favoriteItem");
+        Favorites = [];
     }
     getAllFavorite();
     setFavoriteCounter();
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function setCounter() {
-    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    let counter = document.getElementById("counter");
-    counter.innerHTML = products.length;
+////////////////// what is this ////////////////////////////////////
+//$(document).ready(function () {
+//    var jsonData = JSON.stringify(products);
 
-}
-function setFavoriteCounter() {
-    let products = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
-    let counter = document.getElementById("favorite-counter");
-    counter.innerHTML = products.length;
-
-}
-
-
-$(document).ready(function () {
-    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    var jsonData = JSON.stringify(products);
-
-    $.ajax({
-        type: "POST",
-        url: "/Home/GetFromLocalToDB",
-        data: jsonData,
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            
-            console.log(data);
-            localStorage.clear();
-        },
-        error: function (error) {
-          
-            console.error(error);
-        }
-    });
-});
-
-
-
-//function showAllOrders() {
-//   // console.log("showAllOrders() in script line 462");
 //    $.ajax({
-//        type: "get",
-//        url: "/Order/index",
-
+//        type: "POST",
+//        url: "/Home/GetFromLocalToDB",
+//        data: jsonData,
+//        contentType: "application/json; charset=utf-8",
 //        success: function (data) {
-
+            
 //            console.log(data);
+//            localStorage.clear();
 //        },
 //        error: function (error) {
-
+          
 //            console.error(error);
 //        }
 //    });
-//}
+//});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+////////////////////////////////////////////// authentication methodes ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function addToCardAuthorize(id) {
 
     $.ajax({
@@ -566,8 +568,9 @@ function addToCardAuthorize(id) {
         }
     });
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
+//////////////////////////////////////////// add local storage //////////////////////////////////////////////////////////////////////////
 function addToCard(id) {
 
     let success = document.getElementById("sucess_" + id);
@@ -586,9 +589,6 @@ function addToCard(id) {
 
 
 }
-
-
-let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
 function addToFavorite(id) {
     let success = document.getElementById("sucess_" + id);
     let Favorite = { product_id: id };
@@ -601,17 +601,15 @@ function addToFavorite(id) {
         getAllFavorite();
         localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
     }
-    success.style.display = "block";
     setFavoriteCounter();
+
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-$(document).ready(function () { ShowAllCartItemFromDBToView() });
-
-
+/////////////////////////////////////////////////////// show from DB /////////////////////////////////////////////////////////////////////////////////////////////
 function ShowAllCartItemFromDBToView() {
     let counter = document.getElementById("counter");
-   
     const sideBarCardItem = document.getElementById("cartItems");
     sideBarCardItem.innerHTML = "";
 
@@ -644,3 +642,4 @@ function ShowAllCartItemFromDBToView() {
     });
 
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

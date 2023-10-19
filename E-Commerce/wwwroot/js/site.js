@@ -1,23 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-function setCounter() {
-    let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    let counter = document.getElementById("counter");
-    counter.innerHTML = products.length;
-
-}
-
-function setFavoriteCounter() {
-    let products = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
-    let counter = document.getElementById("favorite-counter");
-    counter.innerHTML = products.length;
-
-}
-
-const favoriteIcons = document.querySelectorAll(".toggle-favorite")
+﻿const favoriteIcons = document.querySelectorAll(".toggle-favorite")
 
 favoriteIcons.forEach(icon => {
     icon.addEventListener("click", () => {

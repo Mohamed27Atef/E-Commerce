@@ -34,57 +34,33 @@
                       <span class="stras-num">4.5 </span><span class="stars"></span>
                     </p>
                   </div>
-                        <span class="text-success text-center m-1 sucess" id="sucess_@item.Id">added to card</span>
+                   <span class="text-success text-center m-1 sucess" id="sucess_@item.Id">added to card</span>
                   <div class="d-flex justify-content-center">
-                        <button class="btn">
+                    <button class="btn">
 
-                            @if(User.Identity.IsAuthenticated)
-                            {
-                                <i onclick="addToCardAuthorize(@item.Id)"
-                                   class="fas fa-shopping-cart fa-lg"
-                                   style="color: #007bff">
-                                </i>
-                            }
-                            else
-                            {
-                                 <i onclick="addToCard(@item.Id)"
-                                  class="fas fa-shopping-cart fa-lg" 
-                                  style="color: aqua">
-                                </i>
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                            <i onclick="addToCardAuthorize(@item.Id)"
+                                class="fas fa-shopping-cart fa-lg"
+                                style="color: #007bff">
+                            </i>
+                        }
+                        else
+                        {
+                                <i onclick="addToCard(@item.Id)"
+                                class="fas fa-shopping-cart fa-lg" 
+                                style="color: aqua">
+                            </i>
                                 
-                            }
-                        </button>
-@*                         <button>
-                            <i onclick="addToCard(@item.Id)"
-                          class="fas fa-shopping-cart fa-lg" 
-                          style="color: #007bff;"
-                        ></i>
-                      </button> *@
-                            <button class="btn"><i class="far fa-heart favorite-button fa-lg toggle-favorite" onclick="addToFavorite(@item.Id)"></i></button>
+                        }
+                    </button>
+                        <button class="btn"><i class="far fa-heart favorite-button fa-lg toggle-favorite" onclick="addToFavorite(@item.Id)"></i></button>
 
                   </div>
                 </div>
               </div>
             </div>
 
-@*             <button class="btn">
-            <i
-                class="fas fa-shopping-cart fa-lg"
-                style="color: #007bff"
-            ></i>
-            </button>
-            <i class="far fa-heart favorite-button fa-lg toggle-favorite"></i>
-         </div>
-        </div> 
-
-   </div> 
-        <button class="btn" onclick="addToCard(@item.Id)">
-    <i
-        class="fas fa-shopping-cart fa-lg"
-        style="color: #007bff"
-    ></i>
-    </button>
-    <i class="far fa-heart favorite-button fa-lg toggle-favorite"></i> *@
 }
  
 </div>
