@@ -668,7 +668,7 @@ function increaseQuantity(button, TotalPrice) {
 
 
     var newQuantity = ++currentValueQuantity;
-    var newPrice = currentValuePrice + PriceValue;
+    //var newPrice = currentValuePrice + PriceValue;
 
 
     qunatityOrder.textContent = newQuantity;

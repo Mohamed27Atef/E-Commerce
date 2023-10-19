@@ -47,14 +47,24 @@ namespace E_Commerce.Controllers
 
             return View(orderedItem);
         }
+        public User getUser()
+        {
+            string IDClaim =
+               User.Claims
+               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+
+            User user = iuserRepo.getUserByID(IDClaim);
+
+            return user;
+        }
         [Authorize]
         public List<OrderedItemForUserVM> getproductByCartItem()
         {
             string IDClaim =
-                User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+               User.Claims
+               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
 
-            User user = iuserRepo.getUserByID(IDClaim);
+            User user = getUser();
             Cart cart = icartRepo.getCartByUserId(user.user_id);
 
             var allCartItemOfCurrentUser = iCartitemrepo.getCartItemByCardId(cart.Id);
@@ -93,5 +103,34 @@ namespace E_Commerce.Controllers
             iorderRepo.SaveChanges();
 
         }
+        [HttpPost]
+        public IActionResult saveOrder(string Address,decimal TotalPrice= 0)
+        {
+            User user = getUser();
+            Cart cart = icartRepo.getCartByUserId(user.user_id);
+            Order order = new Order()
+                {
+                    cart_id = cart.Id,
+                    TotalPrice = TotalPrice,
+                    Status = OrderStatus.Shipped,
+                    OrderDate = DateTime.Now,
+                    UserId = user.user_id,
+                    Address = Address
+            };
+
+
+            iorderRepo.add(order);
+            iorderRepo.SaveChanges();
+
+
+            //delet all cartitem for user after order checked
+            var cartitems = iCartitemrepo.getAll();
+            foreach (var item in cartitems)
+            {
+                iCartitemrepo.delete(item.ProductId);
+            }
+            iCartitemrepo.SaveChanges();
+            return View(order);
+         }
     }
 }
