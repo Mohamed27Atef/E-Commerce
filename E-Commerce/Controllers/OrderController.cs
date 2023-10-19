@@ -51,6 +51,19 @@ namespace E_Commerce.Controllers
 
             return View(orderedItem);
         }
+
+        public IActionResult getTotalPrice()
+        {
+            List<OrderedItemForUserVM> orderedItem = getproductByCartItem();
+            decimal totalPrice = 0;
+            foreach(OrderedItemForUserVM item in orderedItem)
+            {
+                totalPrice += item.price;
+            }
+            return Json(totalPrice);
+        }
+
+
         public User getUser()
         {
             string IDClaim =
@@ -92,7 +105,6 @@ namespace E_Commerce.Controllers
                     cart_id = iuserRepo.getUserByApplicationId(IDClaim),
                     price = prdLst[i].Price,
                     Quantity = allCartItemOfCurrentUser[i].Quantity,
-                    TotalPrice = allCartItemOfCurrentUser[i].Price
                 };
 
                 orderedItemForUserVM.Add(order);

@@ -387,10 +387,12 @@ updateStarRating()
 let Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
 let products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
 const sideBarCardItem = document.getElementById("side-bar-crad-item");
+var totalPriceOfOrder = document.getElementById("totalPriceOfOrder");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////// self invoke ///////////////////////////////////////////////////////////////////////////
 (function () {
+
     Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
     products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
     setCounter();
@@ -653,41 +655,50 @@ function showSideBarItemsFromDB(image, name, price, id, cart_id) {
 /////////////////////////////////////////////////////// Increase and decrease counter of order /////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function increaseQuantity(button, TotalPrice) {
-    var orderId = button.getAttribute("data-id");
-    var price = button.getAttribute("data-price");
+function increaseQuantity(button, price) {
 
+
+    ///////////////// variable ////////////////////////////////////////////////
+    var orderId = button.getAttribute("data-id");
     const qunatityOrder = document.getElementById("quantity-order-" + orderId);
     const priceOrder = document.getElementById("price-order-" + orderId);
     var currentValueQuantity = parseInt(qunatityOrder.textContent, 10);
     var currentValuePrice = parseInt(priceOrder.textContent, 10);
-    var PriceValue = parseInt(TotalPrice, 10);
+    var PriceValue = parseInt(price, 10);
+    ///////////////////////////////////////////////////////////////////////
 
-    console.log("currentValuePrice " + price);
-    console.log(button);
-
-
+    
+    ///////////////// update /////////////////////////////////////////////////////////
+    totalPriceOfOrder.innerHTML = Number(totalPriceOfOrder.innerHTML) + price;
     var newQuantity = ++currentValueQuantity;
-    //var newPrice = currentValuePrice + PriceValue;
-
-
+    var newPrice = currentValuePrice + PriceValue;
     qunatityOrder.textContent = newQuantity;
     priceOrder.textContent = newPrice;
+    //////////////////////////////////////////////////////////////////////////////////////
 
 }
 
-function decreaseQuantity(button) {
-    var orderId = button.getAttribute("data-id");
+function decreaseQuantity(button, price) {
 
+
+    ///////////////// variable ////////////////////////////////////////////////
+    var orderId = button.getAttribute("data-orderId");
     const qunatityOrder = document.getElementById("quantity-order-" + orderId);
     var currentValue = parseInt(qunatityOrder.textContent, 10);
+    const priceOrder = document.getElementById("price-order-" + orderId);
+    var currentValuePrice = parseInt(priceOrder.textContent, 10);
+    var PriceValue = parseInt(price, 10);
+    ///////////////////////////////////////////////////////////////////////
 
-
-
+    ///////////////// update //////////////////////////////////////////
     var newQuantity = --currentValue;
-    if (newQuantity >= 0) {
-        qunatityOrder.textContent = newQuantity;
+    var newPrice = currentValuePrice - PriceValue;
+    if (newQuantity > 0) {
+        totalPriceOfOrder.innerHTML = Number(totalPriceOfOrder.innerHTML) - price;
+        qunatityOrder.innerHTML = newQuantity;
+        priceOrder.textContent = newPrice;
     }
+    //////////////////////////////////////////////////////////////////////////
 
 
 }
@@ -707,6 +718,19 @@ function search(e, te) {
         error: function (error) {
 
             console.error(error);
+        }
+    });
+}
+
+function updateTotalPrice() {
+    $.ajax({
+        type: 'Get',
+        url: "/Order/getTotalPrice",
+        success: function (result) {
+            totalPriceOfOrder.innerHTML = result;
+        },
+        error: function (error) {
+            console.error("Error:", error);
         }
     });
 }
