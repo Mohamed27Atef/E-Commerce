@@ -678,6 +678,7 @@ function increaseQuantity(button, TotalPrice) {
     priceOrder.textContent = newPrice;
 
 }
+
 function decreaseQuantity(button) {
     var orderId = button.getAttribute("data-id");
 
