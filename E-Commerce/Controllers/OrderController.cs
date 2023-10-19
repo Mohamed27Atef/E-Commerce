@@ -6,12 +6,14 @@ using E_Commerce.Repository.OrderRepo;
 using E_Commerce.Repository.ProductRepo;
 using E_Commerce.Repository.ReviewRepo;
 using E_Commerce.Repository.UserRepo;
+using E_Commerce.Repository.OrderHistoryRepo;
 using E_Commerce.ViewModel.OrderViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
 using System.Security.Claims;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace E_Commerce.Controllers
 {
@@ -25,10 +27,11 @@ namespace E_Commerce.Controllers
         private readonly IUserRepository iuserRepo;
         private readonly IReviewRepo ireviewRepo;
         private readonly IOrderRepository iorderRepo;
+        private readonly IOrderHistoryRepository iorderHistoryRepo;
 
         public OrderController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo,
             ICartItemRepository iCartitemrepo, ICartRepository icartRepo, UserManager<ApplicationIdentityUser> _userManager,
-            IUserRepository IuserRepo, IReviewRepo ireview,IOrderRepository _iorderRepo)
+            IUserRepository IuserRepo, IReviewRepo ireview,IOrderRepository _iorderRepo, IOrderHistoryRepository _iorderHistoryRepo)
         {
             // inject DBContext
             this.iproductRepo = iproductRepo;
@@ -39,6 +42,7 @@ namespace E_Commerce.Controllers
             this.iuserRepo = IuserRepo;
             this.ireviewRepo = ireview;
             iorderRepo = _iorderRepo;
+            iorderHistoryRepo = _iorderHistoryRepo;
         }
         [Authorize]
         public IActionResult Index()
@@ -47,14 +51,24 @@ namespace E_Commerce.Controllers
 
             return View(orderedItem);
         }
+        public User getUser()
+        {
+            string IDClaim =
+               User.Claims
+               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+
+            User user = iuserRepo.getUserByID(IDClaim);
+
+            return user;
+        }
         [Authorize]
         public List<OrderedItemForUserVM> getproductByCartItem()
         {
             string IDClaim =
-                User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+               User.Claims
+               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
 
-            User user = iuserRepo.getUserByID(IDClaim);
+            User user = getUser();
             Cart cart = icartRepo.getCartByUserId(user.user_id);
 
             var allCartItemOfCurrentUser = iCartitemrepo.getCartItemByCardId(cart.Id);
@@ -93,5 +107,50 @@ namespace E_Commerce.Controllers
             iorderRepo.SaveChanges();
 
         }
+        [HttpPost]
+        public IActionResult saveOrder(string Address,decimal TotalPrice= 0)
+        {
+            User user = getUser();
+            Cart cart = icartRepo.getCartByUserId(user.user_id);
+            Order order = new Order()
+                {
+                    cart_id = cart.Id,
+                    TotalPrice = TotalPrice,
+                    Status = OrderStatus.Shipped,
+                    OrderDate = DateTime.Now,
+                    UserId = user.user_id,
+                    Address = Address
+            };
+
+
+            iorderRepo.add(order);
+            iorderRepo.SaveChanges();
+            var cartitems = iCartitemrepo.getAll();
+
+            //get all cartitem transfer it to history
+            List<OrderHistory> history = new List<OrderHistory>();
+
+            foreach (var item in cartitems)
+            {
+                OrderHistory newHistory = new OrderHistory { 
+                OrderId = order.Id,
+                ProductId = item.ProductId,
+                Quantity = item.Quantity,
+                Price = item.Price
+
+                };
+            iorderHistoryRepo.add(newHistory);
+            }
+            iorderHistoryRepo.SaveChanges();
+
+
+            //delet all cartitem for user after order checked
+            foreach (var item in cartitems)
+            {
+                iCartitemrepo.delete(item.ProductId);
+            }
+            iCartitemrepo.SaveChanges();
+            return View(order);
+         }
     }
 }

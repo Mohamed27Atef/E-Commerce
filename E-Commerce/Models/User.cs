@@ -35,6 +35,8 @@ namespace E_Commerce.Models
         public virtual List<Favorite>? Favorites { get; set; }
         public virtual ICollection<Review>? Reviews { get; set; }
         public virtual ICollection<Order>? Orders { get; set; }
+
+      
         public virtual Cart? Cart { get; set; }
     }
 }

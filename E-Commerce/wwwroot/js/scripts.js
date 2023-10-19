@@ -650,7 +650,6 @@ function showSideBarItemsFromDB(image, name, price, id, cart_id) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
 /////////////////////////////////////////////////////// Increase and decrease counter of order /////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -669,13 +668,14 @@ function increaseQuantity(button, TotalPrice) {
 
 
     var newQuantity = ++currentValueQuantity;
-    var newPrice = currentValuePrice + PriceValue;
+    //var newPrice = currentValuePrice + PriceValue;
 
 
     qunatityOrder.textContent = newQuantity;
     priceOrder.textContent = newPrice;
 
 }
+
 function decreaseQuantity(button) {
     var orderId = button.getAttribute("data-id");
 
