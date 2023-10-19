@@ -23,31 +23,39 @@
 
         @foreach (var order in Model)
         {
-
-            <tr style="text-align:center;">
+            <a class="link">
+                <tr style="text-align:center;">
                 
-                    <td><img src="/images/@order.image" style="width:100px; height:100px; border-radius: 50%;" /></td>
+                        <td><img src="/images/@order.image" style="width:100px; height:100px; border-radius: 50%;" /></td>
 
-                    <td>
-                        <a id="btn-minus-order-quantity" style="cursor: pointer; border: none;"
-                       data-action="decrease" data-id="@order.Id" onclick="decreaseQuantity(this)">-</a>
-                        <span id="quantity-order-@order.Id">@order.Quantity</span>
-                        <a id="btn-plus-order-quantity" style="cursor: pointer; border: none;"
-                       data-action="increase" data-id="@order.Id" onclick="increaseQuantity(this)">+</a>
-                    </td>
-                    <td>@order.TotalPrice</td>
-                    <td>
-                <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.Id" class="btn btn-success">Delete</a>
-                    </td>
-            <td>
-                <a asp-action="Details" asp-controller="Product" asp-route-id="@order.Id" class="btn btn-success">Details</a>
-            </td>
+                        <td>
+                            <a id="btn-minus-order-quantity" style="cursor: pointer; border: none;"
+                           data-action="decrease" data-id="@order.Id" data-price="@order.TotalPrice" onclick="decreaseQuantity(event)">-</a>
+                            <span id="quantity-order-@order.Id">@order.Quantity</span>
+                            <a id="btn-plus-order-quantity" style="cursor: pointer; border: none;"
+                           data-action="increase" data-id="@order.Id" onclick="increaseQuantity(this)">+</a>
+                        </td>
+                        <td id="price-order-@order.Id">@order.TotalPrice</td>
+                        <td>
+                    <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.Id" class="btn btn-success">Delete</a>
+                        </td
+                <td>
+                    <a asp-action="Details" asp-controller="Product" asp-route-id="@order.Id" class="btn btn-success">Details</a>
+                </td>
                
-            </tr>
-
+                </tr>
+            </a>
             
             
         }
+
+    <tr style="text-align:center;">
+            <td></td>
+            <td>Total Price: </td>
+            <td>5656$</td>
+            <td></td>
+            <td></td>
+        </tr>
 
 
 </table>

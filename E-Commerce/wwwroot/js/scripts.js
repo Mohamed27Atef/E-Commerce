@@ -607,15 +607,26 @@ function ShowAllCartItemFromDBToView() {
 }
 
 
-function increaseQuantity(button) {
+function increaseQuantity(button, TotalPrice) {
     var orderId = button.getAttribute("data-id");
+    var price = button.getAttribute("data-price");
 
     const qunatityOrder = document.getElementById("quantity-order-" + orderId);
-    var currentValue = parseInt(qunatityOrder.textContent, 10);
+    const priceOrder = document.getElementById("price-order-" + orderId);
+    var currentValueQuantity = parseInt(qunatityOrder.textContent, 10);
+    var currentValuePrice = parseInt(priceOrder.textContent, 10);
+    var PriceValue = parseInt(TotalPrice, 10);
 
-    var newQuantity = ++currentValue;
-    
+    console.log("currentValuePrice " + price);
+    console.log(button);
+
+
+    var newQuantity = ++currentValueQuantity;
+    var newPrice = currentValuePrice + PriceValue;
+
+
     qunatityOrder.textContent = newQuantity;
+    priceOrder.textContent = newPrice;
 
 }
 function decreaseQuantity(button) {
@@ -623,6 +634,7 @@ function decreaseQuantity(button) {
 
     const qunatityOrder = document.getElementById("quantity-order-" + orderId);
     var currentValue = parseInt(qunatityOrder.textContent, 10);
+  
 
    
         var newQuantity = --currentValue;

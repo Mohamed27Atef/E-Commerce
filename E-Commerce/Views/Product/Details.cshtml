@@ -18,7 +18,7 @@
         <div class="row mt-4">
             <div class="col-md-1">
                 <ul class="thumbnail-list">
-                    <li><img src="@Model?.image" class="thumbnail" alt="Thumbnail 1"></li>
+                    <li><img src="/images/@Model.image" class="thumbnail" alt="Thumbnail 1"></li>
                     @foreach (var img in Model?.Images)
                     {
                         <li><img src="@img.Image" class="thumbnail" ></li>

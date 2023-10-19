@@ -12,7 +12,6 @@ namespace E_Commerce.ViewModel.OrderViewModels
         [MaxLength(255)]
         public string Name { get; set; }
         public string Brand { get; set; }
-
         public string image { get; set; }
         public int Quantity { get; set; }
 
