@@ -23,7 +23,6 @@
 
         @foreach (var order in Model)
         {
-            <a class="link">
                 <tr style="text-align:center;">
                 
                         <td><img src="/images/@order.image" style="width:100px; height:100px; border-radius: 50%;" /></td>
@@ -38,13 +37,13 @@
                         <td id="price-order-@order.id">@order.TotalPrice</td>
                         <td>
                     <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.id" class="btn btn-success">Delete</a>
-                        </td
+                        </td>
                 <td>
                     <a asp-action="Details" asp-controller="Product" asp-route-id="@order.id" class="btn btn-success">Details</a>
                 </td>
                
                 </tr>
-            </a>
+            
             
         }
 

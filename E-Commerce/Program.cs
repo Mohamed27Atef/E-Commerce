@@ -1,6 +1,7 @@
 using E_Commerce.Repository.CartItemrepo;
 using E_Commerce.Repository.cartRepo;
 using E_Commerce.Repository.CategoryRepo;
+using E_Commerce.Repository.OrderHistoryRepo;
 using E_Commerce.Repository.OrderRepo;
 using E_Commerce.Repository.ProductRepo;
 using E_Commerce.Repository.ReviewRepo;
@@ -33,6 +34,8 @@ namespace E_Commerce
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IReviewRepo, ReviewRepo>();
+            builder.Services.AddScoped<IOrderHistoryRepository, OrderHistoryRepository>();
+
 
 
             builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole>(options =>
