@@ -333,6 +333,33 @@ namespace E_Commerce.Controllers
             return View("details", product);
         }
 
+
+        public IActionResult addReview(Review review)
+        {
+            if (ModelState.IsValid)
+            {
+                Review newReview = new Review()
+                {
+                    ProductId = review.ProductId,
+                    UserId = review.UserId,
+                    Rate = review.Rate,
+                    Text = review.Text,
+                    PostDate = review.PostDate
+                };
+
+                ireviewRepo.add(newReview);
+                ireviewRepo.SaveChanges();
+
+                return RedirectToAction("details");
+            }
+            else
+            {
+                return RedirectToAction();
+            }
+        }
+
+        #endregion
+
         public IActionResult DeleteCartItemById(int id)
         {
             iCartitemrepo.delete(id);
@@ -340,7 +367,6 @@ namespace E_Commerce.Controllers
             return RedirectToAction("Index", "Order");
         }
 
-        #endregion
 
 
         public IActionResult search(string search) {
