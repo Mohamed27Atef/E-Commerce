@@ -267,6 +267,34 @@ namespace E_Commerce.Controllers
             return View("details", product);
         }
 
+        [HttpPost]
+        public IActionResult addReview(Review review)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                Review newReview = new Review()
+                {
+                    ProductId = review.ProductId,
+                    UserId = review.UserId,
+                    Rate = review.Rate,
+                    Text = review.Text,
+                    PostDate = DateTime.Now
+                };
+
+                ireviewRepo.add(newReview);
+                ireviewRepo.SaveChanges();
+
+                return RedirectToAction("index");
+            }
+            else
+            {
+                return RedirectToAction();
+            }
+        }
+
+        
+
         public IActionResult DeleteCartItemById(int id)
         {
             iCartitemrepo.delete(id);
