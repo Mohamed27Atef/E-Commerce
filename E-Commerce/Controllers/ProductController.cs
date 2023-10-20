@@ -61,7 +61,7 @@ namespace E_Commerce.Controllers
             }
 
             var allProducts = iproductRepo.getAll();
-            
+            ViewData["category"] = icategoryRepo.getAll();
             return View(allProducts);
         }
         // Get By Id

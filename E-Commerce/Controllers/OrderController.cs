@@ -6,6 +6,7 @@ using E_Commerce.Repository.OrderRepo;
 using E_Commerce.Repository.ProductRepo;
 using E_Commerce.Repository.ReviewRepo;
 using E_Commerce.Repository.UserRepo;
+using E_Commerce.Repository.OrderHistoryRepo;
 using E_Commerce.ViewModel.OrderViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
 using System.Diagnostics;
 using System.Security.Claims;
+using Microsoft.CodeAnalysis.Operations;
+using Microsoft.AspNetCore.Authentication;
 
 namespace E_Commerce.Controllers
 {
@@ -26,10 +29,11 @@ namespace E_Commerce.Controllers
         private readonly IUserRepository iuserRepo;
         private readonly IReviewRepo ireviewRepo;
         private readonly IOrderRepository iorderRepo;
+        private readonly IOrderHistoryRepository iorderHistoryRepo;
 
         public OrderController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo,
             ICartItemRepository iCartitemrepo, ICartRepository icartRepo, UserManager<ApplicationIdentityUser> _userManager,
-            IUserRepository IuserRepo, IReviewRepo ireview,IOrderRepository _iorderRepo)
+            IUserRepository IuserRepo, IReviewRepo ireview,IOrderRepository _iorderRepo, IOrderHistoryRepository _iorderHistoryRepo)
         {
             // inject DBContext
             this.iproductRepo = iproductRepo;
@@ -40,6 +44,7 @@ namespace E_Commerce.Controllers
             this.iuserRepo = IuserRepo;
             this.ireviewRepo = ireview;
             iorderRepo = _iorderRepo;
+            iorderHistoryRepo = _iorderHistoryRepo;
         }
         [Authorize]
         public IActionResult Index()
@@ -48,6 +53,19 @@ namespace E_Commerce.Controllers
 
             return View(orderedItem);
         }
+
+        public IActionResult getTotalPrice()
+        {
+            List<OrderedItemForUserVM> orderedItem = getproductByCartItem();
+            decimal totalPrice = 0;
+            foreach(OrderedItemForUserVM item in orderedItem)
+            {
+                totalPrice += item.price;
+            }
+            return Json(totalPrice);
+        }
+
+
         public User getUser()
         {
             string IDClaim =
@@ -89,7 +107,6 @@ namespace E_Commerce.Controllers
                     cart_id = iuserRepo.getUserByApplicationId(IDClaim),
                     price = prdLst[i].Price,
                     Quantity = allCartItemOfCurrentUser[i].Quantity,
-                    TotalPrice = allCartItemOfCurrentUser[i].Price
                 };
 
                 orderedItemForUserVM.Add(order);
@@ -104,28 +121,53 @@ namespace E_Commerce.Controllers
             iorderRepo.SaveChanges();
 
         }
+
+        [HttpGet]
+        public IActionResult saveOrder(decimal totalPrice)
+        {
+            return PartialView("createOrder", totalPrice);
+        }
+
         [HttpPost]
-        public IActionResult saveOrder(string Address,decimal TotalPrice= 0)
+        public IActionResult saveOrder(OrderCheckedUserVM orderChecked)
         {
             User user = getUser();
             Cart cart = icartRepo.getCartByUserId(user.user_id);
             Order order = new Order()
                 {
                     cart_id = cart.Id,
-                    TotalPrice = TotalPrice,
+                    TotalPrice = orderChecked.TotalPrice,
                     Status = OrderStatus.Shipped,
                     OrderDate = DateTime.Now,
                     UserId = user.user_id,
-                    Address = Address
+                    Street = orderChecked.Street,
+                    City = orderChecked.City,
+                    Country = orderChecked.Country
             };
 
 
             iorderRepo.add(order);
             iorderRepo.SaveChanges();
+            var cartitems = iCartitemrepo.getAll();
+
+            //get all cartitem transfer it to history
+            List<OrderHistory> history = new List<OrderHistory>();
+
+            foreach (var item in cartitems)
+            {
+                OrderHistory newHistory = new OrderHistory { 
+                OrderId = order.Id,
+                ProductId = item.ProductId,
+                Quantity = item.Quantity,
+                Price = item.Price
+
+                };
+            iorderHistoryRepo.add(newHistory);
+            }
+            iorderHistoryRepo.SaveChanges();
 
 
             //delet all cartitem for user after order checked
-            var cartitems = iCartitemrepo.getAll();
             foreach (var item in cartitems)
             {
                 iCartitemrepo.delete(item.ProductId);

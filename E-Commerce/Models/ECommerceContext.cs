@@ -29,6 +29,9 @@ namespace MVC_Project.Models
         public virtual DbSet<Review> Review { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
+        public virtual DbSet<OrderHistory> OrderHistorys { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

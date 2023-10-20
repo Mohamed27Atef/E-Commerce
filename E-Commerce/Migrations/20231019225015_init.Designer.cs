@@ -4,6 +4,7 @@ using MVC_Project.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce.Migrations
 {
     [DbContext(typeof(ECommerceContext))]
-    partial class ECommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20231019225015_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +24,6 @@ namespace E_Commerce.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
 
             modelBuilder.Entity("E_Commerce.Models.OrderHistory", b =>
                 {
@@ -245,8 +247,6 @@ namespace E_Commerce.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
-
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -255,7 +255,6 @@ namespace E_Commerce.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Country")
-
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -265,11 +264,9 @@ namespace E_Commerce.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-
                     b.Property<string>("Street")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("money");
@@ -515,7 +512,6 @@ namespace E_Commerce.Migrations
 
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
-
 
             modelBuilder.Entity("E_Commerce.Models.OrderHistory", b =>
                 {
