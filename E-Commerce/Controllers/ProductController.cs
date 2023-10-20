@@ -44,7 +44,6 @@ namespace E_Commerce.Controllers
             this.ireviewRepo = ireview;
         }
 
-        #region Essa Task
         // Get All
         public IActionResult index()
         {
@@ -98,68 +97,6 @@ namespace E_Commerce.Controllers
             return View("getAll", prds);
         }
 
-
-        //public Cart addCard(int id)
-        //{
-
-        //    string IDClaim =
-        //        User.Claims
-        //        .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
-
-        //    User user = iuserRepo.getUserByID(IDClaim);
-
-
-
-        //    Product prd = iproductRepo.getById(id);
-
-
-
-        //    if (user.Cart == null)
-        //    {
-        //        Cart newCart = new Cart()
-        //        {
-        //            user_id = user.user_id
-        //        };
-        //        icartRepo.add(newCart);
-        //        icartRepo.SaveChanges();
-        //    }
-
-
-
-
-        //    Cart cart = icartRepo.getCartByUserId(user.user_id);
-        //    CartItem CartItem = iCartitemrepo.getByPrdIdUserId(prd.Id, cart.Id);
-
-
-
-
-        //    if(CartItem == null)
-        //    {
-        //        CartItem = new CartItem()
-        //        {
-        //            ProductId = prd.Id,
-        //           CartId  = cart.Id,
-        //            Price = prd.Price,
-        //            Quantity = 1
-        //        };
-        //        cart.CartItems.Add(CartItem);
-        //        iCartitemrepo.add(CartItem);
-              
-
-        //    }
-        //    else
-        //    {
-        //        CartItem.Price += prd.Price;
-        //        CartItem.Quantity++;
-        //        iCartitemrepo.update(CartItem);
-                
-        //    }
-        //    iCartitemrepo.SaveChanges();
-        //    return cart;
-        //}
-        #endregion
-
-        #region Ghaly
 
         // Post Product 
 
@@ -252,7 +189,7 @@ namespace E_Commerce.Controllers
                 return RedirectToAction("index");
 
             ViewData["Category"] = icategoryRepo.getAll();
-            return View(product);
+            return View(prdVM);
         }
 
 
@@ -298,14 +235,11 @@ namespace E_Commerce.Controllers
             return StockQuantity >= 0;
         }
 
-        #endregion
 
-        #region Sayed Task
 
         // Delete Product 
         public IActionResult delete()
         {
-            //var products = context.Product.Include(a => a.Category).ToList();
             var products = iproductRepo.getAll("Category");
             return View(products);
         }

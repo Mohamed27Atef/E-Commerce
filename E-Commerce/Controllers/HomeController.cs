@@ -42,8 +42,8 @@ namespace E_Commerce.Controllers
 
         public IActionResult Index()
         {
-
-            return View();
+            
+            return  RedirectToAction("index", "product");
         }
 
         public IActionResult Privacy()
