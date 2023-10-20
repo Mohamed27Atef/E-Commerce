@@ -197,19 +197,11 @@ namespace E_Commerce.Controllers
             if (order != null)
             {
                 Cart cart = icartRepo.getById(order.cart_id);
-                List<CartItem> cartItems = iCartitemrepo.getCartItemByCardId(cart.Id);
-                List<decimal> TotalPrice =new List<decimal>();
-                int i = 0;
-                foreach (var cartItem in cartItems)
-                {
-                    TotalPrice[i] = cartItem.Quantity * cartItem.Product.Price;
-                    i++;
+                List<OrderHistory> cartItems = iorderHistoryRepo.GetByOrderId(id);
 
-                }
 
                 ViewBag.Order = order;
                 ViewBag.CartItems = cartItems;
-                ViewBag.TotalPrice = TotalPrice;
 
 
                 return View();

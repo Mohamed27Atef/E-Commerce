@@ -5,10 +5,8 @@
             <th>Image</th>
             <th>Name</th>
             <th>Brand</th>
-            <th>Category</th>
             <th>Quantity</th>
             <th>Price</th>
-            <th>Total Price</th>
         </tr>
     </thead>
     <tbody>
@@ -16,10 +14,9 @@
         @foreach (var cartItem in ViewBag.CartItems)
         { 
             <tr>
-                <td><img src="@cartItem.Product.image" alt="@cartItem.Product.Name" width="50" height="50" /></td>
+                <td><img src="/images/@cartItem.Product.image" alt="@cartItem.Product.Name" width="50" height="50" /></td>
                 <td>@cartItem.Product.Name</td>
                 <td>@cartItem.Product.Brand</td>
-                <td>@cartItem.Product.Category.Name</td>
                 <td>@cartItem.Quantity</td>
                 <td>@cartItem.Product.Price</td>
                 
