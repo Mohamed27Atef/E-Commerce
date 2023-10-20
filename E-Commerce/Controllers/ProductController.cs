@@ -272,13 +272,14 @@ namespace E_Commerce.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 Review newReview = new Review()
                 {
                     ProductId = review.ProductId,
                     UserId = review.UserId,
                     Rate = review.Rate,
                     Text = review.Text,
-                    PostDate = review.PostDate
+                    PostDate = DateTime.Now
                 };
 
                 ireviewRepo.add(newReview);
@@ -292,7 +293,7 @@ namespace E_Commerce.Controllers
             }
         }
 
-        #endregion
+        
 
         public IActionResult DeleteCartItemById(int id)
         {
