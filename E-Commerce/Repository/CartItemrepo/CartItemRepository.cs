@@ -18,9 +18,9 @@ namespace E_Commerce.Repository.CartItemrepo
              
         }
 
-        public void deleteCart(int product_id, int cart_id)
+        public void deleteCart(int product_id)
         {
-            context.CartItem.Remove(context.CartItem.Where(c => c.ProductId == product_id && c.CartId == cart_id).FirstOrDefault());
+            context.CartItem.Remove(context.CartItem.Where(c => c.ProductId == product_id).FirstOrDefault());
         }
 
         public List<CartItem> getAll(string include = "")

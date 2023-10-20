@@ -621,7 +621,7 @@ function setCounterFromDB(count) {
 function removeFromDB(id, cart_item) {
     $.ajax({
         type: 'Delete',
-        url: "/Cart/removeCartItem?prodcut_id=" + id + "&cart_id=" + cart_item,
+        url: "/Cart/removeCartItem?prodcut_id=" + id,
         success: function (result) {
             ShowAllCartItemFromDBToView();
         },
