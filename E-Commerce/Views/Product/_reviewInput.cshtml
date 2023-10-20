@@ -39,7 +39,7 @@
         productRatingElements.forEach(ratingElement => {
             const ratingText = ratingElement.textContent.trim().split(" ")[0];
             const rating = parseFloat(ratingText);
-            ratingElement.value.value = rating; // Update data-rating-num
+            ratingElement.value.value = rating; 
         });
     }
 
@@ -57,14 +57,14 @@
                 const rating = event.target.getAttribute("data-rating");
                 hoveringRating = rating;
                 starsInput.value = rating;
-                starsNum.textContent = hoveringRating; // Update stars-num on hover
+                starsNum.textContent = hoveringRating; 
                 updateStars();
             });
 
             star.addEventListener("mouseout", () => {
                 hoveringRating = currentRating;
                 starsInput.value = 0;
-                starsNum.textContent = hoveringRating; // Update stars-num on mouseout
+                starsNum.textContent = hoveringRating; 
                 updateStars();
             });
 
@@ -72,7 +72,7 @@
                 const rating = event.target.getAttribute("data-rating");
                 currentRating = rating;
                 starsInput.value = rating;
-                starsNum.textContent = currentRating; // Update stars-num on click
+                starsNum.textContent = currentRating; 
                 updateStars();
             });
         });
@@ -87,7 +87,7 @@
                 }
             });
 
-            updateStarRating(); // Update data-rating-num
+            updateStarRating(); 
         }
     });
 
