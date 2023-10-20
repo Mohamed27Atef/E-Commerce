@@ -11,7 +11,7 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="addProduct">Add Product</a></li>
-                    <li class="nav-item"><a class="nav-link" >Sign Out</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout">Sign Out</a></li>
                 }
                 else
                 {
