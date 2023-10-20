@@ -16,8 +16,5 @@ namespace E_Commerce.ViewModel.OrderViewModels
 
         public string image { get; set; }
         public int Quantity { get; set; }
-
-        [Required]
-        public decimal TotalPrice { get; set; }
     }
 }
