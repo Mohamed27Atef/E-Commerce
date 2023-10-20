@@ -426,7 +426,7 @@ function showSideBarItems(image, name, price, id) {
                         <h5 class="card-title">${name}</h5>
                         <div class="price-rating">
                             <p class="card-text product-price">$${price}</p>
-                        <button class="btn btn-danger"  onclick='removefromlocalstorage(${id})'>Remove</button>
+                            <button class="btn btn-danger"  onclick='removefromlocalstorage(${id})'>Remove</button>
                         </div>
                     </div>
                 </div>
