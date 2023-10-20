@@ -171,11 +171,14 @@ namespace E_Commerce.Controllers
 
         public IActionResult OrderHistory()
         {
-            User user = getUser();
-            
+
+            string IDClaim =
+               User.Claims
+               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+            int user_id = iuserRepo.getUserByApplicationId(IDClaim);
 
             List<Order> userOrders = iorderRepo.getAll()
-                .Where(order => order.UserId == user.user_id)
+                .Where(order => order.UserId == user_id)
                 .ToList();
 
 
