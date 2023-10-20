@@ -267,7 +267,7 @@ namespace E_Commerce.Controllers
             return View("details", product);
         }
 
-
+        [HttpPost]
         public IActionResult addReview(Review review)
         {
             if (ModelState.IsValid)
@@ -285,7 +285,7 @@ namespace E_Commerce.Controllers
                 ireviewRepo.add(newReview);
                 ireviewRepo.SaveChanges();
 
-                return RedirectToAction("details");
+                return RedirectToAction("index");
             }
             else
             {
