@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
+using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.AspNetCore.Authentication;
@@ -167,5 +168,41 @@ namespace E_Commerce.Controllers
             iCartitemrepo.SaveChanges();
             return View(order);
          }
+
+        public IActionResult OrderHistory()
+        {
+            User user = getUser();
+            
+
+            List<Order> userOrders = iorderRepo.getAll()
+                .Where(order => order.UserId == user.user_id)
+                .ToList();
+
+
+            return View(userOrders);
+
+        }
+
+        public IActionResult OrderDetails(int id)
+        {
+            Order order = iorderRepo.getById(id);
+
+            if (order != null)
+            {
+                Cart cart = icartRepo.getById(order.cart_id);
+                List<OrderHistory> cartItems = iorderHistoryRepo.GetByOrderId(id);
+
+
+                ViewBag.Order = order;
+                ViewBag.CartItems = cartItems;
+
+
+                return View();
+            }
+            else return View();
+
+
+        }
+
     }
 }

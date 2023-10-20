@@ -22,6 +22,7 @@ namespace E_Commerce.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+
             modelBuilder.Entity("E_Commerce.Models.OrderHistory", b =>
                 {
                     b.Property<int>("id")
@@ -244,6 +245,8 @@ namespace E_Commerce.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
+                        .IsRequired()
+
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -252,6 +255,7 @@ namespace E_Commerce.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Country")
+
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -261,9 +265,11 @@ namespace E_Commerce.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+
                     b.Property<string>("Street")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("money");
@@ -509,6 +515,7 @@ namespace E_Commerce.Migrations
 
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
+
 
             modelBuilder.Entity("E_Commerce.Models.OrderHistory", b =>
                 {
