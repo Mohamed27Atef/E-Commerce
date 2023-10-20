@@ -30,6 +30,8 @@ namespace E_Commerce.Controllers
         private readonly IOrderRepository iorderRepo;
         private readonly IOrderHistoryRepository iorderHistoryRepo;
 
+
+
         public OrderController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo,
             ICartItemRepository iCartitemrepo, ICartRepository icartRepo, UserManager<ApplicationIdentityUser> _userManager,
             IUserRepository IuserRepo, IReviewRepo ireview,IOrderRepository _iorderRepo, IOrderHistoryRepository _iorderHistoryRepo)
@@ -64,17 +66,6 @@ namespace E_Commerce.Controllers
             return Json(totalPrice);
         }
 
-
-        public User getUser()
-        {
-            string IDClaim =
-               User.Claims
-               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
-
-            User user = iuserRepo.getUserByID(IDClaim);
-
-            return user;
-        }
         [Authorize]
         public List<OrderedItemForUserVM> getproductByCartItem()
         {
@@ -82,8 +73,7 @@ namespace E_Commerce.Controllers
                User.Claims
                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
 
-            User user = getUser();
-            Cart cart = icartRepo.getCartByUserId(user.user_id);
+            Cart cart = icartRepo.getCartByUserId(iuserRepo.getUserByApplicationId(IDClaim));
 
             var allCartItemOfCurrentUser = iCartitemrepo.getCartItemByCardId(cart.Id);
             List<Product> prdLst = new List<Product>();
@@ -130,15 +120,18 @@ namespace E_Commerce.Controllers
         [HttpPost]
         public IActionResult saveOrder(OrderCheckedUserVM orderChecked)
         {
-            User user = getUser();
-            Cart cart = icartRepo.getCartByUserId(user.user_id);
+            string IDClaim =
+               User.Claims
+               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+            int user_id = iuserRepo.getUserByApplicationId(IDClaim);
+            Cart cart = icartRepo.getCartByUserId(user_id);
             Order order = new Order()
                 {
                     cart_id = cart.Id,
                     TotalPrice = orderChecked.TotalPrice,
                     Status = OrderStatus.Shipped,
                     OrderDate = DateTime.Now,
-                    UserId = user.user_id,
+                    UserId = user_id,
                     Street = orderChecked.Street,
                     City = orderChecked.City,
                     Country = orderChecked.Country

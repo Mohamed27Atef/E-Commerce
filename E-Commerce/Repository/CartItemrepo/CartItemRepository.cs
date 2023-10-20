@@ -73,5 +73,10 @@ namespace E_Commerce.Repository.CartItemrepo
             CartItem cartItem = getById(id);
             context.CartItem.Remove(cartItem);
         }
+
+        public int getCounter(int cart_id)
+        {
+            return context.CartItem.Where(t => t.CartId == cart_id).Count();
+        }
     }
 }

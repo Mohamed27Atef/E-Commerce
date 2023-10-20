@@ -25,6 +25,6 @@ namespace E_Commerce.Controllers
             cartItemRepository.deleteCart(prodcut_id);
             cartItemRepository.SaveChanges();
         }
-        
+
     }
 }

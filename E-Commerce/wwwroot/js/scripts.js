@@ -395,7 +395,8 @@ var totalPriceOfOrder = document.getElementById("totalPriceOfOrder");
 
     Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
     products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    setCounter();
+    if (products != undefined)
+        setCounter();
     setFavoriteCounter();
 })();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -578,6 +579,7 @@ function addToFavorite(id) {
 
 
 function ShowAllCartItemFromDBToView() {
+    getCounterFromDB();
     sideBarCardItem.innerHTML = "";
     $.ajax({
         type: 'Get',
@@ -587,7 +589,6 @@ function ShowAllCartItemFromDBToView() {
             {
                 showSideBarItemsFromDB(item.image, item.name, item.price, item.id, item.cart_id);
             });
-            setCounterFromDB(result.length);
         },
         error: function (error) {
             console.error("Error:", error);
@@ -595,6 +596,19 @@ function ShowAllCartItemFromDBToView() {
     });
 
 }
+function getCounterFromDB () {
+    $.ajax({
+        type: 'Get',
+        url: "/cartItem/counterCartItem",
+        success: function (result) {
+            setCounterFromDB(result);
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
 
 function addToCardAuthorize(id) {
     $.ajax({
@@ -602,6 +616,7 @@ function addToCardAuthorize(id) {
         url: "/Home/AddProductToDB?id=" + id,
 
         success: function (data) {
+            getCounterFromDB();
             localStorage.clear();
 
         },
@@ -615,7 +630,6 @@ function addToCardAuthorize(id) {
 function setCounterFromDB(count) {
     let counter = document.getElementById("counter");
     counter.innerHTML = count;
-
 }
 
 function removeFromDB(id, cart_item) {
@@ -623,6 +637,7 @@ function removeFromDB(id, cart_item) {
         type: 'Delete',
         url: "/Cart/removeCartItem?prodcut_id=" + id,
         success: function (result) {
+            getCounterFromDB();
             ShowAllCartItemFromDBToView();
         },
         error: function (error) {
