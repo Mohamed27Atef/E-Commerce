@@ -23,7 +23,7 @@ namespace MVC_Project.Models
 
         [Required]
         [Range(0, 5, ErrorMessage = "The rate must be between 0 and 5.")]
-        public float Rate { get; set; }
+        public float? Rate { get; set; }
 
         [MaxLength(1000)] 
         public string Text { get; set; }
