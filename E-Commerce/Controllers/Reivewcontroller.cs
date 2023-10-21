@@ -18,7 +18,7 @@ namespace E_Commerce.Controllers
         }
 
 
-        public IActionResult postReview(int productId, string txt)
+        public IActionResult postReview(int productId, string txt, int rate = 0)
         {
             string IDClaim =
                User.Claims
@@ -29,7 +29,7 @@ namespace E_Commerce.Controllers
                 PostDate = DateTime.Now,
                 ProductId = productId,
                 Text = txt,
-                Rate= 3,
+                Rate= rate,
                 UserId = userRepository.getUserByApplicationId(IDClaim)
             };
 
@@ -37,7 +37,5 @@ namespace E_Commerce.Controllers
             reviewRepo.SaveChanges();
             return Json(review);
         }
-
-
     }
 }
