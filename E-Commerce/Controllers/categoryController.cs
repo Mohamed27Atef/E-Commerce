@@ -1,9 +1,11 @@
 ﻿using E_Commerce.Repository.CategoryRepo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
 
 namespace E_Commerce.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class categoryController : Controller
     {
         private readonly ICategoryRepository categoryRepository;
@@ -34,7 +36,7 @@ namespace E_Commerce.Controllers
             var categires = categoryRepository.getAll();
             return View(categires);
         }
-
+        
         public IActionResult EditeCategory()
         {
             return View();

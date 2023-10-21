@@ -1,7 +1,7 @@
 ﻿@model E_Commerce.ViewModel.SignupViewModel
 
 
-<form asp-action="SignUp" class="signup">
+<form method="post" class="signup">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="field">
         <input asp-for="username" value="@ViewBag.UserName" placeholder="username" class="form-control" />

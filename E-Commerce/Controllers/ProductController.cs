@@ -2,10 +2,12 @@
 using E_Commerce.Repository.CartItemrepo;
 using E_Commerce.Repository.cartRepo;
 using E_Commerce.Repository.CategoryRepo;
+using E_Commerce.Repository.ProductImagesRepo;
 using E_Commerce.Repository.ProductRepo;
 using E_Commerce.Repository.ReviewRepo;
 using E_Commerce.Repository.UserRepo;
 using E_Commerce.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
@@ -16,6 +18,7 @@ using System.Text.RegularExpressions;
 
 namespace E_Commerce.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ProductController : Controller
     {
         private readonly IProductRepository iproductRepo;
@@ -25,6 +28,7 @@ namespace E_Commerce.Controllers
         private readonly UserManager<ApplicationIdentityUser> _userManager;
         private readonly IUserRepository iuserRepo;
         private readonly IReviewRepo ireviewRepo;
+        private readonly IproductImagesRepositort iproductImagesRepo;
 
         public ProductController(IProductRepository iproductRepo,
             ICategoryRepository icategoryRepo, 
@@ -32,7 +36,9 @@ namespace E_Commerce.Controllers
             ICartRepository icartRepo,
             UserManager<ApplicationIdentityUser> _userManager,
             IUserRepository IuserRepo,
-            IReviewRepo ireview)
+            IReviewRepo ireview,
+            IproductImagesRepositort iproductImagesRepo
+            )
         {
             // inject DBContext
             this.iproductRepo = iproductRepo;
@@ -42,10 +48,12 @@ namespace E_Commerce.Controllers
             this._userManager = _userManager;
             this.iuserRepo = IuserRepo;
             this.ireviewRepo = ireview;
+            this.iproductImagesRepo = iproductImagesRepo;
         }
 
         #region Essa Task
         // Get All
+        [AllowAnonymous]
         public IActionResult index()
         {
             if (User.Identity.IsAuthenticated)
@@ -66,11 +74,12 @@ namespace E_Commerce.Controllers
         }
         // Get By Id
 
-
+        [AllowAnonymous]
         public IActionResult getById(int id)
         {
 
             Product prd = iproductRepo.getById(id);
+           // if (prd == null) return Json("");
             var newModel = new
             {
                 prd.Id,
@@ -83,6 +92,7 @@ namespace E_Commerce.Controllers
 
 
         // Get By Name
+        [AllowAnonymous]
         public IActionResult getByName(string name)
         {
             Product prd = iproductRepo.getByName(name);
@@ -90,6 +100,7 @@ namespace E_Commerce.Controllers
             return View("getById", prd);
         }
         // Get By Brand 
+        [AllowAnonymous]
         public IActionResult getByBrand(string brand)
         {
             var prds = iproductRepo.getByBrand( brand);
@@ -99,70 +110,12 @@ namespace E_Commerce.Controllers
         }
 
 
-        //public Cart addCard(int id)
-        //{
 
-        //    string IDClaim =
-        //        User.Claims
-        //        .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
-
-        //    User user = iuserRepo.getUserByID(IDClaim);
-
-
-
-        //    Product prd = iproductRepo.getById(id);
-
-
-
-        //    if (user.Cart == null)
-        //    {
-        //        Cart newCart = new Cart()
-        //        {
-        //            user_id = user.user_id
-        //        };
-        //        icartRepo.add(newCart);
-        //        icartRepo.SaveChanges();
-        //    }
-
-
-
-
-        //    Cart cart = icartRepo.getCartByUserId(user.user_id);
-        //    CartItem CartItem = iCartitemrepo.getByPrdIdUserId(prd.Id, cart.Id);
-
-
-
-
-        //    if(CartItem == null)
-        //    {
-        //        CartItem = new CartItem()
-        //        {
-        //            ProductId = prd.Id,
-        //           CartId  = cart.Id,
-        //            Price = prd.Price,
-        //            Quantity = 1
-        //        };
-        //        cart.CartItems.Add(CartItem);
-        //        iCartitemrepo.add(CartItem);
-              
-
-        //    }
-        //    else
-        //    {
-        //        CartItem.Price += prd.Price;
-        //        CartItem.Quantity++;
-        //        iCartitemrepo.update(CartItem);
-                
-        //    }
-        //    iCartitemrepo.SaveChanges();
-        //    return cart;
-        //}
         #endregion
 
         #region Ghaly
 
         // Post Product 
-
         public IActionResult addProduct()
         {
 
@@ -172,17 +125,22 @@ namespace E_Commerce.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> addProduct(AddProdcutviewModel product, IFormFile image)
+        public async Task<IActionResult> addProduct(AddProdcutviewModel product, IFormFile image,List<IFormFile> files)
         {
-
+            List<string> filesNames = new List<string>();
             if (ModelState.IsValid)
             {
                 string imageName = await updateImageAndReturnItsName(image);
-
+                foreach (var file in files)
+                {
+                    string fileName = await updateImageAndReturnItsName(file);
+                    filesNames.Add(fileName);
+                   
+                }
                 if(imageName != null)
                 {
                     // map addProductViewModel to productModel and add this product to the database
-                    mapAddProductViewModelToProductModelAndAddToDB(product, imageName);
+                    mapAddProductViewModelToProductModelAndAddToDB(product, imageName, filesNames);
                     return RedirectToAction("index");
                 }
                 else
@@ -194,7 +152,7 @@ namespace E_Commerce.Controllers
 
 
 
-        public void mapAddProductViewModelToProductModelAndAddToDB(AddProdcutviewModel product, string imageName)
+        public void mapAddProductViewModelToProductModelAndAddToDB(AddProdcutviewModel product, string imageName,List<string> fileNames)
         {
             Product newProduct = new Product()
             {
@@ -209,6 +167,22 @@ namespace E_Commerce.Controllers
 
             iproductRepo.add(newProduct);
             iproductRepo.SaveChanges();
+
+            //add objects of images for one product
+            if (fileNames != null)
+            {
+                foreach (var item in fileNames)
+                {
+                    ProductImage productImages = new ProductImage()
+                    {
+                        ProductId = newProduct.Id,
+                        Image = item
+                    };
+                    iproductImagesRepo.add(productImages);
+                }
+                iproductImagesRepo.SaveChanges();
+            }
+
         }
 
 
