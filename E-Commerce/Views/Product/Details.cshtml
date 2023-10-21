@@ -59,6 +59,8 @@
             </div>
         </div>
     </div>
-
-    <partial name="_reviewInput" model="@ViewBag.product"/>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <partial name="_reviewInput" model="@ViewBag.product"/>
+    }
     <partial name="_productReview" model="@ViewBag.reviews" />
