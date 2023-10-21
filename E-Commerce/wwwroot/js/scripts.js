@@ -844,13 +844,24 @@ function getTotalPriceOfOrder() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////// addReivew //////////////////////////////////////////////////////////////////////////////////////
+function getTheRate() {
+    var ele = document.getElementsByName('rate');
 
-function addReivew(productId, text) {
+    for (i = 0; i < ele.length; i++) {
+        if (ele[i].checked)
+            return ele[i].value ?? 0;
+    }
+}
+
+
+function addReivew(productId) {
+    var text = document.getElementById("txt");
+
     $.ajax({
         type: 'Get',
-        url: "/Reivew/postReview?productId=" + productId + "&txt=" + text,
+        url: "/Reivew/postReview?productId=" + productId + "&txt=" + text.value + "&rate=" + getTheRate(),
         success: function (result) {
-            console.log(result);
+            text.value = "";
         },
         error: function (error) {
             console.error("Error:", error);
@@ -858,3 +869,9 @@ function addReivew(productId, text) {
     });
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+

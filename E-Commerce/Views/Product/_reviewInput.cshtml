@@ -4,21 +4,25 @@
     <div class="user-review-input mt-4">
         <div>
             <div class="d-flex justify-content-between">
-                <h3>User name</h3>
-                <div class="rating">
-                    <p class="product-rating mb-3">
-                        
-                        <span class="stars-num mr-1">0</span><span class="stars">
-                            <i class="far fa-star" data-rating="1"></i>
-                            <i class="far fa-star" data-rating="2"></i>
-                            <i class="far fa-star" data-rating="3"></i>
-                            <i class="far fa-star" data-rating="4"></i>
-                            <i class="far fa-star" data-rating="5"></i>
-                        </span>
-                    </p>
+
+                <h3>@User.Identity.Name</h3>
+
+
+                <div class="rate">
+                    <input hidden type="radio" id="star5" name="rate" value="5" />
+                    <label for="star5" title="text">5 stars</label>
+                    <input hidden type="radio" id="star4" name="rate" value="4" />
+                    <label for="star4" title="text">4 stars</label>
+                    <input hidden type="radio" id="star3" name="rate" value="3" />
+                    <label for="star3" title="text">3 stars</label>
+                    <input hidden type="radio" id="star2" name="rate" value="2" />
+                    <label for="star2" title="text">2 stars</label>
+                    <input hidden type="radio" id="star1" name="rate" value="1" />
+                    <label for="star1" title="text">1 star</label>
                 </div>
             </div>
             <textarea name="Text"
+                id="txt"
                 asp-for="Text"
                         cols="40"
                         rows="4"
@@ -26,68 +30,7 @@
                         placeholder="Write your review...">
 
             </textarea>
-            <input type="button" value="Create" onclick="addReivew()" class="btn btn-primary" />
+            <input type="button" value="Create" onclick="addReivew(@ViewBag.id)" class="btn btn-primary" />
         </div>
     </div>
 </div>
-<script>
-
-    function updateStarRating() {
-        const productRatingElements = document.querySelectorAll(".stars-input");
-
-        productRatingElements.forEach(ratingElement => {
-            const ratingText = ratingElement.textContent.trim().split(" ")[0];
-            const rating = parseFloat(ratingText);
-            ratingElement.value.value = rating; 
-        });
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const starsContainer = document.querySelector(".rating .stars");
-        const starsNum = document.querySelector(".stars-num");
-        const starIcons = document.querySelectorAll(".rating .stars i[data-rating]");
-        const starsInput = document.getElementById("stars-input");
-
-        let currentRating = 0;
-        let hoveringRating = 0;
-
-        starIcons.forEach(star => {
-            star.addEventListener("mouseover", event => {
-                const rating = event.target.getAttribute("data-rating");
-                hoveringRating = rating;
-                starsInput.value = rating;
-                starsNum.textContent = hoveringRating; 
-                updateStars();
-            });
-
-            star.addEventListener("mouseout", () => {
-                hoveringRating = currentRating;
-                starsInput.value = 0;
-                starsNum.textContent = hoveringRating; 
-                updateStars();
-            });
-
-            star.addEventListener("click", event => {
-                const rating = event.target.getAttribute("data-rating");
-                currentRating = rating;
-                starsInput.value = rating;
-                starsNum.textContent = currentRating; 
-                updateStars();
-            });
-        });
-
-        function updateStars() {
-            starIcons.forEach(star => {
-                const rating = star.getAttribute("data-rating");
-                if (rating <= hoveringRating) {
-                    star.classList.add("fas");
-                } else {
-                    star.classList.remove("fas");
-                }
-            });
-
-            updateStarRating(); 
-        }
-    });
-
-</script>

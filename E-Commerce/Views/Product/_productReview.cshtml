@@ -9,6 +9,7 @@
     <div class="user-review mt-4">
         <div class="d-flex justify-content-between">
             <h3>@item.User.ApplicationIdentityUser.UserName</h3>
+            <small>@item.PostDate</small>
             <div class="rating">
                 <p class="product-rating mb-3">
                     <span class="stras-num mr-1">@item.Rate</span><span class="stars"></span>
@@ -18,7 +19,6 @@
         <p>
             @item.Text
         </p>
-        <small>@item.PostDate</small>
     </div>
     }
 </div>
