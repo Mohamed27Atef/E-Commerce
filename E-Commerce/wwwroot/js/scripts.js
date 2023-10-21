@@ -557,21 +557,29 @@ function addToCard(id) {
 
 
 }
+
 function addToFavorite(id) {
     let success = document.getElementById("sucess_" + id);
     let Favorite = { product_id: id };
+
     var isFound = Favorites.find(val => val.product_id == Favorite.product_id);
+
     if (isFound) {
-
-
+        Favorites = Favorites.filter(val => val.product_id !== id);
     } else {
         Favorites.push(Favorite);
-        getAllFavorite();
-        localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
     }
+
+    getAllFavorite();
+    localStorage.setItem("heartIconColor", "");
+
+    localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
     setFavoriteCounter();
 
+    const heartIcon = document.getElementById("heart-icon");
+    isFound ? heartIcon.classList.remove("fas") : heartIcon.classList.add("fas");
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
