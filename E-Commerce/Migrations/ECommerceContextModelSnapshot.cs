@@ -357,7 +357,8 @@ namespace E_Commerce.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Rate")
+                    b.Property<float?>("Rate")
+                        .IsRequired()
                         .HasColumnType("real");
 
                     b.Property<string>("Text")

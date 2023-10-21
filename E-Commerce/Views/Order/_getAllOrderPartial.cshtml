@@ -40,7 +40,8 @@
                            data-action="increase" data-id="@order.id" onclick="increaseQuantity(this, @order.price)">+</a>
                     </td>
                     <td id="price-order-@order.id">@order.price</td>
-               <td> <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.id" class="rounded btn btn-outline-success">Delete</a>
+               <td> 
+                   <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.id" class="rounded btn btn-outline-success">Delete</a>
             </td>
             <td>
                 <a asp-action="Details" asp-controller="Product" asp-route-id="@order.id" class="btn btn-outline-success">Details</a>
@@ -52,7 +53,7 @@
 
     </table>
 
-    <h3 class="rounded text-center m-4 p-3 bg-info">Total price = <span id="totalPriceOfOrder"></span></h3>
+    <h3 class="rounded text-center m-4 p-3 alert-primary">Total price = $<span id="totalPriceOfOrder"></span></h3>
     <div class="d-flex m-3 justify-content-center text-center">
         <button onclick="getTotalPriceOfOrder()" class="m-3 btn btn-outline-success"> Order Now</button>
     </div>

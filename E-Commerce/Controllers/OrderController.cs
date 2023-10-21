@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
+using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.AspNetCore.Authentication;
@@ -29,6 +30,8 @@ namespace E_Commerce.Controllers
         private readonly IReviewRepo ireviewRepo;
         private readonly IOrderRepository iorderRepo;
         private readonly IOrderHistoryRepository iorderHistoryRepo;
+
+
 
         public OrderController(IProductRepository iproductRepo, ICategoryRepository icategoryRepo,
             ICartItemRepository iCartitemrepo, ICartRepository icartRepo, UserManager<ApplicationIdentityUser> _userManager,
@@ -64,17 +67,6 @@ namespace E_Commerce.Controllers
             return Json(totalPrice);
         }
 
-
-        public User getUser()
-        {
-            string IDClaim =
-               User.Claims
-               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
-
-            User user = iuserRepo.getUserByID(IDClaim);
-
-            return user;
-        }
         [Authorize]
         public List<OrderedItemForUserVM> getproductByCartItem()
         {
@@ -82,8 +74,7 @@ namespace E_Commerce.Controllers
                User.Claims
                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
 
-            User user = getUser();
-            Cart cart = icartRepo.getCartByUserId(user.user_id);
+            Cart cart = icartRepo.getCartByUserId(iuserRepo.getUserByApplicationId(IDClaim));
 
             var allCartItemOfCurrentUser = iCartitemrepo.getCartItemByCardId(cart.Id);
             List<Product> prdLst = new List<Product>();
@@ -130,15 +121,18 @@ namespace E_Commerce.Controllers
         [HttpPost]
         public IActionResult saveOrder(OrderCheckedUserVM orderChecked)
         {
-            User user = getUser();
-            Cart cart = icartRepo.getCartByUserId(user.user_id);
+            string IDClaim =
+               User.Claims
+               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+            int user_id = iuserRepo.getUserByApplicationId(IDClaim);
+            Cart cart = icartRepo.getCartByUserId(user_id);
             Order order = new Order()
                 {
                     cart_id = cart.Id,
                     TotalPrice = orderChecked.TotalPrice,
                     Status = OrderStatus.Shipped,
                     OrderDate = DateTime.Now,
-                    UserId = user.user_id,
+                    UserId = user_id,
                     Street = orderChecked.Street,
                     City = orderChecked.City,
                     Country = orderChecked.Country
@@ -174,5 +168,44 @@ namespace E_Commerce.Controllers
             iCartitemrepo.SaveChanges();
             return View(order);
          }
+
+        public IActionResult OrderHistory()
+        {
+
+            string IDClaim =
+               User.Claims
+               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+            int user_id = iuserRepo.getUserByApplicationId(IDClaim);
+
+            List<Order> userOrders = iorderRepo.getAll()
+                .Where(order => order.UserId == user_id)
+                .ToList();
+
+
+            return View(userOrders);
+
+        }
+
+        public IActionResult OrderDetails(int id)
+        {
+            Order order = iorderRepo.getById(id);
+
+            if (order != null)
+            {
+                Cart cart = icartRepo.getById(order.cart_id);
+                List<OrderHistory> cartItems = iorderHistoryRepo.GetByOrderId(id);
+
+
+                ViewBag.Order = order;
+                ViewBag.CartItems = cartItems;
+
+
+                return View();
+            }
+            else return View();
+
+
+        }
+
     }
 }

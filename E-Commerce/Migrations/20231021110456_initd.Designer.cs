@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce.Migrations
 {
     [DbContext(typeof(ECommerceContext))]
-    [Migration("20231019225015_init")]
-    partial class init
+    [Migration("20231021110456_initd")]
+    partial class initd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -360,7 +360,8 @@ namespace E_Commerce.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Rate")
+                    b.Property<float?>("Rate")
+                        .IsRequired()
                         .HasColumnType("real");
 
                     b.Property<string>("Text")

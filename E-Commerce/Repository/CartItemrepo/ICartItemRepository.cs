@@ -6,6 +6,8 @@ namespace E_Commerce.Repository.CartItemrepo
     {
         public CartItem getByPrdIdUserId(int prdId, int cardId);
         public List<CartItem> getCartItemByCardId(int cartId);
-        public void deleteCart(int product_id, int cart_id);
+        public void deleteCart(int product_id);
+        public int getCounter(int cart_id);
+        public decimal getTotalPrice(int cart_id);
     }
 }

@@ -51,7 +51,6 @@ namespace E_Commerce.Controllers
             this.iproductImagesRepo = iproductImagesRepo;
         }
 
-        #region Essa Task
         // Get All
         [AllowAnonymous]
         public IActionResult index()
@@ -68,10 +67,20 @@ namespace E_Commerce.Controllers
                     createUserCart(user_id);
             }
 
-            var allProducts = iproductRepo.getAll();
+           
             ViewData["category"] = icategoryRepo.getAll();
-            return View(allProducts);
+            return View();
         }
+
+        // get all product 
+        public IActionResult getAllProduct()
+        {
+            var allProducts = iproductRepo.getAll();
+            return PartialView("_getAllPartial", allProducts);
+        }
+
+
+
         // Get By Id
 
         [AllowAnonymous]
@@ -226,7 +235,7 @@ namespace E_Commerce.Controllers
                 return RedirectToAction("index");
 
             ViewData["Category"] = icategoryRepo.getAll();
-            return View(product);
+            return View(prdVM);
         }
 
 
@@ -272,14 +281,11 @@ namespace E_Commerce.Controllers
             return StockQuantity >= 0;
         }
 
-        #endregion
 
-        #region Sayed Task
 
         // Delete Product 
         public IActionResult delete()
         {
-            //var products = context.Product.Include(a => a.Category).ToList();
             var products = iproductRepo.getAll("Category");
             return View(products);
         }
@@ -307,6 +313,34 @@ namespace E_Commerce.Controllers
             return View("details", product);
         }
 
+        [HttpPost]
+        public IActionResult addReview(Review review)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                Review newReview = new Review()
+                {
+                    ProductId = review.ProductId,
+                    UserId = review.UserId,
+                    Rate = review.Rate,
+                    Text = review.Text,
+                    PostDate = DateTime.Now
+                };
+
+                ireviewRepo.add(newReview);
+                ireviewRepo.SaveChanges();
+
+                return RedirectToAction("index");
+            }
+            else
+            {
+                return RedirectToAction();
+            }
+        }
+
+        
+
         public IActionResult DeleteCartItemById(int id)
         {
             iCartitemrepo.delete(id);
@@ -314,11 +348,11 @@ namespace E_Commerce.Controllers
             return RedirectToAction("Index", "Order");
         }
 
-        #endregion
 
 
         public IActionResult search(string search) {
-            return Json(iproductRepo.search(search));
+            List<Product> products = iproductRepo.search(search);
+            return PartialView("_getAllPartial", products);
         }
 
 

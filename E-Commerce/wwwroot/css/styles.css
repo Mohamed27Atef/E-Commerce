@@ -11596,3 +11596,14 @@ fieldset:disabled .btn {
     text-decoration: none;
     padding: 10px;
 }
+
+
+#edite-parent {
+    position: relative;
+}
+
+#edite {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}

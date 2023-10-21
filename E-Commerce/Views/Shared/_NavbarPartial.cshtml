@@ -10,6 +10,7 @@
                 <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="Product" asp-action="index">Home</a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <li class="nav-item"><a class="nav-link" asp-controller="Category" asp-action="addCategory">Add Category</a></li>
                     <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="addProduct">Add Product</a></li>
                     <li class="nav-item"><a class="nav-link" >Sign Out</a></li>
                     <li class="nav-item" style="margin:8px 35px;"><strong>welcome @User.Identity.Name</strong></li>
@@ -33,11 +34,11 @@
 
                 </div>
                 <div class="cart-footer">
-                    <p>Total: <span id="cart-total">$0.00</span></p>
+                    <p>Total: $<span id="cart-total">0.00</span></p>
                   
                     <button id="clear-cart" onclick="removeAllCart()" class="btn btn-danger">Clear Cart</button>
                    
-                    <a id="clear-cart" class="btn btn-danger" onclick="showAllOrders()" asp-action="Index" asp-controller="order"> Order Cart</a>
+                    <a id="order_btn" class="btn btn-danger" onclick="showAllOrders()" asp-action="Index" asp-controller="order"> Order Cart</a>
 
 
                 </div>

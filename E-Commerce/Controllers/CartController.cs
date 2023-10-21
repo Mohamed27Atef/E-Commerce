@@ -20,11 +20,11 @@ namespace E_Commerce.Controllers
             return View();
         }
         [HttpDelete]
-        public void removeCartItem(int prodcut_id, int cart_id)
+        public void removeCartItem(int prodcut_id)
         {
-            cartItemRepository.deleteCart(prodcut_id, cart_id);
+            cartItemRepository.deleteCart(prodcut_id);
             cartItemRepository.SaveChanges();
         }
-        
+
     }
 }

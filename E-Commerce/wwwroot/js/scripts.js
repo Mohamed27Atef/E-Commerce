@@ -329,13 +329,7 @@ addToCartButtons.forEach(button => {
 })
 
 //StyleOne
-const favoriteIcons = document.querySelectorAll(".toggle-favorite")
 
-favoriteIcons.forEach(icon => {
-  icon.addEventListener("click", () => {
-    icon.classList.toggle("fas")
-  })
-})
 
 function updateStarRating() {
   const productRatingElements = document.querySelectorAll(".product-rating")
@@ -395,7 +389,8 @@ var totalPriceOfOrder = document.getElementById("totalPriceOfOrder");
 
     Favorites = JSON.parse(localStorage.getItem("favoriteItem")) ?? [];
     products = JSON.parse(localStorage.getItem("cartItems")) ?? [];
-    setCounter();
+    if (products != undefined)
+        setCounter();
     setFavoriteCounter();
 })();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -556,20 +551,35 @@ function addToCard(id) {
 
 
 }
+
 function addToFavorite(id) {
     let success = document.getElementById("sucess_" + id);
     let Favorite = { product_id: id };
+
     var isFound = Favorites.find(val => val.product_id == Favorite.product_id);
+
     if (isFound) {
-
-
+        Favorites = Favorites.filter(val => val.product_id !== id);
     } else {
         Favorites.push(Favorite);
-        getAllFavorite();
-        localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
     }
+
+    getAllFavorite();
+
+    localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
     setFavoriteCounter();
 
+}
+//////////////////////////////////////////////////// set favorite /////////////////////////////////////////////////////////////////////////////////////////
+
+function setFavorit() {
+    const favoriteIcons = document.querySelectorAll(".toggle-favorite")
+
+    favoriteIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            icon.classList.toggle("fas")
+        })
+    })
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -578,6 +588,11 @@ function addToFavorite(id) {
 
 
 function ShowAllCartItemFromDBToView() {
+    getTotalFromDB();
+
+    getCounterFromDB();
+
+
     sideBarCardItem.innerHTML = "";
     $.ajax({
         type: 'Get',
@@ -587,7 +602,6 @@ function ShowAllCartItemFromDBToView() {
             {
                 showSideBarItemsFromDB(item.image, item.name, item.price, item.id, item.cart_id);
             });
-            setCounterFromDB(result.length);
         },
         error: function (error) {
             console.error("Error:", error);
@@ -595,6 +609,19 @@ function ShowAllCartItemFromDBToView() {
     });
 
 }
+function getCounterFromDB () {
+    $.ajax({
+        type: 'Get',
+        url: "/cartItem/counterCartItem",
+        success: function (result) {
+            setCounterFromDB(result);
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
 
 function addToCardAuthorize(id) {
     $.ajax({
@@ -602,6 +629,8 @@ function addToCardAuthorize(id) {
         url: "/Home/AddProductToDB?id=" + id,
 
         success: function (data) {
+            getCounterFromDB();
+            console.log(data);
             localStorage.clear();
 
         },
@@ -615,15 +644,34 @@ function addToCardAuthorize(id) {
 function setCounterFromDB(count) {
     let counter = document.getElementById("counter");
     counter.innerHTML = count;
-
+    if (Number(counter.innerHTML) < 1)
+        document.getElementById("order_btn").setAttribute("hidden", "");
+    else
+        document.getElementById("order_btn").removeAttribute("hidden", "");
 }
 
 function removeFromDB(id, cart_item) {
     $.ajax({
         type: 'Delete',
-        url: "/Cart/removeCartItem?prodcut_id=" + id + "&cart_id=" + cart_item,
+        url: "/Cart/removeCartItem?prodcut_id=" + id,
         success: function (result) {
+            getCounterFromDB();
             ShowAllCartItemFromDBToView();
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+
+function getTotalFromDB() {
+    $.ajax({
+        type: 'Get',
+        url: "/cartItem/getTotalPrice",
+        success: function (result) {
+            document.getElementById("cart-total").innerHTML = result;
+
         },
         error: function (error) {
             console.error("Error:", error);
@@ -705,14 +753,24 @@ function decreaseQuantity(button, price) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////// search ///////////////////////////////////////////////////////////////////////////////////
 
-function search(e, te) {
-    console.log(te);
+function search(e) {
+    let value = e.target.value;
+
+    if (value == '')
+        getAllProduct();
+    else
+        getResultOfSearch(value);
+    
+}
+
+
+function getResultOfSearch(value) {
     $.ajax({
         type: "get",
-        url: "/Product/search?search=" + e.target.value,
+        url: "/Product/search?search=" + value,
 
         success: function (data) {
-            console.log(data);
+            functionsWhenrenderBody(data);
 
         },
         error: function (error) {
@@ -721,6 +779,32 @@ function search(e, te) {
         }
     });
 }
+
+
+function getAllProduct() {
+    $.ajax({
+        type: 'Get',
+        url: "/product/getAllProduct",
+        success: function (result) {
+            functionsWhenrenderBody(result);
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+
+function functionsWhenrenderBody(data) {
+    document.getElementById("allProduct").innerHTML = data;
+    updateStarRating();
+    setFavorit();
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function updateTotalPrice() {
     $.ajax({
@@ -752,4 +836,25 @@ function getTotalPriceOfOrder() {
     });
 }
 
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////// addReivew //////////////////////////////////////////////////////////////////////////////////////
+
+function addReivew(productId, text) {
+    $.ajax({
+        type: 'Get',
+        url: "/Reivew/postReview?productId=" + productId + "&txt=" + text,
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -18,9 +18,9 @@ namespace E_Commerce.Repository.CartItemrepo
              
         }
 
-        public void deleteCart(int product_id, int cart_id)
+        public void deleteCart(int product_id)
         {
-            context.CartItem.Remove(context.CartItem.Where(c => c.ProductId == product_id && c.CartId == cart_id).FirstOrDefault());
+            context.CartItem.Remove(context.CartItem.Where(c => c.ProductId == product_id).FirstOrDefault());
         }
 
         public List<CartItem> getAll(string include = "")
@@ -72,6 +72,23 @@ namespace E_Commerce.Repository.CartItemrepo
         {
             CartItem cartItem = getById(id);
             context.CartItem.Remove(cartItem);
+        }
+
+        public int getCounter(int cart_id)
+        {
+            return context.CartItem.Where(t => t.CartId == cart_id).Count();
+        }
+
+        public decimal getTotalPrice(int cart_id)
+        {
+            decimal total = 0;
+            var cartItems = context.CartItem.Where(t => t.CartId == cart_id).ToList();
+            foreach(var cartItem in cartItems)
+            {
+                total += cartItem.Price;
+            }
+
+            return total;
         }
     }
 }

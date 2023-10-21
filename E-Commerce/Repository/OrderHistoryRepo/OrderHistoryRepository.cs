@@ -65,5 +65,10 @@ namespace E_Commerce.Repository.OrderHistoryRepo
         {
             throw new NotImplementedException();
         }
+
+        public List<OrderHistory> GetByOrderId(int id)
+        {
+            return (context.OrderHistorys.Where(a=> a.OrderId == id).Include(p=>p.Product)).ToList();
+        }
     }
 }

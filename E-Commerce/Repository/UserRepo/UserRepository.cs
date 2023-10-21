@@ -1,5 +1,6 @@
 ﻿using E_Commerce.Models;
 using MVC_Project.Models;
+using System.Security.Claims;
 
 namespace E_Commerce.Repository.UserRepo
 {
