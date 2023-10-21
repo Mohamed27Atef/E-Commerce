@@ -30,6 +30,11 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    transition: transform 0.2s;
+}
+
+.main-image img:hover {
+    transform: scale(1.1); 
 }
 
 .stars {
