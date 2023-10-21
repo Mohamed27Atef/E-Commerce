@@ -582,6 +582,8 @@ function ShowAllCartItemFromDBToView() {
     getTotalFromDB();
 
     getCounterFromDB();
+
+
     sideBarCardItem.innerHTML = "";
     $.ajax({
         type: 'Get',
@@ -633,6 +635,10 @@ function addToCardAuthorize(id) {
 function setCounterFromDB(count) {
     let counter = document.getElementById("counter");
     counter.innerHTML = count;
+    if (Number(counter.innerHTML) < 1)
+        document.getElementById("order_btn").setAttribute("hidden", "");
+    else
+        document.getElementById("order_btn").removeAttribute("hidden", "");
 }
 
 function removeFromDB(id, cart_item) {
