@@ -551,20 +551,35 @@ function addToCard(id) {
 
 
 }
+
 function addToFavorite(id) {
     let success = document.getElementById("sucess_" + id);
     let Favorite = { product_id: id };
+
     var isFound = Favorites.find(val => val.product_id == Favorite.product_id);
+
     if (isFound) {
-
-
+        Favorites = Favorites.filter(val => val.product_id !== id);
     } else {
         Favorites.push(Favorite);
-        getAllFavorite();
-        localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
     }
+
+    getAllFavorite();
+
+    localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
     setFavoriteCounter();
 
+}
+//////////////////////////////////////////////////// set favorite /////////////////////////////////////////////////////////////////////////////////////////
+
+function setFavorit() {
+    const favoriteIcons = document.querySelectorAll(".toggle-favorite")
+
+    favoriteIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            icon.classList.toggle("fas")
+        })
+    })
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -824,17 +839,7 @@ function getTotalPriceOfOrder() {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////// set favorite /////////////////////////////////////////////////////////////////////////////////////////
 
-function setFavorit() {
-    const favoriteIcons = document.querySelectorAll(".toggle-favorite")
-
-    favoriteIcons.forEach(icon => {
-        icon.addEventListener("click", () => {
-            icon.classList.toggle("fas")
-        })
-    })
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
