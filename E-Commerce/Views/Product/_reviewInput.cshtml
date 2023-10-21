@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="user-review-input mt-4">
-        <form>
+        <div>
             <div class="d-flex justify-content-between">
                 <h3>User name</h3>
                 <div class="rating">
@@ -26,11 +26,10 @@
                         placeholder="Write your review...">
 
             </textarea>
-            <input type="submit" value="Create" class="btn btn-primary" />
-        </form>
+            <input type="button" value="Create" onclick="addReivew()" class="btn btn-primary" />
+        </div>
     </div>
 </div>
-
 <script>
 
     function updateStarRating() {
