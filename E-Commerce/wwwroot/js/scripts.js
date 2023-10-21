@@ -329,13 +329,7 @@ addToCartButtons.forEach(button => {
 })
 
 //StyleOne
-const favoriteIcons = document.querySelectorAll(".toggle-favorite")
 
-favoriteIcons.forEach(icon => {
-  icon.addEventListener("click", () => {
-    icon.classList.toggle("fas")
-  })
-})
 
 function updateStarRating() {
   const productRatingElements = document.querySelectorAll(".product-rating")
@@ -769,8 +763,8 @@ function getResultOfSearch(value) {
         url: "/Product/search?search=" + value,
 
         success: function (data) {
-            document.getElementById("allProduct").innerHTML = data;
-            updateStarRating();
+            functionsWhenrenderBody(data);
+
         },
         error: function (error) {
 
@@ -785,14 +779,21 @@ function getAllProduct() {
         type: 'Get',
         url: "/product/getAllProduct",
         success: function (result) {
-            document.getElementById("allProduct").innerHTML = result;
-            updateStarRating();
+            functionsWhenrenderBody(result);
         },
         error: function (error) {
             console.error("Error:", error);
         }
     });
 }
+
+
+function functionsWhenrenderBody(data) {
+    document.getElementById("allProduct").innerHTML = data;
+    updateStarRating();
+    setFavorit();
+}
+
 
 
 
@@ -828,4 +829,35 @@ function getTotalPriceOfOrder() {
     });
 }
 
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////// set favorite /////////////////////////////////////////////////////////////////////////////////////////
+
+function setFavorit() {
+    const favoriteIcons = document.querySelectorAll(".toggle-favorite")
+
+    favoriteIcons.forEach(icon => {
+        icon.addEventListener("click", () => {
+            icon.classList.toggle("fas")
+        })
+    })
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////// addReivew //////////////////////////////////////////////////////////////////////////////////////
+
+function addReivew(productId, text) {
+    $.ajax({
+        type: 'Get',
+        url: "/Reivew/postReview?productId=" + productId + "&txt=" + text,
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
