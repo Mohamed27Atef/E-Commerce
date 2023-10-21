@@ -19,14 +19,14 @@
     {
         <div class="col-12 col-md-6 col-lg-4" id="edite-parent">
             <div class="card product-card">
-            <img  src="/images/@item.image"
-                alt="Product Image"
-                class="card-img-top"
-            />
+                <a asp-action="details" asp-route-id="@item.Id" class="card-link">
+                    <img src="/images/@item.image" alt="Product Image" class="card-img-top" />
+                </a>
+
                 @if(User.Identity.IsAuthenticated)
                 {
                     <a href="/product/UpdateProduct?productId=@item.Id" class="update-product-button">
-                        <i class="fas fa-pencil-alt fa-lg" id="edite" style="color: green;"></i>
+                        <i class="fas fa-pencil-alt fa-lg" id="edite" style="color: green; background-color: rgba(0, 0, 0, 0.2); border-radius: 50%; padding: 8px;"></i>
                     </a>
                 }
                 <div class="card-body">
@@ -60,7 +60,8 @@
                                 
                     }
                 </button>
-                    <button class="btn"><i class="far fa-heart favorite-button fa-lg toggle-favorite" onclick="addToFavorite(@item.Id)"></i></button>
+                        <button class="btn"><i id ="heart-icon" class="far fa-heart favorite-button fa-lg toggle-favorite" onclick="addToFavorite(@item.Id)"></i></button>
+
 
                 </div>
             </div>
