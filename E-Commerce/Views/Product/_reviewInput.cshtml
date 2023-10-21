@@ -19,6 +19,7 @@
                 </div>
             </div>
             <textarea name="Text"
+                id="txt"
                 asp-for="Text"
                         cols="40"
                         rows="4"
@@ -26,10 +27,11 @@
                         placeholder="Write your review...">
 
             </textarea>
-            <input type="button" value="Create" onclick="addReivew()" class="btn btn-primary" />
+            <input type="button" value="Create" onclick="addReivew(@ViewBag.id)" class="btn btn-primary" />
         </div>
     </div>
 </div>
+
 <script>
 
     function updateStarRating() {

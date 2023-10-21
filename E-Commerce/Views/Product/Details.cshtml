@@ -1,6 +1,7 @@
 ﻿@model Product
 @{
     ViewData["Title"] = "Details";
+    ViewData["id"] = Model.Id;
 }
 
 <h1>Details</h1>
@@ -61,4 +62,5 @@
     </div>
 
     <partial name="_reviewInput" model="@ViewBag.product"/>
+
     <partial name="_productReview" model="@ViewBag.reviews" />

@@ -840,12 +840,14 @@ function setFavorit() {
 
 ////////////////////////////////////////////////// addReivew //////////////////////////////////////////////////////////////////////////////////////
 
-function addReivew(productId, text) {
+function addReivew(productId) {
+    var text = document.getElementById("txt");
+
     $.ajax({
         type: 'Get',
-        url: "/Reivew/postReview?productId=" + productId + "&txt=" + text,
+        url: "/Reivew/postReview?productId=" + productId + "&txt=" + text.value,
         success: function (result) {
-            console.log(result);
+            text.value = "";
         },
         error: function (error) {
             console.error("Error:", error);

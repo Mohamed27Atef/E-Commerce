@@ -29,6 +29,7 @@ namespace E_Commerce.Controllers
                 PostDate = DateTime.Now,
                 ProductId = productId,
                 Text = txt,
+                Rate= 3,
                 UserId = userRepository.getUserByApplicationId(IDClaim)
             };
 
@@ -36,6 +37,7 @@ namespace E_Commerce.Controllers
             reviewRepo.SaveChanges();
             return Json(review);
         }
+
 
     }
 }
