@@ -22,5 +22,22 @@ namespace E_Commerce.Repository.ReviewRepo
 
             return null;
         }
+
+        public void add(Review review)
+        {
+
+            if (review != null)
+            {
+                context.Review.Add(review);
+
+            }
+
+        }
+
+
+        public int SaveChanges()
+        {
+            return context.SaveChanges();
+        }
     }
 }
