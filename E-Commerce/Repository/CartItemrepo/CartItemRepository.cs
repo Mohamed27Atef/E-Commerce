@@ -78,5 +78,17 @@ namespace E_Commerce.Repository.CartItemrepo
         {
             return context.CartItem.Where(t => t.CartId == cart_id).Count();
         }
+
+        public decimal getTotalPrice(int cart_id)
+        {
+            decimal total = 0;
+            var cartItems = context.CartItem.Where(t => t.CartId == cart_id).ToList();
+            foreach(var cartItem in cartItems)
+            {
+                total += cartItem.Price;
+            }
+
+            return total;
+        }
     }
 }

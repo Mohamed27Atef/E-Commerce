@@ -579,6 +579,8 @@ function addToFavorite(id) {
 
 
 function ShowAllCartItemFromDBToView() {
+    getTotalFromDB();
+
     getCounterFromDB();
     sideBarCardItem.innerHTML = "";
     $.ajax({
@@ -617,6 +619,7 @@ function addToCardAuthorize(id) {
 
         success: function (data) {
             getCounterFromDB();
+            console.log(data);
             localStorage.clear();
 
         },
@@ -639,6 +642,21 @@ function removeFromDB(id, cart_item) {
         success: function (result) {
             getCounterFromDB();
             ShowAllCartItemFromDBToView();
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+
+function getTotalFromDB() {
+    $.ajax({
+        type: 'Get',
+        url: "/cartItem/getTotalPrice",
+        success: function (result) {
+            document.getElementById("cart-total").innerHTML = result;
+
         },
         error: function (error) {
             console.error("Error:", error);
@@ -721,13 +739,23 @@ function decreaseQuantity(button, price) {
 //////////////////////////////////////////// search ///////////////////////////////////////////////////////////////////////////////////
 
 function search(e) {
+    let value = e.target.value;
+
+    if (value == '')
+        getAllProduct();
+    else
+        getResultOfSearch(value);
+    
+}
+
+
+function getResultOfSearch(value) {
     $.ajax({
         type: "get",
-        url: "/Product/search?search=" + e.target.value,
+        url: "/Product/search?search=" + value,
 
         success: function (data) {
-            console.log(data);
-
+            document.getElementById("allProduct").innerHTML = data;
         },
         error: function (error) {
 
@@ -735,6 +763,24 @@ function search(e) {
         }
     });
 }
+
+
+function getAllProduct() {
+    $.ajax({
+        type: 'Get',
+        url: "/product/getAllProduct",
+        success: function (result) {
+            document.getElementById("allProduct").innerHTML = result;
+        },
+        error: function (error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function updateTotalPrice() {
     $.ajax({

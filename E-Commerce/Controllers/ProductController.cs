@@ -59,10 +59,20 @@ namespace E_Commerce.Controllers
                     createUserCart(user_id);
             }
 
-            var allProducts = iproductRepo.getAll();
+           
             ViewData["category"] = icategoryRepo.getAll();
-            return View(allProducts);
+            return View();
         }
+
+        // get all product 
+        public IActionResult getAllProduct()
+        {
+            var allProducts = iproductRepo.getAll();
+            return PartialView("_getAllPartial", allProducts);
+        }
+
+
+
         // Get By Id
 
 
@@ -277,7 +287,8 @@ namespace E_Commerce.Controllers
 
 
         public IActionResult search(string search) {
-            return Json(iproductRepo.search(search));
+            List<Product> products = iproductRepo.search(search);
+            return PartialView("_getAllPartial", products);
         }
 
 

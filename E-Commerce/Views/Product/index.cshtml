@@ -13,5 +13,16 @@
     @* <select asp-for="category_id" class="form-control" asp-items="cats"></select> *@
 </div>
 
+<div id="allProduct"></div>
+@* <partial name="_getAllPartial" model="@Model" /> *@
 
-<partial name="_getAllPartial" model="@Model" />
+
+@section scripts {
+    <script>
+        (function () {
+            getAllProduct();
+        })()
+
+
+    </script>
+}
