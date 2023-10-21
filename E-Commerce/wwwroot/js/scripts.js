@@ -861,7 +861,8 @@ function addReivew(productId) {
         type: 'Get',
         url: "/Reivew/postReview?productId=" + productId + "&txt=" + text.value + "&rate=" + getTheRate(),
         success: function (result) {
-            text.value = "";
+            location.reload();
+
         },
         error: function (error) {
             console.error("Error:", error);
