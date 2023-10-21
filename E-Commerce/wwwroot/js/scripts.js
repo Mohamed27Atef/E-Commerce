@@ -756,6 +756,7 @@ function getResultOfSearch(value) {
 
         success: function (data) {
             document.getElementById("allProduct").innerHTML = data;
+            updateStarRating();
         },
         error: function (error) {
 
@@ -771,6 +772,7 @@ function getAllProduct() {
         url: "/product/getAllProduct",
         success: function (result) {
             document.getElementById("allProduct").innerHTML = result;
+            updateStarRating();
         },
         error: function (error) {
             console.error("Error:", error);
