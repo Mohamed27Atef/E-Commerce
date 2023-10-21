@@ -120,10 +120,6 @@ namespace E_Commerce.Controllers
 
 
 
-        #endregion
-
-        #region Ghaly
-
         // Post Product 
         public IActionResult addProduct()
         {
