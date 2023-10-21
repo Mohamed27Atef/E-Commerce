@@ -29,16 +29,5 @@ namespace E_Commerce.Controllers
             return RedirectToAction("index", "product");
         }
 
-        public IActionResult getCategory()
-        {
-            var categires = categoryRepository.getAll();
-            return View(categires);
-        }
-
-        public IActionResult EditeCategory()
-        {
-            return View();
-        }
-
     }
 }

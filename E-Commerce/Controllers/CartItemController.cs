@@ -30,7 +30,16 @@ namespace E_Commerce.Controllers
             Cart cart = icartRepo.getCartByUserId(iuserRepo.getUserByApplicationId(IDClaim));
             
             return Json(cartItem.getCounter(cart.Id));
-            
+        }
+
+        public IActionResult getTotalPrice()
+        {
+            string IDClaim =
+              User.Claims
+              .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+            Cart cart = icartRepo.getCartByUserId(iuserRepo.getUserByApplicationId(IDClaim));
+
+            return Json(cartItem.getTotalPrice(cart.Id));
 
         }
 
