@@ -129,7 +129,11 @@ namespace E_Commerce.Controllers
 
             return regexPattern.IsMatch(password);
         }
-
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         /////////////////////////////////////////////////////////Admin////////////////////////////////////////////////////////////////////
         public IActionResult SignUpAdmin()

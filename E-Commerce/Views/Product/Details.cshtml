@@ -44,6 +44,11 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <button class="btn btn-primary" onclick="addToCardAuthorize(@Model.Id)">Add to Cart</button>
+                    if (User.IsInRole("admin")){
+                        <a class="btn btn-primary" asp-action="getAllOrderHistory" asp-controller="Order">Order Details</a>
+
+                    }
+
                 }
                 else
                 {

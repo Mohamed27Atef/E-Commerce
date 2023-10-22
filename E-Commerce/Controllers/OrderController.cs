@@ -209,5 +209,44 @@ namespace E_Commerce.Controllers
 
         }
 
+        public IActionResult getAllOrderHistory()
+        {
+
+            var OrderHistory = iorderHistoryRepo.getAll();
+            List<Order> orders = new List<Order>();
+            List<AllOrderHistoryVM> AllOrderHistoryVM = new List<AllOrderHistoryVM>();
+             
+            foreach (var item in OrderHistory)
+            {
+                Order order = iorderRepo.getById(item.OrderId);
+                AllOrderHistoryVM orderVm = new AllOrderHistoryVM
+                {
+                    id = order.Id,
+                    Price = item.Price,
+                    OrderDate = order.OrderDate,
+                    Quantity = item.Quantity,
+                    Status = (int)order.Status,
+                    UserName = order.User.ApplicationIdentityUser.UserName
+                };
+
+                AllOrderHistoryVM.Add(orderVm);
+
+            }
+           
+            ViewData["stats"] = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToArray();
+            return View(AllOrderHistoryVM);
+
+        }
+        [HttpPost]
+        public void saverOrderStatus(int id,int orderVal)
+        {
+            Order order = iorderRepo.getById(id);
+            order.Status = (OrderStatus)orderVal;
+            iorderRepo.update(order);
+            iorderRepo.SaveChanges();
+
+
+        }
+
     }
 }

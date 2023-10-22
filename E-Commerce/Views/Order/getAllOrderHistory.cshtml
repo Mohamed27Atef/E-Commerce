@@ -1,0 +1,61 @@
+﻿@using E_Commerce.ViewModel.OrderViewModels;
+@model List<AllOrderHistoryVM>
+
+@{
+    ViewData["Title"] = "getAllOrderHistory";
+    SelectList statOptios = new SelectList(ViewBag.stats);
+}
+
+
+<h1 class="text-center m-5">getAllOrderHistory</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr >
+            <th scope="col">UserName</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Price</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        
+        @foreach (var order in Model)
+        {
+           
+            <tr >
+               
+                <td>@order.UserName</td>
+                <td>@order.Quantity</td>
+                <td>@order.Price</td>
+                <td>
+
+                    <select class="form-control" id="orderStatusSelect" onchange="saveOrderInDB(this,@order.id,@order.Status)">
+                        @for (int i = 0; i < (ViewData["stats"] as OrderStatus[]).Length; i++)
+                        {
+
+                            var status = (ViewData["stats"] as OrderStatus[])[i];
+                            if (i == order.Status)
+                            {
+                                <option value="@i" selected>@status</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@status</option>
+                            }
+                         
+                        }
+                     
+                    </select>
+                    </td>
+                <td>@order.OrderDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="mb-5">
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
