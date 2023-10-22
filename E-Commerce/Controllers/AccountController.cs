@@ -157,58 +157,6 @@ namespace E_Commerce.Controllers
                 if (res.Succeeded)
                 {
                     //add to adimn role
-                    var resutlRole = await userManager.AddToRoleAsync(userModel,"admin");
-                    if (resutlRole.Succeeded)
-                    {
-                        await signInManager.SignInAsync(userModel, false);
-
-                        return RedirectToAction("index", "Product");
-                    }
-                    else
-                    {
-                        foreach (var item in resutlRole.Errors)
-                            ModelState.AddModelError("", item.Description);
-                    }
-                }
-                foreach (var item in res.Errors)
-                    ModelState.AddModelError("", item.Description);
-
-            }
-            ViewData["islogin"] = "s";
-            auth auth = new auth() { signup = SignupModel };
-            return View("authentication", auth);
-
-        }
-
-
-
-
-        /////////////////////////////////////////////////////////Admin////////////////////////////////////////////////////////////////////
-        public IActionResult SignUpAdmin()
-        {
-            return View("authentication");
-        }
-
-        [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> SignUpAdmin(SignupViewModel SignupModel)
-        {
-            if (ModelState.IsValid)
-            {
-                ApplicationIdentityUser userModel = new ApplicationIdentityUser();
-                userModel.UserName = SignupModel.username;
-                userModel.PasswordHash = SignupModel.Password;
-                userModel.Email = SignupModel.Email;
-                userModel.Gender = (GenderEnum)SignupModel.gender;
-                userModel.user = new User();
-
-
-                IdentityResult res = await userManager.CreateAsync(userModel, SignupModel.Password);
-
-
-                if (res.Succeeded)
-                {
-                    //add to adimn role
                     var resutlRole = await userManager.AddToRoleAsync(userModel, "admin");
                     if (resutlRole.Succeeded)
                     {
