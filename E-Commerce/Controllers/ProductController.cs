@@ -307,7 +307,7 @@ namespace E_Commerce.Controllers
 
                 int user_id = iuserRepo.getUserByApplicationId(applicationUserId);
 
-                bool isReviewed = ireviewRepo.getByUserId(user_id);
+                bool isReviewed = ireviewRepo.getByUserId(user_id, id);
                 ViewData["isReview"] = isReviewed;
             }
             ViewData["reviews"] = ireviewRepo.getByProduct(id);
