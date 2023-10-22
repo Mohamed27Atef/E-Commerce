@@ -58,7 +58,16 @@ namespace E_Commerce.Repository.OrderHistoryRepo
 
         List<OrderHistory> IGenericRepository<OrderHistory>.getAll(string include)
         {
-            throw new NotImplementedException();
+            var query = context.OrderHistorys.AsQueryable();
+            if (!String.IsNullOrEmpty(include))
+            {
+                var includes = include.Split(",");
+                foreach (var inc in includes)
+                {
+                    query = query.Include(inc.Trim());
+                }
+            }
+            return query.ToList();
         }
 
         public void update(OrderHistory entity)

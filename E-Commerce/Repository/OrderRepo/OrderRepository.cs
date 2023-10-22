@@ -11,6 +11,7 @@ namespace E_Commerce.Repository.OrderRepo
         {
             this.context = context;
         }
+        
         public void add(Order entity)
         {
             context.Order.Add(entity);
@@ -38,7 +39,7 @@ namespace E_Commerce.Repository.OrderRepo
 
         public Order getById(int id)
         {
-           return context.Order.FirstOrDefault(o => o.Id == id);
+           return context.Order.Include(o=>o.User).ThenInclude(u=> u.ApplicationIdentityUser).FirstOrDefault(o => o.Id == id);
         }
 
         public int SaveChanges()

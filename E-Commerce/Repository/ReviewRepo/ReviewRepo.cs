@@ -39,5 +39,12 @@ namespace E_Commerce.Repository.ReviewRepo
         {
             return context.SaveChanges();
         }
+
+        public bool getByUserId(int userId, int productId)
+        {
+            Review r = context.Review.Where(e => e.UserId == userId && e.ProductId == productId).FirstOrDefault();
+            if(r == null) return false;
+            return true;
+        }
     }
 }
