@@ -18,12 +18,12 @@
                     <li><img src="/images/@Model.image" class="thumbnail" alt="Thumbnail 1"></li>
                     @foreach (var img in Model?.Images)
                     {
-                        <li><img src="@img.Image" class="thumbnail" ></li>
+                        <li><img src="/images/@img.Image" class="thumbnail"></li>
                     }
                 </ul>
             </div>
             <div class="col-md-5 main-image ">
-                <img src="@Model.image" alt="Product Image">
+                <img src="/images/@Model.image" alt="Product Image">
             </div>
             <div class="col-md-6">
                 <h2>Product Description</h2>

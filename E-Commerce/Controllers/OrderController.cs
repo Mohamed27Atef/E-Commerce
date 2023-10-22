@@ -52,6 +52,8 @@ namespace E_Commerce.Controllers
         public IActionResult Index()
         {
             List<OrderedItemForUserVM> orderedItem = getproductByCartItem();
+            if (orderedItem.Count == 0)
+                return RedirectToAction("index", "product");
 
             return View(orderedItem);
         }

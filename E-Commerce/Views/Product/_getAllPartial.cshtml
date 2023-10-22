@@ -23,7 +23,7 @@
                     <img src="/images/@item.image" alt="Product Image" class="card-img-top" />
                 </a>
 
-                @if(User.Identity.IsAuthenticated)
+                @if (User.IsInRole("admin"))
                 {
                     <a href="/product/UpdateProduct?productId=@item.Id" class="update-product-button">
                         <i class="fas fa-pencil-alt fa-lg" id="edite" style="color: green; background-color: rgba(0, 0, 0, 0.2); border-radius: 50%; padding: 8px;"></i>
