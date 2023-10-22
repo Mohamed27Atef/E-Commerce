@@ -719,7 +719,7 @@ function showSideBarItemsFromDB(image, name, price, id, cart_id) {
 /////////////////////////////////////////////////////// Increase and decrease counter of order /////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function increaseQuantity(button, price) {
+function increaseQuantity(button, price,TotalAmount) {
 
 
     ///////////////// variable ////////////////////////////////////////////////
@@ -730,16 +730,16 @@ function increaseQuantity(button, price) {
     var currentValuePrice = parseInt(priceOrder.textContent, 10);
     var PriceValue = parseInt(price, 10);
     ///////////////////////////////////////////////////////////////////////
+    if (currentValueQuantity != TotalAmount) {
+        ///////////////// update /////////////////////////////////////////////////////////
+        totalPriceOfOrder.innerHTML = Number(totalPriceOfOrder.innerHTML) + price;
+        var newQuantity = ++currentValueQuantity;
+        var newPrice = currentValuePrice + PriceValue;
+        qunatityOrder.textContent = newQuantity;
+        priceOrder.textContent = newPrice;
+        //////////////////////////////////////////////////////////////////////////////////////
 
-    
-    ///////////////// update /////////////////////////////////////////////////////////
-    totalPriceOfOrder.innerHTML = Number(totalPriceOfOrder.innerHTML) + price;
-    var newQuantity = ++currentValueQuantity;
-    var newPrice = currentValuePrice + PriceValue;
-    qunatityOrder.textContent = newQuantity;
-    priceOrder.textContent = newPrice;
-    //////////////////////////////////////////////////////////////////////////////////////
-
+    }
 }
 
 function decreaseQuantity(button, price) {
@@ -837,6 +837,8 @@ function updateTotalPrice() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////// order ajax call //////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
 function getTotalPriceOfOrder() {
 
     var orderDetails = document.getElementById("orderDetails");
@@ -844,12 +846,23 @@ function getTotalPriceOfOrder() {
         type: 'Get',
         url: "/Order/saveOrder?totalPrice=" + totalPriceOfOrder.innerHTML,
         success: function (result) {
+            changeQunatityOfCartItems();
             orderDetails.innerHTML = result;
         },
         error: function (error) {
             console.error("Error:", error);
         }
     });
+}
+
+function changeQunatityOfCartItems() {
+    //$.post("/CartItem/changeAmountOfCartItems",
+    //    {
+    //        item:
+    //    },
+    //    function (data, status) {
+    //        alert("Data: " + data + "\nStatus: " + status);
+    //    });
 }
 
 

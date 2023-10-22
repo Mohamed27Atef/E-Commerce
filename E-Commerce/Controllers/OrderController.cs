@@ -99,6 +99,7 @@ namespace E_Commerce.Controllers
                     cart_id = iuserRepo.getUserByApplicationId(IDClaim),
                     price = prdLst[i].Price,
                     Quantity = allCartItemOfCurrentUser[i].Quantity,
+                    amountStock = prdLst[i].StockQuantity
                 };
 
                 orderedItemForUserVM.Add(order);

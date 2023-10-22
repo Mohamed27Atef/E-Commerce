@@ -16,5 +16,6 @@ namespace E_Commerce.ViewModel.OrderViewModels
 
         public string image { get; set; }
         public int Quantity { get; set; }
+        public int amountStock { get; set; }
     }
 }
