@@ -87,6 +87,7 @@ namespace E_Commerce.Controllers
         {
 
             Product prd = iproductRepo.getById(id);
+            if (prd == null) return Json("");
             var newModel = new
             {
                 prd.Id,
@@ -99,6 +100,7 @@ namespace E_Commerce.Controllers
 
 
         // Get By Name
+        [AllowAnonymous]
         public IActionResult getByName(string name)
         {
             Product prd = iproductRepo.getByName(name);
@@ -106,6 +108,7 @@ namespace E_Commerce.Controllers
             return View("getById", prd);
         }
         // Get By Brand 
+        [AllowAnonymous]
         public IActionResult getByBrand(string brand)
         {
             var prds = iproductRepo.getByBrand( brand);

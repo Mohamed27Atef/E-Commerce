@@ -942,3 +942,26 @@ function filterProducts(categoryId) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function saveOrderInDB(selectElement, id, selectedStatu) {
+  
+    var selectedValue = selectElement.value
+    console.log(selectedValue);
+  
+    $.ajax({
+        url: '/Order/saverOrderStatus',
+        type: 'POST',
+        data: { id: id,orderVal: selectedValue},
+        success: function (data) {
+            
+            console.log("Orderd Status Saved");
+
+        },
+        error: function (error) {
+            console.error('Error filtering products: ' + error);
+        }
+    });
+
+ 
+}
