@@ -3,7 +3,12 @@
     ViewData["Title"] = "Details";
     ViewData["id"] = Model.Id;
 }
-
+@functions {
+    public float RoundToNearestHalf(float num) {
+        float rounded = (float)Math.Round(num * 2,MidpointRounding.AwayFromZero) / 2;
+        return rounded;
+    }
+}
 <h1>Details</h1>
 
 
@@ -38,7 +43,11 @@
                     <p style="color:red;">Availability: In Stock</p>
                 }
             <p class="product-rating mb-3">
-                <span class="stras-num">@Model.rate</span><span class="stars"></span>
+                @{
+                    float rate = float.Parse(Model.rate);
+                    float roundedRate = RoundToNearestHalf(rate);
+                }
+                <span class="stras-num">@roundedRate</span><span class="stars"></span>
             </p>
             <div class="details-btns">
                 @if (User.Identity.IsAuthenticated)
@@ -54,7 +63,7 @@
             </div>
             
         </div>
-
+        
         <div class="row mt-4">
             <div class="col-md-12">
                 <h2>Product Specifications</h2>
