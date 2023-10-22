@@ -37,7 +37,7 @@
                        data-action="decrease" data-orderId="@order.id" data-price="@order.price" class="quantity-button decrement-button" onclick="decreaseQuantity(this, @order.price)">-</a>
                         <span class="quantity-input" id="quantity-order-@order.id">@order.Quantity</span>
                     <a id="btn-plus-order-quantity" style="cursor: pointer; border: none;" class="quantity-button increment-button"
-                           data-action="increase" data-id="@order.id" onclick="increaseQuantity(this, @order.price)">+</a>
+                           data-action="increase" data-id="@order.id" onclick="increaseQuantity(this, @order.price, @order.amountStock)">+</a>
                     </td>
                     <td id="price-order-@order.id">@order.price</td>
                <td> 

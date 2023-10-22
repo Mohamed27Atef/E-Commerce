@@ -11614,37 +11614,54 @@ fieldset:disabled .btn {
     padding: 0 10px;
 }
 
-    .rate:not(:checked) > input {
-        position: absolute !important;
-    }
+.rate:not(:checked) > input {
+    position: absolute !important;
+}
 
-    .rate:not(:checked) > label {
-        float: right;
-        width: 1em;
-        overflow: hidden;
-        white-space: nowrap;
-        cursor: pointer;
-        font-size: 30px;
-        color: #ccc;
-    }
+.rate:not(:checked) > label {
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 30px;
+    color: #ccc;
+}
 
-        .rate:not(:checked) > label:before {
-            content: '★ ';
-        }
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
 
-    .rate > input:checked ~ label {
-        color: #ffc700;
-    }
+.rate > input:checked ~ label {
+    color: #ffc700;
+}
 
-    .rate:not(:checked) > label:hover,
-    .rate:not(:checked) > label:hover ~ label {
-        color: #deb217;
-    }
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;
+}
 
-    .rate > input:checked + label:hover,
-    .rate > input:checked + label:hover ~ label,
-    .rate > input:checked ~ label:hover,
-    .rate > input:checked ~ label:hover ~ label,
-    .rate > label:hover ~ input:checked ~ label {
-        color: #c59b08;
-    }
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+.availble,
+.not_availble {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border-radius: 25%;
+    padding:5px;
+}
+
+.availble {
+    background-color: rgba(0, 128, 0, .7);
+}
+
+.not_availble {
+    background-color: rgba(128, 0, 0, .7);
+}

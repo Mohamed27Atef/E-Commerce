@@ -90,5 +90,13 @@ namespace E_Commerce.Repository.CartItemrepo
 
             return total;
         }
+
+        public void changeAmount(int cartId, int amount)
+        {
+            CartItem cartItem = context.CartItem.Where(c => c.CartId == cartId).FirstOrDefault();
+            cartItem.Quantity = amount;
+            context.CartItem.Update(cartItem);
+            context.SaveChanges();
+        }
     }
 }

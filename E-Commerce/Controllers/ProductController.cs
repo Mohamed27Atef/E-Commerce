@@ -302,9 +302,19 @@ namespace E_Commerce.Controllers
 
         public IActionResult Details(int id)
         {
-            var product = iproductRepo.getById(id);
+            if (User.Identity.IsAuthenticated)
+            {
+
+                string applicationUserId = User.Claims
+                       .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                int user_id = iuserRepo.getUserByApplicationId(applicationUserId);
+
+                bool isReviewed = ireviewRepo.getByUserId(user_id, id);
+                ViewData["isReview"] = isReviewed;
+            }
             ViewData["reviews"] = ireviewRepo.getByProduct(id);
-            
+            var product = iproductRepo.getById(id);
             return View("details", product);
         }
 

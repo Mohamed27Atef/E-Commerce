@@ -10,29 +10,33 @@
                 <li class="nav-item"><a class="nav-link active" aria-current="page" asp-controller="Product" asp-action="index">Home</a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="OrderHistory">Orders History</a></li>
+
                     if (User.IsInRole("admin"))
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Category" asp-action="addCategory">Add Category</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="addProduct">Add Product</a></li>
                     }
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            welcome <strong style="color:black">@User.Identity.Name</strong>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="OrderHistory">Orders History</a></li>
-
-                            <li><hr class="dropdown-divider"></li>
-                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout">Sign Out</a></li>
-                        </ul>
-                    </li>
                 }
-                else
-                {
-                    @* <li class="nav-item"><a class="nav-link" asp-controller="account" asp-action="login">Login</a></li> *@
-                    <li class="nav-item"><a class="nav-link" asp-controller="account" asp-action="signUp">Sign Up</a></li>
-                }
+                
             </ul>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="nav-item dropdown mx-3">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        welcome <strong style="color:black">@User.Identity.Name</strong>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <li class="nav-item mx-3"><a class="nav-link" asp-controller="Account" asp-action="Logout">Sign Out</a></li>
+                    </ul>
+                </div>
+             }
+            @if (!User.Identity.IsAuthenticated)
+            {
+                @* <li class="nav-item"><a class="nav-link" asp-controller="account" asp-action="login">Login</a></li> *@
+                <span class="nav-item mx-3"><a class="nav-link" asp-controller="account" asp-action="signUp">Sign Up</a></span>
+            }
            
             <div id="cart-sidebar" class="cart-sidebar">
                 <div class="cart-header">
