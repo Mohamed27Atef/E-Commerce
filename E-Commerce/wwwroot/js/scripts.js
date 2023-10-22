@@ -886,46 +886,28 @@ function addReivew(productId) {
     });
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////// filter with category ////////////////////////////////////////////////////////////////////
 
 
 
 
 
-function test(){
-    products.map(prd => {
-        console.log(prd);
-        $.ajax({
-            type: "get",
-            url: "/Product/getById/" + prd.productId,
 
-            success: function (data) {
-                console.log(data.price);
+function filterProducts(categoryId) {
 
-            },
-            error: function (error) {
+    $.ajax({
+        url: '/Product/GetFilteredProducts',
+        type: 'GET',
+        data: { categoryId: categoryId },
+        success: function (data) {
 
-                console.error(error);
-            }
-        });
-
+            $('#allProduct').html(data);
+        },
+        error: function (error) {
+            console.error('Error filtering products: ' + error);
+        }
     });
 }
-//(function () {
-//    products.map(prd => {
-//        console.log(prd);
-//    $.ajax({
-//        type: "get",
-//        url: "/Product/getById/" + prd.productId,
 
-//        success: function (data) {
-//            console.log(data.price);
 
-//        },
-//        error: function (error) {
-
-//            console.error(error);
-//        }
-//    });
-
-//});
-//})();
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

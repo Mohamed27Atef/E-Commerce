@@ -11,6 +11,7 @@ namespace E_Commerce.Repository.ProductRepo
         List<Product> getbyid(int id);
 
         List<Product> search(string search);
+        List<Product> getByCategory(int categoryId);
 
     }
 }

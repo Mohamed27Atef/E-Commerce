@@ -11553,8 +11553,8 @@ fieldset:disabled .btn {
 }
 
 
-#searchInput {
-    width: 80%;
+#searchInput,
+#categoryFilter {
     margin: 18px;
     padding: 10px;
     font-size: 16px;

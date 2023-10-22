@@ -113,5 +113,11 @@ namespace E_Commerce.Repository.ProductRepo
         {
             return context.Product.Where(p => p.Name.Contains(search)).ToList();
         }
+
+        public List<Product> getByCategory(int categoryId)
+        {
+            return context.Product.Where(p => p.CategoryId == categoryId).ToList();
+        }
+
     }
 }

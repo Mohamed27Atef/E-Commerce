@@ -374,6 +374,22 @@ namespace E_Commerce.Controllers
 
         }
 
+        public IActionResult GetFilteredProducts(int categoryId)
+        {
+            List<Product> filteredProducts;
+
+            if (categoryId > 0)
+            {
+                filteredProducts = iproductRepo.getByCategory(categoryId);
+            }
+            else
+            {
+                filteredProducts = iproductRepo.getAll();
+            }
+
+            return PartialView("_getAllPartial", filteredProducts);
+        }
+
 
     }
 
