@@ -803,6 +803,7 @@ function getAllProduct() {
         url: "/product/getAllProduct",
         success: function (result) {
             functionsWhenrenderBody(result);
+            restoreFavoriteIcons();
         },
         error: function (error) {
             console.error("Error:", error);
@@ -810,6 +811,18 @@ function getAllProduct() {
     });
 }
 
+function restoreFavoriteIcons() {
+    const favoriteIcons = document.querySelectorAll(".toggle-favorite");
+
+    favoriteIcons.forEach(icon => {
+        const productId = icon.getAttribute("data-product-id");
+        if (Favorites.some(item => item.product_id == productId)) {
+            icon.classList.add("fas"); 
+        } else {
+            icon.classList.remove("fas"); 
+        }
+    });
+}
 
 function functionsWhenrenderBody(data) {
     document.getElementById("allProduct").innerHTML = data;
