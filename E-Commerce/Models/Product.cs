@@ -28,6 +28,7 @@ public class Product
 
         [MaxLength(1000)]
         public string? Description { get; set; }
+        public string rate { get; set; } = "3.5";
 
         [Required]
         [Column(TypeName = "money")]

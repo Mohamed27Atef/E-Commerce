@@ -38,7 +38,7 @@
                     <p style="color:red;">Availability: In Stock</p>
                 }
             <p class="product-rating mb-3">
-                <span class="stras-num">3.5</span><span class="stars"></span>
+                <span class="stras-num">@Model.rate</span><span class="stars"></span>
             </p>
             <div class="details-btns">
                 @if (User.Identity.IsAuthenticated)
