@@ -1,4 +1,5 @@
-﻿using E_Commerce.Repository.ReviewRepo;
+﻿using E_Commerce.Repository.ProductRepo;
+using E_Commerce.Repository.ReviewRepo;
 using E_Commerce.Repository.UserRepo;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
@@ -10,11 +11,13 @@ namespace E_Commerce.Controllers
     {
         private readonly IUserRepository userRepository;
         private readonly IReviewRepo reviewRepo;
+        private readonly IProductRepository productRepository;
 
-        public Reivewcontroller(IUserRepository userRepository, IReviewRepo reviewRepo)
+        public Reivewcontroller(IUserRepository userRepository, IReviewRepo reviewRepo, IProductRepository productRepository)
         {
             this.userRepository = userRepository;
             this.reviewRepo = reviewRepo;
+            this.productRepository = productRepository;
         }
 
 
@@ -35,7 +38,25 @@ namespace E_Commerce.Controllers
 
             reviewRepo.add(review);
             reviewRepo.SaveChanges();
-            return Json(review);
+
+            List<Review> reivews = reviewRepo.getByProduct(productId);
+
+            float totalReview = 0;
+
+            foreach (var item in reivews)
+            {
+                totalReview += item.Rate;
+            }
+
+            Product product = productRepository.getbyid(productId);
+            product.rate = (totalReview / reivews.Count()).ToString("0.00");
+
+            productRepository.update(product);
+            productRepository.SaveChanges();
+
+
+
+            return Json("done");
         }
     }
 }

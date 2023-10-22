@@ -38,7 +38,6 @@ namespace E_Commerce
             builder.Services.AddScoped<IOrderHistoryRepository, OrderHistoryRepository>();
             builder.Services.AddScoped<IproductImagesRepositort, productImagesRepositort>();
 
-            
 
             builder.Services.AddIdentity<ApplicationIdentityUser, IdentityRole>(options =>
             {

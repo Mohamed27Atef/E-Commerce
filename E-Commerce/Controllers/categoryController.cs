@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
+using System.Data;
 
 namespace E_Commerce.Controllers
 {
@@ -15,7 +16,7 @@ namespace E_Commerce.Controllers
             this.categoryRepository = categoryRepository;
         }
 
-
+        [Authorize(Roles = "admin")]
         public IActionResult addCategory()
         {
             return View("addCategory");

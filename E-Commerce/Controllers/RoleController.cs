@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace E_Commerce.Controllers
 {
-    [Authorize(Roles ="admin")]
+
+    [Authorize(Roles = "admin")]
     public class RoleController : Controller
     {
         private RoleManager<IdentityRole> RoleManger;
@@ -22,12 +24,12 @@ namespace E_Commerce.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> addRole(RoleVM roleVM)
+        public async Task<IActionResult> addRole(RoleViewModle roleVM)
         {
             if (ModelState.IsValid)
             {
-                IdentityRole role = new IdentityRole { Name = roleVM.Role};
-              var result = await RoleManger.CreateAsync(role);
+                IdentityRole role = new IdentityRole { Name = roleVM.Role };
+                var result = await RoleManger.CreateAsync(role);
                 if (result.Succeeded)
                 {
                     return View();
@@ -42,5 +44,6 @@ namespace E_Commerce.Controllers
             }
             return View(roleVM);
         }
+
     }
 }

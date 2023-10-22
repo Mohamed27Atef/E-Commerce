@@ -8,9 +8,10 @@ namespace E_Commerce.Repository.ProductRepo
         Product getByName(string name);
         Product getByBrand(string brand);
 
-        List<Product> getbyid(int id);
+        Product getbyid(int id);
 
         List<Product> search(string search);
+        List<Product> getByCategory(int categoryId);
 
     }
 }

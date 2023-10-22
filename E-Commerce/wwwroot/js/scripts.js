@@ -9,6 +9,12 @@ const slider = document.querySelector(".slider")
 const slides = document.querySelectorAll(".slide")
 const prevBtn = document.querySelector(".prev-btn")
 const nextBtn = document.querySelector(".next-btn")
+const cartTotal = document.getElementById("cart-total")
+
+/* Side Bar cart total price */
+
+let totalPriceCart = 0;
+
 
 /** Slider part */
 let currentIndex = 0
@@ -427,12 +433,16 @@ function showSideBarItems(image, name, price, id) {
                 </div>
             </div>
         `
+
+
 }
 
 
 function getAllCartItems() {
     sideBarCardItem.innerHTML = "";
+    totalPriceCart = 0;
     products.map(item => {
+
         $.ajax({
             type: 'Get',
             dataType: 'json',
@@ -441,15 +451,19 @@ function getAllCartItems() {
             success: function (result) {
                 
                 showSideBarItems(result.image, result.name, result.price, result.id)
+                totalPriceCart += result.price;
+      
+                cartTotal.innerHTML = totalPriceCart;
             },
             error: function (error) {
                 console.error("Error:", error);
             }
         });
     });
+    cartTotal.innerHTML = totalPriceCart;
+
 }
 function getAllFavorite() {
-    console.log("mnk lllah ya galy");
 
     const sideBarCardItem = document.getElementById("favorite-items");
     sideBarCardItem.innerHTML = "";
@@ -570,6 +584,8 @@ function addToFavorite(id) {
     setFavoriteCounter();
 
 }
+
+
 //////////////////////////////////////////////////// set favorite /////////////////////////////////////////////////////////////////////////////////////////
 
 function setFavorit() {
@@ -861,7 +877,8 @@ function addReivew(productId) {
         type: 'Get',
         url: "/Reivew/postReview?productId=" + productId + "&txt=" + text.value + "&rate=" + getTheRate(),
         success: function (result) {
-            text.value = "";
+            location.reload();
+
         },
         error: function (error) {
             console.error("Error:", error);
@@ -869,9 +886,28 @@ function addReivew(productId) {
     });
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////// filter with category ////////////////////////////////////////////////////////////////////
 
 
 
 
 
 
+function filterProducts(categoryId) {
+
+    $.ajax({
+        url: '/Product/GetFilteredProducts',
+        type: 'GET',
+        data: { categoryId: categoryId },
+        success: function (data) {
+
+            $('#allProduct').html(data);
+        },
+        error: function (error) {
+            console.error('Error filtering products: ' + error);
+        }
+    });
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -104,14 +104,20 @@ namespace E_Commerce.Repository.ProductRepo
             return context.SaveChanges();
         }
 
-        public List<Product> getbyid(int id)
+        public Product getbyid(int id)
         {
-            return context.Product.Where(p=> p.Id == id).ToList();
+            return context.Product.FirstOrDefault(r => r.Id == id);
         }
 
         public List<Product> search(string search)
         {
             return context.Product.Where(p => p.Name.Contains(search)).ToList();
         }
+
+        public List<Product> getByCategory(int categoryId)
+        {
+            return context.Product.Where(p => p.CategoryId == categoryId).ToList();
+        }
+
     }
 }

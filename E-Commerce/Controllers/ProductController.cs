@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVC_Project.Models;
+using System.Data;
 using System.Diagnostics;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
@@ -18,7 +19,7 @@ using System.Text.RegularExpressions;
 
 namespace E_Commerce.Controllers
 {
-    [Authorize(Roles = "admin")]
+  
     public class ProductController : Controller
     {
         private readonly IProductRepository iproductRepo;
@@ -29,7 +30,6 @@ namespace E_Commerce.Controllers
         private readonly IUserRepository iuserRepo;
         private readonly IReviewRepo ireviewRepo;
         private readonly IproductImagesRepositort iproductImagesRepo;
-
         public ProductController(IProductRepository iproductRepo,
             ICategoryRepository icategoryRepo, 
             ICartItemRepository iCartitemrepo,
@@ -37,8 +37,7 @@ namespace E_Commerce.Controllers
             UserManager<ApplicationIdentityUser> _userManager,
             IUserRepository IuserRepo,
             IReviewRepo ireview,
-            IproductImagesRepositort iproductImagesRepo
-            )
+            IproductImagesRepositort _iproductImagesRepo)
         {
             // inject DBContext
             this.iproductRepo = iproductRepo;
@@ -48,11 +47,11 @@ namespace E_Commerce.Controllers
             this._userManager = _userManager;
             this.iuserRepo = IuserRepo;
             this.ireviewRepo = ireview;
-            this.iproductImagesRepo = iproductImagesRepo;
+            this.iproductImagesRepo = _iproductImagesRepo;
         }
 
         // Get All
-        [AllowAnonymous]
+      
         public IActionResult index()
         {
             if (User.Identity.IsAuthenticated)
@@ -73,6 +72,7 @@ namespace E_Commerce.Controllers
         }
 
         // get all product 
+
         public IActionResult getAllProduct()
         {
             var allProducts = iproductRepo.getAll();
@@ -83,7 +83,6 @@ namespace E_Commerce.Controllers
 
         // Get By Id
 
-        [AllowAnonymous]
         public IActionResult getById(int id)
         {
 
@@ -119,8 +118,8 @@ namespace E_Commerce.Controllers
         }
 
 
-
         // Post Product 
+        [Authorize(Roles = "admin")]
         public IActionResult addProduct()
         {
 
@@ -130,7 +129,7 @@ namespace E_Commerce.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> addProduct(AddProdcutviewModel product, IFormFile image,List<IFormFile> files)
+        public async Task<IActionResult> addProduct(AddProdcutviewModel product, IFormFile image, List<IFormFile> files)
         {
             List<string> filesNames = new List<string>();
             if (ModelState.IsValid)
@@ -140,9 +139,9 @@ namespace E_Commerce.Controllers
                 {
                     string fileName = await updateImageAndReturnItsName(file);
                     filesNames.Add(fileName);
-                   
+
                 }
-                if(imageName != null)
+                if (imageName != null)
                 {
                     // map addProductViewModel to productModel and add this product to the database
                     mapAddProductViewModelToProductModelAndAddToDB(product, imageName, filesNames);
@@ -156,8 +155,7 @@ namespace E_Commerce.Controllers
         }
 
 
-
-        public void mapAddProductViewModelToProductModelAndAddToDB(AddProdcutviewModel product, string imageName,List<string> fileNames)
+        public void mapAddProductViewModelToProductModelAndAddToDB(AddProdcutviewModel product, string imageName, List<string> fileNames)
         {
             Product newProduct = new Product()
             {
@@ -211,6 +209,7 @@ namespace E_Commerce.Controllers
         }
 
         // Update Product
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateProduct(int productId)
         {
 
@@ -376,6 +375,22 @@ namespace E_Commerce.Controllers
             icartRepo.add(cart);
             icartRepo.SaveChanges();
 
+        }
+
+        public IActionResult GetFilteredProducts(int categoryId)
+        {
+            List<Product> filteredProducts;
+
+            if (categoryId > 0)
+            {
+                filteredProducts = iproductRepo.getByCategory(categoryId);
+            }
+            else
+            {
+                filteredProducts = iproductRepo.getAll();
+            }
+
+            return PartialView("_getAllPartial", filteredProducts);
         }
 
 

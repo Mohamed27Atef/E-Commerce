@@ -1,28 +1,35 @@
 ﻿
 @model List<Product>  
-@* @{
-    List<Product> mylist = new List<Product>()
-    {
-        new Product(){Name= "test", BuyCounter=0, CategoryId=1, Price=54, image="aflkjadfkljasd"}
-    };
-} *@
 
 
 <div class="searchParent row">
-    <input oninput="search(event)" type="text" id="searchInput" placeholder="Search...">
-    @* <select asp-for="category_id" class="form-control" asp-items="cats"></select> *@
+    <input oninput="search(event)" class="col-5" type="text" id="searchInput" placeholder="Search...">
+
+    <select id="categoryFilter" class="col-4">
+        <option value="">All Categories</option>
+        @foreach (var category in (List<Category>)ViewBag.category)
+        {
+            <option value="@category.CategoryId">@category.CategoryName</option>
+        }
+    </select>
 </div>
 
 <div id="allProduct"></div>
-@* <partial name="_getAllPartial" model="@Model" /> *@
 
 
 @section scripts {
     <script>
         (function () {
             getAllProduct();
-        })()
+        })();
 
+
+        $('#categoryFilter').on('change', function () {
+            var selectedCategoryId = $(this).val();
+
+
+            filterProducts(selectedCategoryId);
+        });
 
     </script>
 }
