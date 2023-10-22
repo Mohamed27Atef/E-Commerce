@@ -522,6 +522,8 @@ function removefromFavoriteById(id) {
     console.log(Favorites);
     getAllFavorite();
     setFavoriteCounter();
+    restoreFavoriteIcons();
+
 }
 function removeAllCart() {
     (typeof (Storage) !== "undefined")
@@ -541,6 +543,8 @@ function removeAllFavorite() {
     }
     getAllFavorite();
     setFavoriteCounter();
+    restoreFavoriteIcons();
+
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -582,6 +586,7 @@ function addToFavorite(id) {
 
     localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
     setFavoriteCounter();
+
 
 }
 
