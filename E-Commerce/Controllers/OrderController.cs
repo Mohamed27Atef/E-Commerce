@@ -177,7 +177,7 @@ namespace E_Commerce.Controllers
 
             string IDClaim =
                User.Claims
-               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // from cookie...
+               .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             int user_id = iuserRepo.getUserByApplicationId(IDClaim);
 
             List<Order> userOrders = iorderRepo.getAll()
