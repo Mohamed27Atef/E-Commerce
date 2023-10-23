@@ -2,6 +2,19 @@
 @model List<Product>
 
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet" />
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+<link rel="stylesheet"  href="~/css/getAllProduct.css" />
+<link href="~/css/styles.css" rel="stylesheet" />
+@functions {
+    public float RoundToNearestHalf(float num) {
+        float rounded = (float)Math.Round(num * 2,MidpointRounding.AwayFromZero) / 2;
+        return rounded;
+    }
+}
+
 
 <div class="row justify-content-center" >
 
@@ -38,7 +51,11 @@
                     <div class="price-rating">
                         <p class="card-text product-price">$@item.Price</p>
                         <p class="card-text product-rating mb-3">
-                            <span class="stras-num">@item.rate</span><span class="stars"></span>
+                            @{
+                                float rate = float.Parse(item.rate);
+                                float roundedRate = RoundToNearestHalf(rate);
+                            }
+                            <span class="stras-num">@roundedRate</span><span class="stars"></span>
                         </p>
                     </div>
                 <span class="text-success text-center m-1 sucess" id="sucess_@item.Id">added to card</span>
