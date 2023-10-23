@@ -1,10 +1,4 @@
-/*!
- * Start Bootstrap - Shop Homepage v5.0.6 (https://startbootstrap.com/template/shop-homepage)
- * Copyright 2013-2023 Start Bootstrap
- * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
- */
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
+
 const slider = document.querySelector(".slider")
 const slides = document.querySelectorAll(".slide")
 const prevBtn = document.querySelector(".prev-btn")
@@ -72,111 +66,6 @@ function toggleScrollToTopButton() {
 
 
 
-// Scroll to the top when clicking on the button
-// function scrollToTop() {
-//   window.scrollTo({ top: 0, behavior: 'smooth' });
-// }
-
-// // Attach event listeners
-// scrollToTopButton.addEventListener('click', scrollToTop);
-// document.addEventListener('scroll', toggleScrollToTopButton);
-
-// var electronics = document.getElementById("electronics");
-// var furniture = document.getElementById("furniture");
-// var fashion = document.getElementById("fashion");
-// var groceries = document.getElementById("groceries");
-// var tabs = [electronics, furniture, fashion, groceries];
-// var cardContainer = document.getElementById("row");
-
-// electronics.addEventListener("click", ShowProducts);
-// furniture.addEventListener("click", ShowProducts);
-// fashion.addEventListener("click", ShowProducts);
-// groceries.addEventListener("click", ShowProducts);
-// document.addEventListener("DOMContentLoaded", function () { GetProducts(["smartphones", "laptops"]); })
-
-// function ShowProducts(e) {
-//     var id = e.target.id;
-//     document.getElementsByClassName("active")[1].classList.remove("active");
-//     e.target.classList.add("active");
-//     switch (id) {
-//         case "electronics":
-//             GetProducts(["smartphones", "laptops"]);
-//             break;
-//         case "furniture":
-//             GetProducts(["furniture"]);
-//             break;
-//         case "fashion":
-//             GetProducts(["mens-shirts", "mens-shoes", "mens-watches"]);
-//             break;
-//         case "groceries":
-//             GetProducts(["groceries"]);
-//             break;
-//         default:
-//             break;
-//     }
-// }
-
-// function GetProducts(categories) {
-//     cardContainer.innerHTML = "";
-//     var productCard;
-//     for (let i = 0; i < categories.length; i++) {
-//         const xhr = new XMLHttpRequest();
-//         xhr.open("GET", `https://dummyjson.com/products/category/${categories[i]}`);
-//         xhr.send("");
-//         xhr.onreadystatechange = function () {
-//             if (xhr.readyState == 4) {
-//                 if (xhr.status == 200) {
-//                     var response = xhr.response;
-//                     var data = JSON.parse(response);
-//                     for (let j = 0; j < data.products.length; j++) {
-//                         var quantity = 0;
-//                         if (hasCookie(`product${data.products[j].id}Quantity`)) {
-//                             quantity = getCookie(`product${data.products[j].id}Quantity`);
-//                         }
-//                         productCard = `<div class="card m-4" style="width: 18rem;">
-//                                         <img src="${data.products[j].thumbnail}" class="card-img-top product-img" alt="">
-//                                         <div class="card-body">
-//                                             <h5 id="card-title" class="card-title">${data.products[j].title}</h5>
-//                                             <h5 id="card-description" class="card-title">${data.products[j].description}</h5>
-//                                             <p class="card-text">$ ${data.products[j].price}</p>
-//                                             <p id="q${data.products[j].id}" class="card-text">Quantity: ${data.products[j].stock - quantity}</p>
-//                                             <button id="${data.products[j].id}" class="btn btn-primary" onclick="AddToCart(this)">Add to Cart</button>
-//                                         </div>
-//                                     </div>`
-//                         cardContainer.innerHTML += productCard;
-//                     }
-//                 } else {
-//                     console.log("error");
-//                 }
-//             }
-//         }
-//     }
-
-// }
-// function getCookie(cookieName) {
-//     var start = document.cookie.indexOf(cookieName) + (cookieName.length + 1);
-//     var end = document.cookie.indexOf(";", start);
-//     if (end == -1)
-//         end = document.cookie.length;
-//     return document.cookie.slice(start, end);
-// }
-
-// function setCookie(cookieName, cookieValue, expiryDate) {
-//     if (expiryDate)
-//         document.cookie = cookieName + "=" + cookieValue + ";expires=" + expiryDate;
-//     else
-//         document.cookie = cookieName + "=" + cookieValue;
-// }
-
-// function deleteCookie(cookieName) {
-//     document.cookie = cookieName + "=abc;expires=" + lastDate;
-// }
-
-// function hasCookie(cookieName) {
-//     return (document.cookie.includes(cookieName));
-// }
-
-// End Product Cards
 
 function addToCart(productId) {
   var product = products.find(p => p.id === productId)
@@ -223,27 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Event listener for the close cart sidebar button (x button)
   closeCartSidebarButton.addEventListener("click", toggleCart) // Add this line
-
-  // openCartButton.addEventListener("click", () => {
-  //     cartSidebar.classList.add("cart-open");
-  //     // Calculate the height based on the number of items in the cart
-  //     const cartHeight = Math.min(cart.length * 50, window.innerHeight * 0.5);
-  //     cartSidebar.style.height = `${cartHeight}px`;
-  // });
-
-  //     // Function to open the cart
-  // openCartButton.addEventListener("click", () => {
-  //     cartSidebar.classList.add("cart-open");
-  //     // Calculate the height based on the number of items in the cart
-  //     const cartHeight = Math.min(cart.length * 50, window.innerHeight * 0.5);
-  //     cartSidebar.style.height = `${cartHeight}px`;
-  // });
-
-  // // Function to close the cart
-  // closeCartButton.addEventListener("click", () => {
-  //     cartSidebar.classList.remove("cart-open");
-  //     cartSidebar.style.height = "50%"; // Reset the height when closing
-  // });
 
   // Function to add an item to the cart
   function addToCart(product) {
@@ -519,7 +387,6 @@ function removefromFavoriteById(id) {
     })
 
     localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
-    console.log(Favorites);
     getAllFavorite();
     setFavoriteCounter();
     restoreFavoriteIcons();
@@ -651,7 +518,6 @@ function addToCardAuthorize(id) {
 
         success: function (data) {
             getCounterFromDB();
-            console.log(data);
             localStorage.clear();
 
         },
@@ -948,7 +814,6 @@ function filterProducts(categoryId) {
 function saveOrderInDB(selectElement, id, selectedStatu) {
   
     var selectedValue = selectElement.value
-    console.log(selectedValue);
   
     $.ajax({
         url: '/Order/saverOrderStatus',
