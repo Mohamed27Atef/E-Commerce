@@ -6,6 +6,7 @@ using System.Data;
 
 namespace E_Commerce.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class categoryController : Controller
     {
         private readonly ICategoryRepository categoryRepository;
@@ -29,6 +30,17 @@ namespace E_Commerce.Controllers
             categoryRepository.add(cateogry);
             categoryRepository.SaveChanges();
             return RedirectToAction("index", "product");
+        }
+
+        public IActionResult getCategory()
+        {
+            var categires = categoryRepository.getAll();
+            return View(categires);
+        }
+        
+        public IActionResult EditeCategory()
+        {
+            return View();
         }
 
     }

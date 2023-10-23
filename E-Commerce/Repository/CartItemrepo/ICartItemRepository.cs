@@ -9,5 +9,6 @@ namespace E_Commerce.Repository.CartItemrepo
         public void deleteCart(int product_id);
         public int getCounter(int cart_id);
         public decimal getTotalPrice(int cart_id);
+        public void changeAmount(int cartId, int amount);
     }
 }

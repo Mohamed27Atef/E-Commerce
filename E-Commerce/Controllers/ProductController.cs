@@ -87,6 +87,7 @@ namespace E_Commerce.Controllers
         {
 
             Product prd = iproductRepo.getById(id);
+            if (prd == null) return Json("");
             var newModel = new
             {
                 prd.Id,
@@ -99,6 +100,7 @@ namespace E_Commerce.Controllers
 
 
         // Get By Name
+        [AllowAnonymous]
         public IActionResult getByName(string name)
         {
             Product prd = iproductRepo.getByName(name);
@@ -106,6 +108,7 @@ namespace E_Commerce.Controllers
             return View("getById", prd);
         }
         // Get By Brand 
+        [AllowAnonymous]
         public IActionResult getByBrand(string brand)
         {
             var prds = iproductRepo.getByBrand( brand);
@@ -299,9 +302,19 @@ namespace E_Commerce.Controllers
 
         public IActionResult Details(int id)
         {
-            var product = iproductRepo.getById(id);
+            if (User.Identity.IsAuthenticated)
+            {
+
+                string applicationUserId = User.Claims
+                       .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                int user_id = iuserRepo.getUserByApplicationId(applicationUserId);
+
+                bool isReviewed = ireviewRepo.getByUserId(user_id, id);
+                ViewData["isReview"] = isReviewed;
+            }
             ViewData["reviews"] = ireviewRepo.getByProduct(id);
-            
+            var product = iproductRepo.getById(id);
             return View("details", product);
         }
 
@@ -342,8 +355,8 @@ namespace E_Commerce.Controllers
 
 
 
-        public IActionResult search(string search) {
-            List<Product> products = iproductRepo.search(search);
+        public IActionResult search(string search, int cat = 0) {
+            List<Product> products = iproductRepo.search(search, cat);
             return PartialView("_getAllPartial", products);
         }
 

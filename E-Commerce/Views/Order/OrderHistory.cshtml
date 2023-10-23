@@ -7,6 +7,8 @@
         <tr>
             <th>Order Date</th>
             <th>Total Price</th>
+            <th>Status</th>
+
             <th>Details</th>
         </tr>
     </thead>
@@ -16,6 +18,25 @@
             <tr>
                 <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
                 <td>@order.TotalPrice</td>
+                <td>
+                    @if (order.Status.ToString() == "Pending")
+                    {
+                        <span style="color: orange;">@order.Status</span>
+                    }
+                    else if (order.Status.ToString() == "Shipped")
+                    {
+                        <span style="color: blue;">@order.Status</span>
+                    }
+                    else if (order.Status.ToString() == "Delivered")
+                    {
+                        <span style="color: green;">@order.Status</span>
+                    }
+                    else if (order.Status.ToString() == "Canceled")
+                    {
+                        <span style="color: red;">@order.Status</span>
+                    }
+                </td>
+
                 <td>
                     <a asp-action="OrderDetails" asp-route-id="@order.Id" class="btn btn-info">Details</a>
                 </td>

@@ -40,10 +40,14 @@ namespace E_Commerce.Controllers
             Cart cart = icartRepo.getCartByUserId(iuserRepo.getUserByApplicationId(IDClaim));
 
             return Json(cartItem.getTotalPrice(cart.Id));
+        }
 
+        public void changeAmountOfCartItems(int cartId, int amount)
+        {
+            cartItem.changeAmount(cartId, amount);
         }
 
 
-      
+
     }
 }

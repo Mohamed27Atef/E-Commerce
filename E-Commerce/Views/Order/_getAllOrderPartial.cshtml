@@ -19,8 +19,9 @@
 
     <table class="table table-borderless">
         <thead>
-            <tr class="d-flex justify-content-between  align-items-center">
+            <tr>
                 <th></th>
+                <th>Name</th>
                 <th>Amount</th>
                 <th>Price</th>
                 <th></th>
@@ -29,19 +30,21 @@
         </thead>
         @foreach (var order in Model)
         {
-            <tr class="d-flex justify-content-between align-items-center">
+            <tr>
 
                 <td><img src="/images/@order.image" style="width:50px; height:50px; border-radius: 50%;" /></td>
+                <td>@order.Name</td>
+
                     <td>
                         <a id="btn-minus-order-quantity" style="cursor: pointer; border: none;"
                        data-action="decrease" data-orderId="@order.id" data-price="@order.price" class="quantity-button decrement-button" onclick="decreaseQuantity(this, @order.price)">-</a>
                         <span class="quantity-input" id="quantity-order-@order.id">@order.Quantity</span>
                     <a id="btn-plus-order-quantity" style="cursor: pointer; border: none;" class="quantity-button increment-button"
-                           data-action="increase" data-id="@order.id" onclick="increaseQuantity(this, @order.price)">+</a>
+                           data-action="increase" data-id="@order.id" onclick="increaseQuantity(this, @order.price, @order.amountStock)">+</a>
                     </td>
                     <td id="price-order-@order.id">@order.price</td>
-               <td> 
-                   <a asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.id" class="rounded btn btn-outline-success">Delete</a>
+               <td>
+                    <a id="deleteButtonOnOrderDetail"  asp-action="DeleteCartItemById" asp-controller="Product" asp-route-id="@order.id" class="rounded btn btn-outline-success">Delete</a>
             </td>
             <td>
                 <a asp-action="Details" asp-controller="Product" asp-route-id="@order.id" class="btn btn-outline-success">Details</a>

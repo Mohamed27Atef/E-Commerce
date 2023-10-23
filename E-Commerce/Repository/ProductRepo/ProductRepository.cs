@@ -109,9 +109,17 @@ namespace E_Commerce.Repository.ProductRepo
             return context.Product.FirstOrDefault(r => r.Id == id);
         }
 
-        public List<Product> search(string search)
+        public List<Product> search(string search, int catId)
         {
-            return context.Product.Where(p => p.Name.Contains(search)).ToList();
+            if(catId != 0)
+            {
+                var r = context.Product.Where(p => p.Name.Contains(search) && p.CategoryId == catId).ToList();
+
+                return r;
+            }
+            var t =    context.Product.Where(p => p.Name.Contains(search)).ToList();
+            return t;
+
         }
 
         public List<Product> getByCategory(int categoryId)

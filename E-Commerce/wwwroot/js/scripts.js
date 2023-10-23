@@ -522,6 +522,8 @@ function removefromFavoriteById(id) {
     console.log(Favorites);
     getAllFavorite();
     setFavoriteCounter();
+    restoreFavoriteIcons();
+
 }
 function removeAllCart() {
     (typeof (Storage) !== "undefined")
@@ -541,6 +543,8 @@ function removeAllFavorite() {
     }
     getAllFavorite();
     setFavoriteCounter();
+    restoreFavoriteIcons();
+
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -582,6 +586,7 @@ function addToFavorite(id) {
 
     localStorage.setItem("favoriteItem", JSON.stringify(Favorites));
     setFavoriteCounter();
+
 
 }
 
@@ -719,7 +724,7 @@ function showSideBarItemsFromDB(image, name, price, id, cart_id) {
 /////////////////////////////////////////////////////// Increase and decrease counter of order /////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function increaseQuantity(button, price) {
+function increaseQuantity(button, price,TotalAmount) {
 
 
     ///////////////// variable ////////////////////////////////////////////////
@@ -730,16 +735,16 @@ function increaseQuantity(button, price) {
     var currentValuePrice = parseInt(priceOrder.textContent, 10);
     var PriceValue = parseInt(price, 10);
     ///////////////////////////////////////////////////////////////////////
+    if (currentValueQuantity != TotalAmount) {
+        ///////////////// update /////////////////////////////////////////////////////////
+        totalPriceOfOrder.innerHTML = Number(totalPriceOfOrder.innerHTML) + price;
+        var newQuantity = ++currentValueQuantity;
+        var newPrice = currentValuePrice + PriceValue;
+        qunatityOrder.textContent = newQuantity;
+        priceOrder.textContent = newPrice;
+        //////////////////////////////////////////////////////////////////////////////////////
 
-    
-    ///////////////// update /////////////////////////////////////////////////////////
-    totalPriceOfOrder.innerHTML = Number(totalPriceOfOrder.innerHTML) + price;
-    var newQuantity = ++currentValueQuantity;
-    var newPrice = currentValuePrice + PriceValue;
-    qunatityOrder.textContent = newQuantity;
-    priceOrder.textContent = newPrice;
-    //////////////////////////////////////////////////////////////////////////////////////
-
+    }
 }
 
 function decreaseQuantity(button, price) {
@@ -781,9 +786,10 @@ function search(e) {
 
 
 function getResultOfSearch(value) {
+    var cat = document.getElementById("categoryFilter").value;
     $.ajax({
         type: "get",
-        url: "/Product/search?search=" + value,
+        url: "/Product/search?search=" + value + "&cat=" + cat,
 
         success: function (data) {
             functionsWhenrenderBody(data);
@@ -803,6 +809,7 @@ function getAllProduct() {
         url: "/product/getAllProduct",
         success: function (result) {
             functionsWhenrenderBody(result);
+            restoreFavoriteIcons();
         },
         error: function (error) {
             console.error("Error:", error);
@@ -810,6 +817,18 @@ function getAllProduct() {
     });
 }
 
+function restoreFavoriteIcons() {
+    const favoriteIcons = document.querySelectorAll(".toggle-favorite");
+
+    favoriteIcons.forEach(icon => {
+        const productId = icon.getAttribute("data-product-id");
+        if (Favorites.some(item => item.product_id == productId)) {
+            icon.classList.add("fas"); 
+        } else {
+            icon.classList.remove("fas"); 
+        }
+    });
+}
 
 function functionsWhenrenderBody(data) {
     document.getElementById("allProduct").innerHTML = data;
@@ -837,6 +856,8 @@ function updateTotalPrice() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////// order ajax call //////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
 function getTotalPriceOfOrder() {
 
     var orderDetails = document.getElementById("orderDetails");
@@ -844,12 +865,23 @@ function getTotalPriceOfOrder() {
         type: 'Get',
         url: "/Order/saveOrder?totalPrice=" + totalPriceOfOrder.innerHTML,
         success: function (result) {
+            changeQunatityOfCartItems();
             orderDetails.innerHTML = result;
         },
         error: function (error) {
             console.error("Error:", error);
         }
     });
+}
+
+function changeQunatityOfCartItems() {
+    //$.post("/CartItem/changeAmountOfCartItems",
+    //    {
+    //        item:
+    //    },
+    //    function (data, status) {
+    //        alert("Data: " + data + "\nStatus: " + status);
+    //    });
 }
 
 
@@ -911,3 +943,26 @@ function filterProducts(categoryId) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function saveOrderInDB(selectElement, id, selectedStatu) {
+  
+    var selectedValue = selectElement.value
+    console.log(selectedValue);
+  
+    $.ajax({
+        url: '/Order/saverOrderStatus',
+        type: 'POST',
+        data: { id: id,orderVal: selectedValue},
+        success: function (data) {
+            
+            console.log("Orderd Status Saved");
+
+        },
+        error: function (error) {
+            console.error('Error filtering products: ' + error);
+        }
+    });
+
+ 
+}
