@@ -786,9 +786,10 @@ function search(e) {
 
 
 function getResultOfSearch(value) {
+    var cat = document.getElementById("categoryFilter").value;
     $.ajax({
         type: "get",
-        url: "/Product/search?search=" + value,
+        url: "/Product/search?search=" + value + "&cat=" + cat,
 
         success: function (data) {
             functionsWhenrenderBody(data);

@@ -355,8 +355,8 @@ namespace E_Commerce.Controllers
 
 
 
-        public IActionResult search(string search) {
-            List<Product> products = iproductRepo.search(search);
+        public IActionResult search(string search, int cat = 0) {
+            List<Product> products = iproductRepo.search(search, cat);
             return PartialView("_getAllPartial", products);
         }
 
