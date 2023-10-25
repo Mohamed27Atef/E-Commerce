@@ -48,10 +48,7 @@ We welcome contributions from the open-source community. If you'd like to contri
 
 Please make sure to follow our code of conduct and coding standards.
 
-## License
 
-This project is licensed under the [MIT License](LICENSE). You are free to use and modify the code in accordance with the license terms.
 
 Feel free to explore our project, offer suggestions, and contribute to its development. We look forward to your involvement!
-
 Happy coding! 🚀
