@@ -8,7 +8,7 @@ Welcome to the eCommerce Website Project! This project was developed by a talent
 - **ASP.NET MVC**: A powerful framework for building web applications.
 - **Entity Framework**: An ORM framework for database operations.
 - **LINQ**: A language-integrated query system.
-- **SQL**: Used for database management.
+- **SQL Server**: Used for database management.
 - **Bootstrap**: A popular front-end framework for responsive web design.
 - **JavaScript**: For interactive and dynamic web features.
 - **HTML & CSS**: The foundation of web development.
