@@ -19,11 +19,11 @@ Welcome to the eCommerce Website Project! This project was developed by a talent
 
 ## Team Members
 
-- ![Mohamed Atef](https://github.com/Mohamed27Atef.png) [Mohamed Atef](https://github.com/Mohamed27Atef)
-- ![Ahmed Ghaly](https://github.com/AhmedGhaly.png) [Ahmed Ghaly](https://github.com/AhmedGhaly)
-- ![Ahmed Eisa](https://github.com/ahmedeisa22.png) [Ahmed Eisa](https://github.com/ahmedeisa22)
-- ![Ahmed Sayed](https://github.com/Ahmedsayedom.png) [Ahmed Sayed](https://github.com/Ahmedsayedom)
-- ![Waleed Elhalawany](https://github.com/Willoq.png) [Waleed Elhalawany](https://github.com/Willoq)
+- [Mohamed Atef](https://github.com/Mohamed27Atef)
+- [Ahmed Ghaly](https://github.com/AhmedGhaly)
+- [Ahmed Eisa](https://github.com/ahmedeisa22)
+- [Ahmed Sayed](https://github.com/Ahmedsayedom)
+- [Waleed Elhalawany](https://github.com/Willoq)
 
 ## Project Overview
 
